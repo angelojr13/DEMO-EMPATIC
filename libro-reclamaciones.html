@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libro de Reclamaciones | EMPATIC</title>
+<meta name="description" content="Libro de Reclamaciones virtual de EMPATIC, conforme al Código de Protección y Defensa del Consumidor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img class="brand-mark" src="images/logo-empatic.png" alt="" width="30" height="30">
+      <span class="brand-word">EMPATIC</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="soluciones.html">Soluciones</a>
+      <a href="negocios-sostenibles.html">Negocios Sostenibles</a>
+      <a href="acciones-empaticas.html">Acciones Empáticas</a>
+      <a href="novedades.html">Novedades</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="empatic-academy.html" class="btn btn-sm">Empatic Academy</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-header page-header--contacto">
+  <div class="container">
+    <span class="eyebrow">Libro de Reclamaciones</span>
+    <h1>Libro de Reclamaciones Virtual</h1>
+    <p>Conforme al Código de Protección y Defensa del Consumidor, este establecimiento cuenta con un Libro de Reclamaciones a tu disposición.</p>
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <h2 style="font-size: var(--fs-h3); margin-bottom: 8px;">¿Reclamo o queja?</h2>
+        <p class="lede" style="font-size: 0.96rem;">Un <strong>reclamo</strong> expresa disconformidad con un producto o servicio. Una <strong>queja</strong> expresa disconformidad con la atención al público. La formulación de un reclamo no impide acudir a otras vías de resolución de disputas ni es requisito previo para interponer una denuncia ante INDECOPI.</p>
+
+        <div class="contact-points">
+          <div class="contact-point">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2Z"/></svg>
+            <div><span class="label">Teléfono</span><a href="https://wa.me/51974131951" target="_blank" rel="noopener">+51 974 131 951</a></div>
+          </div>
+          <div class="contact-point">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 6.5 8 6.5 8-6.5"/></svg>
+            <div><span class="label">Correo</span>contacto@grupoempatic.com</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-row">
+          <div>
+            <label for="lr-name">Nombre completo</label>
+            <input id="lr-name" type="text" name="name" placeholder="Tu nombre completo" required>
+          </div>
+          <div>
+            <label for="lr-doc">DNI / CE</label>
+            <input id="lr-doc" type="text" name="doc" placeholder="Número de documento" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="lr-email">Correo</label>
+            <input id="lr-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
+          </div>
+          <div>
+            <label for="lr-phone">Teléfono</label>
+            <input id="lr-phone" type="tel" name="phone" placeholder="+51 999 999 999">
+          </div>
+        </div>
+        <div>
+          <label for="lr-address">Domicilio</label>
+          <input id="lr-address" type="text" name="address" placeholder="Dirección completa">
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="lr-type">Tipo</label>
+            <select id="lr-type" name="type">
+              <option value="reclamo">Reclamo</option>
+              <option value="queja">Queja</option>
+            </select>
+          </div>
+          <div>
+            <label for="lr-service">Servicio o solución contratada</label>
+            <input id="lr-service" type="text" name="service" placeholder="Ej. Diagnóstico ASG">
+          </div>
+        </div>
+        <div>
+          <label for="lr-detail">Detalle del reclamo o queja</label>
+          <textarea id="lr-detail" name="detail" placeholder="Describe los hechos con el mayor detalle posible" required></textarea>
+        </div>
+        <div>
+          <label for="lr-request">Pedido del consumidor</label>
+          <textarea id="lr-request" name="request" placeholder="¿Qué solución esperas?"></textarea>
+        </div>
+        <div class="form-consent">
+          <input type="checkbox" id="lr-consent" name="consent" required>
+          <label for="lr-consent">Acepto la <a href="privacidad.html">Política de Privacidad</a> y el tratamiento de mis datos personales para dar seguimiento a este reclamo.</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar reclamo</button>
+        <p class="contact-form-note">La empresa tiene un plazo máximo de 15 días hábiles para responder tu reclamo, prorrogable por 15 días hábiles adicionales.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="brand">
+        <img class="brand-mark" src="images/logo-empatic.png" alt="" width="30" height="30">
+        <span class="brand-word">EMPATIC</span>
+      </a>
+      <p>Sostenibilidad aplicada para organizaciones más competitivas. Consultora en ASG e inteligencia territorial.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Sitio web"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>
+        <a href="https://www.instagram.com/grupoempatic/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="#" aria-label="Spotify (Podcast)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M7 10.5c3-1 7-.6 9.5.9M7.3 13.6c2.4-.8 5.6-.5 7.7.7M7.6 16.4c2-.6 4.4-.4 6 .5"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="soluciones.html">Soluciones</a></li>
+        <li><a href="negocios-sostenibles.html">Negocios Sostenibles</a></li>
+        <li><a href="acciones-empaticas.html">Acciones Empáticas</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="empatic-academy.html">Empatic Academy</a></li>
+        <li><a href="privacidad.html">Privacidad</a></li>
+        <li><a href="terminos.html">Términos y condiciones</a></li>
+        <li><a href="libro-reclamaciones.html">Libro de Reclamaciones</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="https://wa.me/51974131951" target="_blank" rel="noopener">+51 974 131 951</a></li>
+        <li><a href="mailto:contacto@grupoempatic.com">contacto@grupoempatic.com</a></li>
+        <li>Lima, Perú</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

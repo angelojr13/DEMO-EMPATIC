@@ -7,7 +7,7 @@
 <meta name="description" content="Solicita una asesoría o un diagnóstico ESG sin costo. Escríbenos y conversemos sobre la sostenibilidad de tu organización.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Neuton:wght@400;700;800&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,12 +21,13 @@
     <nav class="nav-links">
       <a href="index.html">Inicio</a>
       <a href="soluciones.html">Soluciones</a>
-      <a href="enfoques.html">Enfoques</a>
+      <a href="negocios-sostenibles.html">Negocios Sostenibles</a>
       <a href="acciones-empaticas.html">Acciones Empáticas</a>
+      <a href="novedades.html">Novedades</a>
       <a href="contacto.html" aria-current="page">Contacto</a>
     </nav>
     <div class="nav-cta">
-      <a href="contacto.html" class="btn btn-sm">Solicita tu asesoría</a>
+      <a href="empatic-academy.html" class="btn btn-sm">Empatic Academy</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -69,26 +70,44 @@
       <form class="contact-form" onsubmit="return false;">
         <div class="form-row">
           <div>
-            <label for="cf-name">Nombre</label>
-            <input id="cf-name" type="text" name="name" placeholder="Tu nombre" required>
+            <label for="cf-name">Nombre y Apellidos</label>
+            <input id="cf-name" type="text" name="name" placeholder="Tu nombre y apellidos" required>
           </div>
           <div>
-            <label for="cf-company">Empresa</label>
-            <input id="cf-company" type="text" name="company" placeholder="Nombre de tu organización">
+            <label for="cf-role">Cargo / Puesto</label>
+            <input id="cf-role" type="text" name="role" placeholder="Tu cargo en la organización">
           </div>
         </div>
         <div class="form-row">
           <div>
-            <label for="cf-email">Correo</label>
-            <input id="cf-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
+            <label for="cf-company">Empresa / Organización</label>
+            <input id="cf-company" type="text" name="company" placeholder="Nombre de tu organización">
           </div>
           <div>
-            <label for="cf-phone">Teléfono</label>
+            <label for="cf-email">Correo Corporativo</label>
+            <input id="cf-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="cf-phone">Teléfono / WhatsApp</label>
             <input id="cf-phone" type="tel" name="phone" placeholder="+51 999 999 999">
+          </div>
+          <div>
+            <label for="cf-interest">Servicio o Solución de Interés</label>
+            <select id="cf-interest" name="interest">
+              <option value="">Selecciona una opción</option>
+              <option value="diagnostico-esg">Diagnóstico ESG Gratuito</option>
+              <option value="cumplimiento-socioambiental">Cumplimiento Socioambiental</option>
+              <option value="fondos-no-reembolsables">Fondos No Reembolsables</option>
+              <option value="desarrollo-territorial">Desarrollo Territorial</option>
+              <option value="capacitaciones-in-house">Capacitaciones In-House</option>
+              <option value="otro">Otro</option>
+            </select>
           </div>
         </div>
         <div>
-          <label for="cf-msg">Mensaje</label>
+          <label for="cf-msg">Mensaje / Consulta detallada</label>
           <textarea id="cf-msg" name="message" placeholder="Cuéntanos sobre tu proyecto u organización"></textarea>
         </div>
         <div class="form-consent">
@@ -113,6 +132,7 @@
         <a href="#" aria-label="Sitio web"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3Z"/></svg></a>
         <a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>
         <a href="https://www.instagram.com/grupoempatic/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="#" aria-label="Spotify (Podcast)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M7 10.5c3-1 7-.6 9.5.9M7.3 13.6c2.4-.8 5.6-.5 7.7.7M7.6 16.4c2-.6 4.4-.4 6 .5"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
@@ -120,16 +140,19 @@
       <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="soluciones.html">Soluciones</a></li>
-        <li><a href="enfoques.html">Enfoques</a></li>
+        <li><a href="negocios-sostenibles.html">Negocios Sostenibles</a></li>
         <li><a href="acciones-empaticas.html">Acciones Empáticas</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Empresa</h4>
       <ul>
         <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="empatic-academy.html">Empatic Academy</a></li>
         <li><a href="privacidad.html">Privacidad</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
+        <li><a href="libro-reclamaciones.html">Libro de Reclamaciones</a></li>
       </ul>
     </div>
     <div class="footer-col">

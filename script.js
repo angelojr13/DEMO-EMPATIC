@@ -53,13 +53,16 @@ const revealSelectors = [
   '.approach-card', '.pillar-item', '.photo-grid .ph', '.visual-panel',
   '.stat-card', '.cta-banner', '.about-copy', '.peru-map-copy',
   '.peru-map-visual', '.ae-teaser-copy', '.ae-teaser-stats', '.value-chips',
-  '.mv-mini .item', '.contact-point', '.ae-lockup',
+  '.mv-mini .item', '.contact-point',
+  '.team-card', '.event-item', '.podcast-banner', '.biz-card',
+  '.report-facts', '.community-actions', '.contact-form', '.contact-points',
+  '.legal-content h2', '.legal-content h3', '.legal-content p',
 ];
 const revealEls = document.querySelectorAll(revealSelectors.join(','));
 
 revealEls.forEach((el) => el.classList.add('reveal'));
 
-document.querySelectorAll('.grid-3, .grid-4, .sol-grid, .solutions-teaser, .values-grid, .approach-grid, .pillars, .stat-grid, .photo-grid, .mv-mini').forEach((grid) => {
+document.querySelectorAll('.grid-3, .grid-4, .sol-grid, .solutions-teaser, .values-grid, .approach-grid, .pillars, .stat-grid, .photo-grid, .mv-mini, .team-grid, .event-gallery, .biz-grid, .contact-grid, .contact-points').forEach((grid) => {
   [...grid.children].forEach((child, idx) => {
     if (child.classList.contains('reveal')) {
       child.style.transitionDelay = `${Math.min(idx * 70, 280)}ms`;
@@ -105,30 +108,66 @@ function renderPeruDetail(region) {
   const legend = entries.map(([name, pct]) =>
     `<li><span class="peru-detail-dot peru-detail-dot--${PERU_ACTIVITY_CLASS[name]}"></span>${name} <b>${pct}%</b></li>`
   ).join('');
+  peruDetail.classList.add('has-content');
   peruDetail.innerHTML =
+    `<div class="peru-detail-inner">` +
     `<div class="peru-detail-head"><span class="peru-detail-region">${region}</span><span class="peru-detail-share">${data.share} de la participación</span></div>` +
     `<div class="peru-detail-bar">${bar}</div>` +
-    `<ul class="peru-detail-legend">${legend}</ul>`;
+    `<ul class="peru-detail-legend">${legend}</ul>` +
+    `</div>`;
+  requestAnimationFrame(() => {
+    const inner = peruDetail.querySelector('.peru-detail-inner');
+    if (inner) inner.classList.add('is-visible');
+  });
 }
 
 function clearPeruDetail() {
-  if (peruDetail) peruDetail.innerHTML = '';
+  if (!peruDetail) return;
+  peruDetail.classList.remove('has-content');
+  peruDetail.innerHTML = '';
+}
+
+/* Debounced hover controller: hovering near the border between two
+   regions fires rapid mouseenter/mouseleave pairs on the SVG paths.
+   We delay the "clear" and skip re-renders for the region already
+   showing, so that flicker doesn't thrash the detail panel. */
+let peruActiveRegion = null;
+let peruClearTimer = null;
+
+function peruCancelClear() {
+  if (peruClearTimer) {
+    clearTimeout(peruClearTimer);
+    peruClearTimer = null;
+  }
+}
+
+function peruScheduleClear() {
+  peruCancelClear();
+  peruClearTimer = setTimeout(() => {
+    clearPeruDetail();
+    peruActiveRegion = null;
+    peruClearTimer = null;
+  }, 120);
 }
 
 document.querySelectorAll('.peru-map-visual path[data-region]').forEach((path) => {
   const region = path.dataset.region;
   const hasData = Boolean(PERU_REGION_DATA[region]);
   path.addEventListener('mouseenter', () => {
+    peruCancelClear();
     if (hasData) {
       path.classList.add('peru-region-hover');
-      renderPeruDetail(region);
+      if (peruActiveRegion !== region) {
+        renderPeruDetail(region);
+        peruActiveRegion = region;
+      }
     } else {
-      clearPeruDetail();
+      peruScheduleClear();
     }
   });
   path.addEventListener('mouseleave', () => {
     path.classList.remove('peru-region-hover');
-    clearPeruDetail();
+    peruScheduleClear();
   });
 });
 
@@ -142,10 +181,24 @@ if (!reduceMotion) {
       document.body.classList.add('is-leaving');
       setTimeout(() => {
         window.location.href = href;
-      }, 150);
+      }, 320);
     });
   });
 }
+
+/* ---------- Floating WhatsApp CTA ---------- */
+(function () {
+  var wa = document.createElement('a');
+  wa.className = 'wa-float';
+  wa.href = 'https://wa.me/51974131951';
+  wa.target = '_blank';
+  wa.rel = 'noopener';
+  wa.setAttribute('aria-label', 'Habla con un Consultor Senior por WhatsApp');
+  wa.innerHTML =
+    '<span class="wa-float-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2Zm5.4 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.1.1.3 0 .5-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.6.8c.2.1.4.2.4.3.1.2.1.7-.1 1.2Z"/></svg></span>' +
+    '<span class="wa-float-text">Habla con un Consultor Senior</span>';
+  document.body.appendChild(wa);
+})();
 
 /* ---------- Cookie consent banner ---------- */
 (function () {
