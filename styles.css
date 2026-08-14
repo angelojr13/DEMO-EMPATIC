@@ -378,6 +378,10 @@ section {
   border-bottom-color: var(--yellow);
 }
 
+.nav-links-academy {
+  display: none;
+}
+
 .nav-cta {
   display: flex;
   align-items: center;
@@ -583,6 +587,19 @@ section {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: center;
+}
+
+.grid-2 > * {
+  min-width: 0;
+}
+
+/* Evita que texto/botones sin salto de línea inflen el ancho de las columnas
+   (clásico bug de min-width:auto en grid/flex items) */
+.grid-3 > *, .grid-4 > *, .footer-grid > *,
+.sol-grid > *, .approach-grid > *, .pillars > *, .stat-grid > *,
+.photo-grid > *, .mv-mini > *, .team-grid > *, .biz-grid > *,
+.ae-teaser-inner > *, .peru-map-section > * {
+  min-width: 0;
 }
 
 .grid-3 {
@@ -1744,6 +1761,10 @@ section {
   align-items: start;
 }
 
+.contact-grid > * {
+  min-width: 0;
+}
+
 .contact-visual {
   aspect-ratio: 4/3.2;
   border-radius: var(--radius-lg);
@@ -1954,6 +1975,13 @@ section {
     gap: 16px;
     border-bottom: 1px solid rgba(246,236,215,0.1);
   }
+
+  .nav-links-academy {
+    display: inline-block;
+    color: var(--yellow) !important;
+    font-weight: 700;
+    opacity: 1 !important;
+  }
 }
 
 @media (max-width: 960px) {
@@ -2016,6 +2044,11 @@ section {
 
   .photo-grid .ph.wide {
     grid-column: span 2;
+  }
+
+  .btn {
+    white-space: normal;
+    text-align: center;
   }
 }
 
