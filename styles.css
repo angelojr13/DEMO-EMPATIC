@@ -436,15 +436,17 @@ section {
 /* Acciones Empáticas: header + banda de stats comparten una sola foto de fondo */
 .ae-hero-band {
   position: relative;
-  background: url("images/header-experiencia.jpg") center/cover no-repeat;
+  background:
+    linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%),
+    url("images/header-experiencia.jpg") center/cover no-repeat;
 }
 
 .ae-hero-top.page-header {
-  background: linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%);
+  background: transparent;
 }
 
 .ae-hero-bottom {
-  background: linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%);
+  background: transparent;
   padding: 72px 0;
 }
 
