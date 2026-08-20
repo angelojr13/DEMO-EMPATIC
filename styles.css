@@ -452,13 +452,14 @@ section {
 
 .ae-lockup {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   margin: 0 auto 16px;
 }
 
 .ae-lockup-mark {
-  height: 34px;
+  height: 42px;
   width: auto;
   flex-shrink: 0;
 }
@@ -466,7 +467,7 @@ section {
 .ae-lockup-word {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   letter-spacing: 0.02em;
   color: var(--yellow);
   text-transform: uppercase;
@@ -508,6 +509,10 @@ section {
 .hero-inner {
   max-width: 720px;
   margin: 0 auto;
+}
+
+.hero .eyebrow {
+  color: var(--teal-soft);
 }
 
 .hero h1 {
@@ -681,32 +686,39 @@ section {
 
 .mv-mini {
   display: grid;
-  gap: 18px;
-  margin-top: 28px;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 40px;
+  margin-top: 40px;
 }
 
 .mv-mini .item {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 14px;
+  background: var(--dark-teal);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.28s cubic-bezier(.2,.8,.2,1), transform 0.28s cubic-bezier(.2,.8,.2,1);
 }
 
-.mv-mini .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--teal);
-  margin-top: 8px;
-  flex-shrink: 0;
+.mv-mini .item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .mv-mini h4 {
-  font-size: 0.95rem;
+  font-size: 1.12rem;
   margin-bottom: 2px;
+  color: var(--yellow);
 }
 
 .mv-mini p {
   margin: 0;
   font-size: 0.92rem;
+  color: var(--text-on-dark);
 }
 
 .visual-panel {
@@ -920,8 +932,8 @@ section {
   transition: transform 0.4s ease;
 }
 
-.photo-grid .ph:nth-child(1) { background-image: url("images/team-wide.jpg"); }
-.photo-grid .ph:nth-child(2) { background-image: url("images/team-meeting.jpg"); }
+.photo-grid .ph:nth-child(1) { background-image: url("images/campo-agua-monitoreo.jpg"); }
+.photo-grid .ph:nth-child(2) { background-image: url("images/comunidad-territorio-ods.jpg"); }
 .photo-grid .ph:nth-child(3) { background-image: url("images/team-field.jpg"); }
 .photo-grid .ph:nth-child(4) { background-image: url("images/hands-plant.jpg"); }
 .photo-grid .ph:nth-child(5) { background-image: url("images/handshake.jpg"); }
@@ -973,7 +985,7 @@ section {
   background-position: center;
 }
 
-.sol-card:nth-child(1) .sol-card-media { background-image: url("images/campo-agua-monitoreo.jpg"); }
+.sol-card:nth-child(1) .sol-card-media { background-image: url("images/linea1-cumplimiento.jpg"); }
 .sol-card:nth-child(2) .sol-card-media { background-image: url("images/campo-mineria-reforestacion.jpg"); }
 .sol-card:nth-child(3) .sol-card-media { background-image: url("images/agroindustria-planta.jpg"); }
 .sol-card:nth-child(4) .sol-card-media { background-image: url("images/artesania-textil.jpg"); }
@@ -986,7 +998,8 @@ section {
 }
 
 .sol-card h3 {
-  font-size: 1.08rem;
+  font-size: 1.34rem;
+  line-height: 1.28;
   color: var(--ink);
   margin: 16px 0 10px;
 }
@@ -1013,7 +1026,7 @@ section {
 
 .sol-kicker {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.94rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1274,10 +1287,82 @@ section {
   margin: 0;
 }
 
+.biz-card-mini--photo {
+  position: relative;
+  border-style: solid;
+  border-color: transparent;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.biz-card-mini--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,44,47,0.2) 0%, rgba(10,44,47,0.82) 100%);
+}
+
+.biz-card-mini--photo .biz-card-top,
+.biz-card-mini--photo .biz-card-sector,
+.biz-card-mini--photo h4,
+.biz-card-mini--photo p {
+  position: relative;
+  z-index: 1;
+}
+
+.biz-card-mini--photo .biz-card-logo {
+  background: rgba(246, 236, 215, 0.9);
+  opacity: 1;
+}
+
+.biz-card-mini--photo .biz-card-tag {
+  background: rgba(246, 236, 215, 0.9);
+  color: var(--dark-teal);
+}
+
+.biz-card-mini--photo .biz-card-sector {
+  color: var(--yellow);
+}
+
+.biz-card-mini--photo h4 {
+  color: var(--white);
+}
+
+.biz-card-mini--photo p {
+  color: var(--text-on-dark);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .biz-track {
     animation: none;
   }
+}
+
+.team-carousel-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.team-carousel {
+  flex: 1;
+  overflow: hidden;
+}
+
+.team-track {
+  display: flex;
+  width: 200%;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+
+.team-track.is-junior {
+  transform: translateX(-50%);
+}
+
+.team-page {
+  width: 50%;
+  flex-shrink: 0;
 }
 
 .team-grid {
@@ -1314,6 +1399,151 @@ section {
   font-weight: 600;
   line-height: 1.4;
   margin: 0;
+}
+
+.team-tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 8px;
+}
+
+.team-tag--senior {
+  background: rgba(2, 161, 161, 0.12);
+  color: var(--teal-deep);
+}
+
+.team-tag--junior {
+  background: rgba(240, 173, 0, 0.16);
+  color: #9a6b00;
+}
+
+.team-role {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin: 4px 0 0;
+}
+
+/* ---------- Tarjeta de ejemplo: foto, LinkedIn y bio al pasar el cursor ---------- */
+.team-photo--avatar {
+  background: linear-gradient(145deg, var(--teal), var(--teal-deep));
+  border: none;
+  opacity: 1;
+}
+
+.team-avatar-initials {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.team-linkedin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin: 8px auto 10px;
+  border-radius: 50%;
+  background: #0a66c2;
+  color: var(--white);
+  transition: transform 0.2s ease;
+}
+
+.team-linkedin:hover {
+  transform: translateY(-2px);
+}
+
+.team-linkedin svg {
+  width: 13px;
+  height: 13px;
+}
+
+.team-card--example {
+  cursor: default;
+}
+
+/* Globo/vineta con la bio: se inserta en <body> vía JS para no quedar
+   recortado por el overflow:hidden del carrusel. Posición vertical
+   (arriba/abajo de la tarjeta) y horizontal la fija script.js. */
+.team-bio-bubble {
+  position: fixed;
+  z-index: 60;
+  width: 220px;
+  background: var(--dark-teal);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-dark);
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.team-bio-bubble.is-above {
+  transform: translate(-50%, -4px);
+}
+
+.team-bio-bubble.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.team-bio-bubble p {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-on-dark);
+  text-align: left;
+  margin: 0;
+}
+
+.team-bio-bubble-arrow {
+  position: absolute;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: var(--dark-teal);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.team-bio-bubble:not(.is-above) .team-bio-bubble-arrow {
+  top: -6px;
+}
+
+.team-bio-bubble.is-above .team-bio-bubble-arrow {
+  bottom: -6px;
+}
+
+.team-nav-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.team-nav-btn:hover {
+  border-color: var(--teal);
+  background: var(--bg-tint);
+}
+
+.team-nav-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
 }
 
 .sol-btn-accent {
@@ -1827,6 +2057,11 @@ section {
   margin-bottom: 6px;
 }
 
+.contact-form label .req {
+  color: var(--yellow-deep, #c98a00);
+  font-weight: 700;
+}
+
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
@@ -2011,6 +2246,10 @@ section {
 
   .team-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mv-mini {
+    grid-template-columns: 1fr;
   }
 
   .biz-grid {

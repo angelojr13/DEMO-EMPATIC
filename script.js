@@ -54,7 +54,7 @@ const revealSelectors = [
   '.stat-card', '.cta-banner', '.about-copy', '.peru-map-copy',
   '.peru-map-visual', '.ae-teaser-copy', '.ae-teaser-stats', '.value-chips',
   '.mv-mini .item', '.contact-point',
-  '.team-card', '.event-item', '.podcast-banner', '.biz-card',
+  '.event-item', '.podcast-banner', '.biz-card',
   '.report-facts', '.community-actions', '.contact-form', '.contact-points',
   '.legal-content h2', '.legal-content h3', '.legal-content p',
 ];
@@ -225,4 +225,66 @@ if (!reduceMotion) {
 
   banner.querySelector('.cookie-accept').addEventListener('click', function () { dismiss('accepted'); });
   banner.querySelector('.cookie-reject').addEventListener('click', function () { dismiss('rejected'); });
+})();
+
+/* ---------- Equipo consultor: carrusel Senior / Junior ---------- */
+(function () {
+  var nextBtn = document.getElementById('teamNextBtn');
+  var prevBtn = document.getElementById('teamPrevBtn');
+  var track = document.getElementById('teamTrack');
+  if (!nextBtn || !prevBtn || !track) return;
+
+  nextBtn.addEventListener('click', function () {
+    track.classList.add('is-junior');
+    nextBtn.hidden = true;
+    prevBtn.hidden = false;
+  });
+
+  prevBtn.addEventListener('click', function () {
+    track.classList.remove('is-junior');
+    prevBtn.hidden = true;
+    nextBtn.hidden = false;
+  });
+})();
+
+/* ---------- Bio del consultor: globo flotante al pasar el cursor ---------- */
+(function () {
+  var cards = document.querySelectorAll('.team-card--example[data-bio]');
+  if (!cards.length) return;
+
+  var bubble = document.createElement('div');
+  bubble.className = 'team-bio-bubble';
+  bubble.setAttribute('role', 'tooltip');
+  bubble.innerHTML = '<div class="team-bio-bubble-arrow"></div><p></p>';
+  document.body.appendChild(bubble);
+  var bubbleText = bubble.querySelector('p');
+
+  function showBubble(card) {
+    var rect = card.getBoundingClientRect();
+    bubbleText.textContent = card.dataset.bio;
+    var above = rect.top > 160;
+    bubble.classList.toggle('is-above', above);
+    bubble.style.left = (rect.left + rect.width / 2) + 'px';
+    if (above) {
+      bubble.style.bottom = (window.innerHeight - rect.top + 12) + 'px';
+      bubble.style.top = 'auto';
+    } else {
+      bubble.style.top = (rect.bottom + 12) + 'px';
+      bubble.style.bottom = 'auto';
+    }
+    requestAnimationFrame(function () { bubble.classList.add('is-visible'); });
+  }
+
+  function hideBubble() {
+    bubble.classList.remove('is-visible');
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () { showBubble(card); });
+    card.addEventListener('mouseleave', hideBubble);
+    card.addEventListener('focus', function () { showBubble(card); });
+    card.addEventListener('blur', hideBubble);
+  });
+
+  window.addEventListener('scroll', hideBubble, { passive: true });
 })();

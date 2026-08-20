@@ -71,7 +71,7 @@
       <form class="contact-form" onsubmit="return false;">
         <div class="form-row">
           <div>
-            <label for="cf-name">Nombre y Apellidos</label>
+            <label for="cf-name">Nombre y Apellidos <span class="req">*</span></label>
             <input id="cf-name" type="text" name="name" placeholder="Tu nombre y apellidos" required>
           </div>
           <div>
@@ -81,22 +81,22 @@
         </div>
         <div class="form-row">
           <div>
-            <label for="cf-company">Empresa / Organización</label>
-            <input id="cf-company" type="text" name="company" placeholder="Nombre de tu organización">
+            <label for="cf-company">Empresa / Organización <span class="req">*</span></label>
+            <input id="cf-company" type="text" name="company" placeholder="Nombre de tu organización" required>
           </div>
           <div>
-            <label for="cf-email">Correo Corporativo</label>
+            <label for="cf-email">Correo Corporativo <span class="req">*</span></label>
             <input id="cf-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
           </div>
         </div>
         <div class="form-row">
           <div>
-            <label for="cf-phone">Teléfono / WhatsApp</label>
-            <input id="cf-phone" type="tel" name="phone" placeholder="+51 999 999 999">
+            <label for="cf-phone">Teléfono / WhatsApp <span class="req">*</span></label>
+            <input id="cf-phone" type="tel" name="phone" placeholder="+51 999 999 999" required>
           </div>
           <div>
-            <label for="cf-interest">Servicio o Solución de Interés</label>
-            <select id="cf-interest" name="interest">
+            <label for="cf-interest">Servicio o Solución de Interés <span class="req">*</span></label>
+            <select id="cf-interest" name="interest" required>
               <option value="">Selecciona una opción</option>
               <option value="diagnostico-esg">Diagnóstico ESG Gratuito</option>
               <option value="cumplimiento-socioambiental">Cumplimiento Socioambiental</option>
