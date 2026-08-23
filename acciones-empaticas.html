@@ -24,7 +24,6 @@
       <a href="negocios-sostenibles.html">Negocios Sostenibles</a>
       <a href="acciones-empaticas.html" aria-current="page">Acciones Empáticas</a>
       <a href="novedades.html">Novedades</a>
-      <a href="contacto.html">Contacto</a>
       <a href="empatic-academy.html" class="nav-links-academy">Empatic Academy</a>
     </nav>
     <div class="nav-cta">
@@ -38,12 +37,45 @@
 <section class="ae-hero-band">
   <div class="page-header ae-hero-top">
     <div class="container">
-      <div class="ae-lockup">
-        <img src="images/logo-acciones-empaticas-gris.png" alt="" class="ae-lockup-mark" width="44" height="36">
-        <span class="ae-lockup-word">Acciones Empáticas</span>
+      <div class="ae-slides" id="aeSlides">
+        <button type="button" class="ae-slide-arrow ae-slide-arrow-prev" id="aeSlidePrev" aria-label="Diapositiva anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="ae-slide-arrow ae-slide-arrow-next" id="aeSlideNext" aria-label="Diapositiva siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="ae-slide is-active">
+          <div class="ae-lockup">
+            <img src="images/logo-acciones-empaticas-gris.png" alt="" class="ae-lockup-mark" width="44" height="36">
+            <span class="ae-lockup-word">Acciones Empáticas</span>
+          </div>
+          <h1>Nuestro compromiso de impacto en territorio</h1>
+          <p>Acciones Empáticas es la organización sin fines de lucro de EMPATIC. Venimos consolidando experiencia e impacto en territorio.</p>
+          <a href="#mapa-impacto" class="btn btn-primary ae-slide-cta">Conoce nuestro impacto</a>
+        </div>
+
+        <div class="ae-slide">
+          <img src="images/logo-lideres-que-impactan.png" alt="Líderes que Impactan" class="ae-slide-logo">
+          <span class="eyebrow">Líderes que Impactan</span>
+          <h1>Convocatoria Nacional de Voluntariado 2026</h1>
+          <p>Iniciamos una nueva edición a nivel nacional de nuestra red de voluntariado regional. Desarrolla competencias clave en desarrollo sostenible completando nuestro Curso de Especialización (4 sesiones por Empatic Academy) y aplícalo en campo para acceder a una Doble Certificación Gratuita: Certificado de Curso de Especialización + Certificado de Voluntariado.</p>
+          <p>Los participantes más destacados podrán integrarse a la Red de Consultores de EMPATIC y sumarse a proyectos regionales.</p>
+          <a href="contacto.html" class="btn btn-primary ae-slide-cta">Súmate como voluntario</a>
+        </div>
+
+        <div class="ae-slide">
+          <span class="eyebrow">Alianzas y Desarrollo Territorial</span>
+          <h1>Potencia el impacto sostenible de tu organización</h1>
+          <p>Accede a una jornada de aplicación sobre buenas prácticas de sostenibilidad e impacto local, diseñada para fortalecer la gestión, reputación y compromiso social de tu institución. Un equipo especializado acompañará a tu organización en este proceso, otorgándote una Constancia de Acreditación en Buenas Prácticas Sostenibles.</p>
+          <a href="contacto.html" class="btn btn-primary ae-slide-cta">Postular mi organización</a>
+        </div>
       </div>
-      <h1>Nuestro compromiso de impacto en territorio</h1>
-      <p>Acciones Empáticas es la organización sin fines de lucro de EMPATIC. Durante el 2025 consolidó experiencia e impacto directamente en territorio.</p>
+
+      <div class="ae-slide-dots" id="aeSlideDots">
+        <button type="button" class="ae-slide-dot is-active" aria-label="Diapositiva 1"></button>
+        <button type="button" class="ae-slide-dot" aria-label="Diapositiva 2"></button>
+        <button type="button" class="ae-slide-dot" aria-label="Diapositiva 3"></button>
+      </div>
     </div>
   </div>
   <div class="ae-hero-bottom">
@@ -65,27 +97,29 @@
     <div class="grid-2">
       <div class="about-copy">
         <span class="eyebrow">Reporte de Impacto Territorial 2025</span>
-        <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">Resumen ejecutivo</h2>
-        <p>Un balance de los logros alcanzados durante el 2025 en la promoción de comunidades más sostenibles: cobertura territorial, tipos de actividad y modalidad de intervención.</p>
+        <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">Transformando territorios a través de la empatía y la acción</h2>
+        <p>En 2025 consolidamos nuestro compromiso con el desarrollo sostenible descentralizado, movilizando comunidades y generando evidencia de impacto real en las regiones del Perú.</p>
         <ul class="report-facts">
-          <li><strong>54.4%</strong> actividades presenciales · <strong>45.6%</strong> actividades virtuales</li>
-          <li><strong>5 tipos de actividad:</strong> visitas, mentorías, eventos, intervenciones y talleres</li>
-          <li><strong>Cobertura en 6 regiones:</strong> Arequipa, Cajamarca, Ica, Junín, Lambayeque y Lima</li>
+          <li><strong>+2,000 personas</strong> beneficiadas a través de 68 intervenciones directas.</li>
+          <li><strong>Presencia en 6 regiones:</strong> Cajamarca, Lima, Junín, Lambayeque, Arequipa e Ica.</li>
+          <li><strong>54.4%</strong> de acciones en campo respaldadas por un <strong>72%</strong> de retención en nuestra red de voluntarios.</li>
         </ul>
-        <a href="docs/reporte-impacto-territorial-2025.pdf" class="btn btn-primary" target="_blank" rel="noopener">Descargar Reporte de Impacto Territorial 2025 (PDF)</a>
+        <a href="docs/reporte-impacto-territorial-2025.pdf" class="btn btn-primary" target="_blank" rel="noopener">Descargar Reporte de Impacto 2025 (PDF)</a>
       </div>
       <div class="visual-panel report-visual"></div>
     </div>
   </div>
 </section>
 
-<section class="section section-dark">
+<section class="section section-dark" id="mapa-impacto">
   <div class="container">
     <div class="peru-map-section">
       <div class="peru-map-copy">
         <span class="eyebrow">Presencia territorial</span>
-        <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">6 regiones, 17 distritos, 68 actividades y más de 2,000 personas impactadas</h2>
-        <p>Nuestras intervenciones se implementaron en territorios clave del país, articulando actores locales y generando evidencia directamente en campo. Recorre el mapa para ver el detalle por región.</p>
+        <h2 style="font-size: var(--fs-h2); margin-bottom: 6px;">6 regiones | 17 distritos | 68 actividades</h2>
+        <p class="peru-stat-highlight">+2,000 personas impactadas</p>
+        <p>Desplegamos iniciativas de desarrollo sostenible en territorios clave del Perú, articulando con actores locales y generando evidencia directa en campo.</p>
+        <p class="peru-map-hint">Haz clic sobre cada región y conoce más de nuestras intervenciones.</p>
         <div class="peru-detail" id="peruDetail" aria-live="polite"></div>
       </div>
       <div class="peru-map-visual">
@@ -144,9 +178,9 @@
     <div class="grid-2">
       <div class="visual-panel community-visual"></div>
       <div class="about-copy">
-        <span class="eyebrow">Comunidad</span>
+        <span class="eyebrow">Comunidad de impacto</span>
         <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">Nuestra comunidad de impacto en territorio</h2>
-        <p>Cada actividad de Acciones Empáticas se sostiene gracias a las personas que se suman en campo: voluntarios, aliados y las propias comunidades con las que trabajamos.</p>
+        <p>Las iniciativas de Acciones Empáticas cobran vida gracias a jóvenes, profesionales y líderes locales que se movilizan en campo. Formamos una red territorial comprometida con el desarrollo sostenible, articulando esfuerzos directamente con las comunidades intervenidas.</p>
         <div class="community-actions">
           <a href="contacto.html" class="btn btn-primary">Súmate como voluntario</a>
           <a href="contacto.html" class="btn btn-outline">Súmate como aliado</a>
@@ -156,49 +190,45 @@
   </div>
 </section>
 
-<section class="section section-light">
+<section class="section section-tint">
   <div class="container">
-    <div class="cta-banner">
-      <div class="cta-copy" style="text-align: center;">
-        <h2>Revisa el impacto de Acciones Empáticas 2025</h2>
-        <p>Conoce el detalle de nuestro trabajo en territorio y cómo podemos aplicarlo a tu organización.</p>
+    <div class="section-head center">
+      <span class="eyebrow">Programas</span>
+      <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">Nuestros proyectos de impacto</h2>
+      <p>Desplegamos iniciativas de impacto directo en campo diseñadas para transformar comunidades. Puedes co-financiar o adaptar cualquiera de estos programas como parte de la estrategia ASG o de Voluntariado Corporativo de tu empresa.</p>
+    </div>
+
+    <div class="programs-grid">
+      <div class="program-card">
+        <img src="images/logo-lideres-que-impactan.png" alt="Líderes que Impactan" class="program-logo">
+        <span class="program-tag">Sostenibilidad y Territorio</span>
+        <p class="program-audience"><strong>Público objetivo:</strong> Jóvenes y líderes regionales</p>
+        <p>Impulsa el liderazgo juvenil regional para identificar problemáticas territoriales y co-diseñar soluciones que transformen su entorno.</p>
       </div>
-      <a href="contacto.html" class="btn btn-primary cta-btn">Conversemos</a>
+      <div class="program-card">
+        <img src="images/logo-sostengo.png" alt="Sostengo" class="program-logo">
+        <span class="program-tag">Sostenibilidad y Territorio</span>
+        <p class="program-audience"><strong>Público objetivo:</strong> Escolares de 5.º y 6.º de primaria</p>
+        <p>Introduce la educación por los ODS, con enfoque ASG desde la infancia, motivando a los escolares a co-crear soluciones para su comunidad.</p>
+      </div>
+      <div class="program-card">
+        <img src="images/logo-finanzas-inclusivas.png" alt="Finanzas Inclusivas" class="program-logo">
+        <span class="program-tag">Desarrollo de Capacidades</span>
+        <p class="program-audience"><strong>Público objetivo:</strong> Estudiantes de 3.º a 5.º de secundaria</p>
+        <p>Programa de educación financiera, gestión de recursos e incubación de emprendimientos sostenibles que responden a las necesidades del territorio.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section section-light">
   <div class="container">
-    <div class="section-head center">
-      <h2>Comprender, diseñar y validar en campo</h2>
-      <p>Con la metodología de EMPATIC, combinamos la estrategia con la comprensión del territorio para transformar conocimiento en resultados concretos.</p>
-    </div>
-
-    <div class="pillars">
-      <div class="pillar-item">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></svg>
-        </div>
-        <h4>Comprender territorios</h4>
-        <p>Analizamos contextos, actores y dinámicas locales para mapear riesgos y oportunidades que influyen en tu organización.</p>
+    <div class="cta-banner">
+      <div class="cta-copy" style="text-align: center;">
+        <h2>¿Quieres financiar o implementar una de nuestras iniciativas en tu zona de influencia?</h2>
+        <p>Co-diseñamos y adaptamos nuestros proyectos bandera como parte de la estrategia ASG, RSE o Voluntariado Corporativo de tu empresa.</p>
       </div>
-
-      <div class="pillar-item">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-        </div>
-        <h4>Diseñamos soluciones</h4>
-        <p>Desarrollamos estrategias a la medida, conectando la sostenibilidad técnica con las necesidades reales del entorno.</p>
-      </div>
-
-      <div class="pillar-item">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M9 15h4M9 11h4M9 7h2"/><circle cx="17" cy="7" r="4"/><path d="m20.5 10.5 2 2"/></svg>
-        </div>
-        <h4>Generamos evidencia</h4>
-        <p>Validamos metodologías directamente en el campo para transformar el conocimiento teórico en resultados financieros y sociales concretos.</p>
-      </div>
+      <a href="contacto.html" class="btn btn-primary cta-btn">Solicitar información de proyectos</a>
     </div>
   </div>
 </section>
