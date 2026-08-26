@@ -136,6 +136,13 @@ img {
   display: block;
 }
 
+/* Solo se justifican los párrafos que NO son el primero de su sección
+   (el texto de entrada/lead bajo cada título se mantiene como estaba). */
+p ~ p {
+  text-align: justify;
+}
+
+
 a {
   color: inherit;
   text-decoration: none;
@@ -461,6 +468,11 @@ section {
 .ae-hero-bottom {
   background: transparent;
   padding: 24px 0 40px;
+  transition: opacity 0.3s ease;
+}
+
+.ae-hero-bottom.is-hidden {
+  display: none;
 }
 
 .ae-lockup {
@@ -513,19 +525,19 @@ section {
 }
 
 .ae-slide-logo {
-  height: 64px;
+  height: 120px;
   width: auto;
-  margin: 0 auto 6px;
+  margin: 0 auto 4px;
 }
 
 .ae-slide .eyebrow {
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .ae-slide h1 {
-  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-  margin-bottom: 8px;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  margin-bottom: 6px;
 }
 
 .ae-slide p {
@@ -966,10 +978,12 @@ section {
 .director-body {
   color: var(--text-on-dark);
   margin-bottom: 22px;
+  text-align: justify;
 }
 
 .director-credentials {
   font-size: 0.82rem;
+  line-height: 1.8;
   color: var(--text-on-dark);
   opacity: 0.85;
   padding-top: 18px;
@@ -1047,6 +1061,19 @@ section {
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 22px;
+}
+
+.community-actions .btn-outline {
+  background: var(--yellow);
+  color: var(--dark-teal);
+  border-color: var(--yellow);
+  box-shadow: 0 10px 24px rgba(240, 173, 0, 0.28);
+}
+
+.community-actions .btn-outline:hover {
+  background: #ffbe22;
+  border-color: #ffbe22;
+  color: var(--dark-teal);
 }
 
 .solutions-teaser {
@@ -2134,9 +2161,10 @@ section {
 }
 
 .program-logo {
-  height: 64px;
+  display: block;
+  height: 88px;
   width: auto;
-  margin-bottom: 16px;
+  margin: 0 auto 20px;
 }
 
 .program-tag {
@@ -2526,6 +2554,15 @@ section {
   margin-bottom: 14px;
 }
 
+.footer-brand .brand-mark {
+  width: 44px;
+  height: 44px;
+}
+
+.footer-brand .brand-word {
+  font-size: 1.55rem;
+}
+
 .footer-brand p {
   color: var(--text-on-dark-faint);
   font-size: 0.9rem;
@@ -2539,8 +2576,8 @@ section {
 }
 
 .footer-social a {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(246, 236, 215, 0.08);
   display: flex;
@@ -2554,8 +2591,8 @@ section {
 }
 
 .footer-social svg {
-  width: 16px;
-  height: 16px;
+  width: 21px;
+  height: 21px;
   stroke: var(--white);
 }
 
@@ -2600,6 +2637,15 @@ section {
 
   .nav-toggle {
     display: flex;
+  }
+
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-word {
+    font-size: 1.5rem;
   }
 
   .nav.menu-open .nav-links {
@@ -2832,6 +2878,165 @@ section {
   font-size: 0.86rem;
   color: var(--ink-soft);
   line-height: 1.5;
+}
+
+/* ---------- Negocios Sostenibles: banner flotante + modal de postulación ---------- */
+.negocios-cta-float {
+  display: none;
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 88px;
+  z-index: 150;
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--dark-teal);
+  color: var(--text-on-dark);
+  border-radius: var(--radius-md);
+  padding: 18px 20px 18px 24px;
+  box-shadow: var(--shadow-dark);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  animation: cookie-rise 0.4s ease both;
+}
+
+.negocios-cta-float.is-visible {
+  display: flex;
+}
+
+.negocios-cta-float p {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.96rem;
+  color: var(--white);
+  flex: 1 1 240px;
+}
+
+.negocios-cta-float-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.negocios-cta-float-actions .btn {
+  white-space: nowrap;
+}
+
+.negocios-cta-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(246, 236, 215, 0.1);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.negocios-cta-close:hover {
+  background: rgba(246, 236, 215, 0.2);
+}
+
+.negocios-cta-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 44, 47, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+  animation: modal-rise 0.3s ease both;
+}
+
+@keyframes modal-rise {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-tint);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--line);
+}
+
+.modal-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.modal h3 {
+  font-size: var(--fs-h3);
+  margin: 6px 0 10px;
+}
+
+.modal-lead {
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+  font-size: 0.94rem;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (max-width: 640px) {
+  .negocios-cta-float {
+    bottom: 80px;
+    padding: 16px;
+  }
+
+  .negocios-cta-float-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 /* ---------- Floating WhatsApp CTA ---------- */
@@ -3108,6 +3313,247 @@ section {
   }
 
   .case-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Barra de acceso al aula virtual (Empatic Academy) ---------- */
+.academy-access-bar {
+  background: var(--dark-teal);
+  border-top: 1px solid rgba(246, 236, 215, 0.1);
+  border-bottom: 1px solid rgba(246, 236, 215, 0.1);
+}
+
+.academy-access-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+
+.academy-access-text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.academy-access-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(240, 173, 0, 0.16);
+  color: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.academy-access-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.academy-access-text strong {
+  display: block;
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.academy-access-text span {
+  color: var(--text-on-dark);
+  font-size: 0.88rem;
+}
+
+.academy-access-link {
+  flex-shrink: 0;
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.academy-access-link:hover {
+  border-color: var(--yellow);
+}
+
+@media (max-width: 640px) {
+  .academy-access-bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- Página de detalle de curso (Empatic Academy) ---------- */
+.course-hero-photo {
+  position: relative;
+  background:
+    linear-gradient(160deg, rgba(9, 38, 36, 0.9) 0%, rgba(9, 38, 36, 0.78) 100%),
+    url("images/team-meeting.jpg") center 30%/cover no-repeat;
+  padding-top: 32px;
+}
+
+.course-hero-photo .case-back-link {
+  margin-bottom: 8px;
+}
+
+.course-hero-photo-inner {
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: 40px;
+  align-items: start;
+  padding: 28px 0 56px;
+}
+
+.course-hero-photo-copy .eyebrow {
+  color: var(--yellow);
+}
+
+.course-hero-photo-copy h1 {
+  color: var(--white);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  margin: 10px 0 18px;
+}
+
+.course-hero-photo-copy p {
+  color: var(--text-on-dark);
+  font-size: 1.02rem;
+  max-width: 480px;
+}
+
+.course-hero-form {
+  position: relative;
+  background: linear-gradient(165deg, var(--dark-teal-2) 0%, var(--dark-teal) 100%);
+  border: 1px solid rgba(240, 173, 0, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 32px 30px 28px;
+  display: grid;
+  gap: 15px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  transform: translateY(-4px);
+}
+
+.course-hero-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--yellow);
+}
+
+.course-hero-form-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dark-teal);
+  background: var(--yellow);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.course-hero-form h4 {
+  color: var(--white);
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.course-hero-form .form-row {
+  gap: 12px;
+}
+
+.course-hero-form label {
+  color: var(--text-on-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.course-hero-form input {
+  width: 100%;
+  background: rgba(246, 236, 215, 0.1);
+  border: 1px solid rgba(246, 236, 215, 0.28);
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--white);
+}
+
+.course-hero-form input::placeholder {
+  color: var(--white);
+  opacity: 0.75;
+}
+
+.course-hero-form input:focus {
+  outline: none;
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(240, 173, 0, 0.2);
+}
+
+.course-hero-form .btn-block {
+  padding: 16px;
+  font-size: 1rem;
+  margin-top: 4px;
+  box-shadow: 0 12px 26px rgba(240, 173, 0, 0.35);
+}
+
+.course-hero-form .contact-form-note {
+  color: rgba(246, 236, 215, 0.6);
+  font-size: 0.72rem;
+  margin: 0;
+  text-align: center;
+}
+
+.course-hero-form .contact-form-note a {
+  color: var(--yellow);
+  font-weight: 600;
+}
+
+.course-hero-photo--solo .course-hero-photo-inner {
+  padding-bottom: 72px;
+}
+
+.course-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 30px 0 0;
+  padding: 20px 0 0;
+  border-top: 1px solid rgba(246, 236, 215, 0.18);
+  list-style: none;
+}
+
+.course-meta-row li {
+  font-size: 0.88rem;
+  color: var(--text-on-dark);
+}
+
+.course-meta-row li span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--yellow);
+  margin-bottom: 3px;
+}
+
+@media (max-width: 900px) {
+  .course-hero-photo-inner {
     grid-template-columns: 1fr;
   }
 }

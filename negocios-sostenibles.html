@@ -264,6 +264,46 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
+<div class="negocios-cta-float" id="negociosCtaFloat">
+  <p>¿Tu organización aplica criterios ASG e impacto territorial?</p>
+  <div class="negocios-cta-float-actions">
+    <button type="button" class="btn btn-primary" id="negociosCtaOpenModal">Postula a la Red de Negocios Sostenibles →</button>
+    <button type="button" class="negocios-cta-close" id="negociosCtaClose" aria-label="Cerrar aviso">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="postulacionModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="postulacionModalTitle">
+    <button type="button" class="modal-close" id="postulacionModalClose" aria-label="Cerrar formulario">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <span class="eyebrow">Red de Negocios Sostenibles</span>
+    <h3 id="postulacionModalTitle">Postula tu organización</h3>
+    <p class="modal-lead">Cuéntanos brevemente sobre tu negocio y te contactaremos para evaluar tu incorporación a la vitrina.</p>
+    <form class="contact-form modal-form" onsubmit="return false;">
+      <div>
+        <label for="pf-name">Nombre y Apellidos <span class="req">*</span></label>
+        <input id="pf-name" type="text" name="name" placeholder="Tu nombre y apellidos" required>
+      </div>
+      <div>
+        <label for="pf-company">Empresa / Organización <span class="req">*</span></label>
+        <input id="pf-company" type="text" name="company" placeholder="Nombre de tu organización" required>
+      </div>
+      <div>
+        <label for="pf-email">Correo Corporativo <span class="req">*</span></label>
+        <input id="pf-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
+      </div>
+      <div>
+        <label for="pf-msg">Cuéntanos brevemente qué hace tu organización <span class="req">*</span></label>
+        <textarea id="pf-msg" name="message" placeholder="Sector, ubicación y la práctica sostenible que la distingue" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Enviar postulación</button>
+    </form>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>

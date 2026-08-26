@@ -233,6 +233,7 @@ if (!reduceMotion) {
   var dots = document.querySelectorAll('#aeSlideDots .ae-slide-dot');
   var prevBtn = document.getElementById('aeSlidePrev');
   var nextBtn = document.getElementById('aeSlideNext');
+  var heroBottom = document.getElementById('aeHeroBottom');
   if (!slides.length) return;
 
   var current = 0;
@@ -244,6 +245,7 @@ if (!reduceMotion) {
     current = index;
     slides[current].classList.add('is-active');
     dots[current].classList.add('is-active');
+    if (heroBottom) heroBottom.classList.toggle('is-hidden', current !== 0);
   }
 
   function next() {
@@ -287,6 +289,50 @@ if (!reduceMotion) {
   }
 
   startAutoplay();
+})();
+
+/* ---------- Negocios Sostenibles: banner flotante + modal de postulación ---------- */
+(function () {
+  var floatBar = document.getElementById('negociosCtaFloat');
+  var closeFloatBtn = document.getElementById('negociosCtaClose');
+  var openModalBtn = document.getElementById('negociosCtaOpenModal');
+  var overlay = document.getElementById('postulacionModalOverlay');
+  var closeModalBtn = document.getElementById('postulacionModalClose');
+  if (!floatBar || !overlay) return;
+
+  var dismissed = false;
+
+  function checkScroll() {
+    if (dismissed) return;
+    floatBar.classList.toggle('is-visible', window.scrollY > 400);
+  }
+
+  window.addEventListener('scroll', checkScroll, { passive: true });
+  checkScroll();
+
+  closeFloatBtn.addEventListener('click', function () {
+    dismissed = true;
+    floatBar.classList.remove('is-visible');
+  });
+
+  function openModal() {
+    overlay.classList.add('is-open');
+  }
+
+  function closeModal() {
+    overlay.classList.remove('is-open');
+  }
+
+  openModalBtn.addEventListener('click', openModal);
+  closeModalBtn.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+  });
 })();
 
 /* ---------- Equipo consultor: carrusel Senior / Junior ---------- */
