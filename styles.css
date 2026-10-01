@@ -196,6 +196,18 @@ section {
   color: var(--white);
 }
 
+.section-dark .card {
+  color: var(--ink);
+}
+
+.section-dark .card h4 {
+  color: var(--ink);
+}
+
+.section-dark .card p {
+  color: var(--ink-soft);
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1489,6 +1501,19 @@ section {
   text-align: center;
 }
 
+.section-light .podcast-banner {
+  background: var(--bg-tint);
+  border: 1px solid var(--line);
+}
+
+.section-light .podcast-banner h3 {
+  color: var(--ink);
+}
+
+.section-light .podcast-banner p {
+  color: var(--ink-soft);
+}
+
 .event-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1775,10 +1800,6 @@ section {
   gap: 20px;
 }
 
-.team-grid[data-tier="senior"] {
-  grid-template-columns: repeat(4, 1fr);
-}
-
 .team-card {
   text-align: center;
 }
@@ -1837,6 +1858,10 @@ section {
   border: none;
   opacity: 1;
   overflow: hidden;
+}
+
+.team-photo--zoom img {
+  transform: scale(1.4);
 }
 
 .team-photo--img img {
