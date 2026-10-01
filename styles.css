@@ -2856,6 +2856,12 @@ section {
     align-items: stretch;
   }
 
+  .btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+
   .page-header {
     padding: 52px 0 40px;
   }
@@ -3115,6 +3121,12 @@ section {
   .negocios-cta-float-actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .negocios-cta-float-actions .btn {
+    white-space: normal;
+    text-align: center;
+    flex: 1 1 auto;
   }
 }
 
@@ -3465,6 +3477,10 @@ section {
   .academy-access-bar-inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .academy-access-link {
+    white-space: normal;
   }
 }
 
