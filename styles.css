@@ -1802,6 +1802,12 @@ section {
   gap: 20px;
 }
 
+.team-grid[data-tier="junior"] {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
 .team-card {
   text-align: center;
 }
@@ -2785,7 +2791,8 @@ section {
   }
 
   .team-grid,
-  .team-grid[data-tier="senior"] {
+  .team-grid[data-tier="senior"],
+  .team-grid[data-tier="junior"] {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -2850,7 +2857,8 @@ section {
   }
 
   .team-grid,
-  .team-grid[data-tier="senior"] {
+  .team-grid[data-tier="senior"],
+  .team-grid[data-tier="junior"] {
     grid-template-columns: repeat(2, 1fr);
   }
 
