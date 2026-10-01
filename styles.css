@@ -957,6 +957,16 @@ section {
   stroke: rgba(246, 236, 215, 0.5);
 }
 
+.director-photo:has(img) {
+  border-style: solid;
+}
+
+.director-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .director-content .eyebrow {
   margin-bottom: 10px;
 }
@@ -1765,6 +1775,10 @@ section {
   gap: 20px;
 }
 
+.team-grid[data-tier="senior"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .team-card {
   text-align: center;
 }
@@ -1817,6 +1831,18 @@ section {
   font-size: 1.3rem;
   color: var(--white);
   letter-spacing: 0.02em;
+}
+
+.team-photo--img {
+  border: none;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.team-photo--img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .team-linkedin {
@@ -2726,7 +2752,8 @@ section {
     max-width: calc(50% - 14px);
   }
 
-  .team-grid {
+  .team-grid,
+  .team-grid[data-tier="senior"] {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -2790,7 +2817,8 @@ section {
     max-width: 100%;
   }
 
-  .team-grid {
+  .team-grid,
+  .team-grid[data-tier="senior"] {
     grid-template-columns: repeat(2, 1fr);
   }
 
