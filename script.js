@@ -335,24 +335,37 @@ if (!reduceMotion) {
   });
 })();
 
-/* ---------- Equipo consultor: carrusel Senior / Junior ---------- */
+/* ---------- Equipo consultor: carrusel de N grupos ---------- */
 (function () {
   var nextBtn = document.getElementById('teamNextBtn');
   var prevBtn = document.getElementById('teamPrevBtn');
   var track = document.getElementById('teamTrack');
   if (!nextBtn || !prevBtn || !track) return;
 
+  var pages = track.querySelectorAll('.team-page').length;
+  var current = 0;
+
+  function update() {
+    track.style.transform = 'translateX(-' + (current * (100 / pages)) + '%)';
+    prevBtn.hidden = current === 0;
+    nextBtn.hidden = current === pages - 1;
+  }
+
   nextBtn.addEventListener('click', function () {
-    track.classList.add('is-junior');
-    nextBtn.hidden = true;
-    prevBtn.hidden = false;
+    if (current < pages - 1) {
+      current++;
+      update();
+    }
   });
 
   prevBtn.addEventListener('click', function () {
-    track.classList.remove('is-junior');
-    prevBtn.hidden = true;
-    nextBtn.hidden = false;
+    if (current > 0) {
+      current--;
+      update();
+    }
   });
+
+  update();
 })();
 
 /* ---------- Bio del consultor: globo flotante al pasar el cursor ---------- */
