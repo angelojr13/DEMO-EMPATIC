@@ -234,10 +234,18 @@ if (!reduceMotion) {
   var prevBtn = document.getElementById('aeSlidePrev');
   var nextBtn = document.getElementById('aeSlideNext');
   var heroBottom = document.getElementById('aeHeroBottom');
+  var heroBand = document.querySelector('.ae-hero-band');
   if (!slides.length) return;
 
   var current = 0;
   var timer = null;
+
+  function applySlideBg(slide) {
+    if (!heroBand) return;
+    var bg = slide.getAttribute('data-bg');
+    if (bg) heroBand.style.setProperty('--ae-hero-bg', 'url("' + bg + '")');
+    else heroBand.style.removeProperty('--ae-hero-bg');
+  }
 
   function goTo(index) {
     slides[current].classList.remove('is-active');
@@ -245,8 +253,14 @@ if (!reduceMotion) {
     current = index;
     slides[current].classList.add('is-active');
     dots[current].classList.add('is-active');
-    if (heroBottom) heroBottom.classList.toggle('is-hidden', current !== 0);
+    applySlideBg(slides[current]);
+    // La banda de estadísticas solo acompaña a la diapositiva sin fondo
+    // propio (la de "impacto en territorio"), que comparte su foto.
+    if (heroBottom) heroBottom.classList.toggle('is-hidden', !!slides[current].getAttribute('data-bg'));
   }
+
+  applySlideBg(slides[current]);
+  if (heroBottom) heroBottom.classList.toggle('is-hidden', !!slides[current].getAttribute('data-bg'));
 
   function next() {
     goTo((current + 1) % slides.length);

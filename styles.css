@@ -459,7 +459,9 @@ section {
 .page-header--negocios-sostenibles { background: linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%), url("images/header-negocios-sostenibles.jpg") center/cover no-repeat; }
 .page-header--novedades   { background: linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%), url("images/handshake.jpg") center/cover no-repeat; }
 
-/* Acciones Empáticas: header + banda de stats comparten una sola foto de fondo */
+/* Acciones Empáticas: cada diapositiva puede traer su propio fondo
+   (data-bg en el .ae-slide); si no trae ninguno, se usa la foto por
+   defecto que también respalda la banda de estadísticas. */
 .ae-hero-band {
   position: relative;
   display: flex;
@@ -467,7 +469,8 @@ section {
   height: calc(100vh - 81px);
   background:
     linear-gradient(160deg, rgba(15,78,84,.74) 0%, rgba(13,59,64,.84) 100%),
-    url("images/header-experiencia.jpg") center/cover no-repeat;
+    var(--ae-hero-bg, url("images/header-experiencia.jpg")) center/cover no-repeat;
+  transition: background-image 0.4s ease;
 }
 
 .ae-hero-top.page-header {
@@ -1794,7 +1797,7 @@ section {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
 }
 
