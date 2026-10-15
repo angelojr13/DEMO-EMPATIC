@@ -497,6 +497,28 @@ section {
   display: none;
 }
 
+/* En pantallas de poca altura (laptops, ventanas achicadas) la banda no
+   alcanza a mostrar el texto + botón sin recortarlos contra las
+   estadísticas de abajo: dejamos que crezca según el contenido. */
+@media (max-height: 820px) {
+  .ae-hero-band {
+    height: auto;
+    min-height: calc(100vh - 81px);
+  }
+
+  .ae-hero-top.page-header {
+    overflow: visible;
+  }
+}
+
+/* Diapositivas de Navidad Empática: el eyebrow debe verse igual que el
+   lockup "Acciones Empáticas" de la diapositiva de impacto. */
+.ae-slide .eyebrow {
+  color: var(--yellow);
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+
 .ae-lockup {
   display: inline-flex;
   flex-direction: column;
