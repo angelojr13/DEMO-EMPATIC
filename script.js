@@ -349,15 +349,53 @@ if (!reduceMotion) {
   });
 })();
 
-/* ---------- Equipo consultor: carrusel de N grupos ---------- */
-(function () {
-  var nextBtn = document.getElementById('teamNextBtn');
-  var prevBtn = document.getElementById('teamPrevBtn');
-  var track = document.getElementById('teamTrack');
-  if (!nextBtn || !prevBtn || !track) return;
+/* ---------- Equipo consultor: datos dinamicos desde Google Sheets ---------- */
+var EMPATIC_API = 'https://script.google.com/macros/s/AKfycbzxBe8Z95x9_TJdUbGPFbxUXeimudgfjBas5UyoOqhc5T4u_2z6VlUgPAtA6C5PixQd/exec';
+var TEAM_PAGE_SIZE = 5;
 
+function empaticImageUrl(link) {
+  if (!link) return '';
+  var driveMatch = String(link).match(/\/d\/([a-zA-Z0-9_-]{10,})/) || String(link).match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+  if (driveMatch) {
+    return 'https://lh3.googleusercontent.com/d/' + driveMatch[1] + '=w600';
+  }
+  return link;
+}
+
+function empaticEscapeHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+var LINKEDIN_ICON_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002ZM7 8.48H3V21h4V8.48Zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-3.96 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.68-2.91V8.48Z"/></svg>';
+
+function empaticTeamCardHtml(c) {
+  var bio = empaticEscapeHtml(c.bio);
+  var nombre = empaticEscapeHtml(c.nombre);
+  var cargo = empaticEscapeHtml(c.cargo);
+  var foto = empaticImageUrl(c.foto);
+  var linkedin = c.linkedin || '#';
+  return (
+    '<div class="team-card team-card--example" tabindex="0" data-bio="' + bio + '">' +
+      '<div class="team-photo team-photo--img" aria-hidden="true">' +
+        '<img src="' + foto + '" alt="" loading="lazy">' +
+      '</div>' +
+      '<h4>' + nombre + '</h4>' +
+      '<p class="team-role">' + cargo + '</p>' +
+      '<a class="team-linkedin" href="' + linkedin + '" target="_blank" rel="noopener" aria-label="LinkedIn de ' + nombre + '">' +
+        LINKEDIN_ICON_SVG +
+      '</a>' +
+    '</div>'
+  );
+}
+
+function initTeamCarousel(track, nextBtn, prevBtn) {
   var pages = track.querySelectorAll('.team-page').length;
   var current = 0;
+  if (!pages) return;
 
   function update() {
     track.style.transform = 'translateX(-' + (current * (100 / pages)) + '%)';
@@ -380,11 +418,9 @@ if (!reduceMotion) {
   });
 
   update();
-})();
+}
 
-/* ---------- Bio del consultor: globo flotante al pasar el cursor ---------- */
-(function () {
-  var cards = document.querySelectorAll('.team-card--example[data-bio]');
+function initTeamBioBubbles(cards) {
   if (!cards.length) return;
 
   var bubble = document.createElement('div');
@@ -422,4 +458,33 @@ if (!reduceMotion) {
   });
 
   window.addEventListener('scroll', hideBubble, { passive: true });
+}
+
+(function () {
+  var nextBtn = document.getElementById('teamNextBtn');
+  var prevBtn = document.getElementById('teamPrevBtn');
+  var track = document.getElementById('teamTrack');
+  if (!nextBtn || !prevBtn || !track) return;
+
+  fetch(EMPATIC_API + '?tipo=consultores')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var activos = data
+        .filter(function (c) { return String(c.activo || '').toUpperCase() === 'SI'; })
+        .sort(function (a, b) { return (Number(a.orden) || 0) - (Number(b.orden) || 0); });
+
+      var pagesHtml = '';
+      for (var i = 0; i < activos.length; i += TEAM_PAGE_SIZE) {
+        var pageItems = activos.slice(i, i + TEAM_PAGE_SIZE);
+        pagesHtml += '<div class="team-grid team-page">' + pageItems.map(empaticTeamCardHtml).join('') + '</div>';
+      }
+      track.innerHTML = pagesHtml;
+
+      initTeamCarousel(track, nextBtn, prevBtn);
+      initTeamBioBubbles(Array.prototype.slice.call(track.querySelectorAll('.team-card--example[data-bio]')));
+    })
+    .catch(function (err) {
+      console.error('No se pudo cargar el equipo consultor:', err);
+    });
 })();
+
