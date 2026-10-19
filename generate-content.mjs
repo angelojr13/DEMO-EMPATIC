@@ -40,6 +40,7 @@ function pageHead({ title, description, canonicalPath }) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,7 +134,7 @@ function pageFoot() {
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=4"></script>
+<script src="script.js?v=5"></script>
 </body>
 </html>
 `;
@@ -273,7 +274,7 @@ function articlePage(row, tipo) {
 
   const portada = driveImageUrl(row.imagen_portada);
   const heroImg = portada
-    ? `<img src="${esc(portada)}" alt="" style="width:100%;border-radius:var(--radius-lg);margin-bottom:24px;">`
+    ? `<img src="${esc(portada)}" alt="" referrerpolicy="no-referrer" style="width:100%;border-radius:var(--radius-lg);margin-bottom:24px;">`
     : '';
 
   return pageHead({ title, description: row.resumen, canonicalPath: `${tipo}-${row.slug}.html` }) + `

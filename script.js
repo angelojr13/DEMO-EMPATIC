@@ -381,7 +381,7 @@ function empaticTeamCardHtml(c) {
   return (
     '<div class="team-card team-card--example" tabindex="0" data-bio="' + bio + '">' +
       '<div class="team-photo team-photo--img" aria-hidden="true">' +
-        '<img src="' + foto + '" alt="" loading="lazy">' +
+        '<img src="' + foto + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
       '</div>' +
       '<h4>' + nombre + '</h4>' +
       '<p class="team-role">' + cargo + '</p>' +
