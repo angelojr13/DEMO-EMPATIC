@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 <link rel="canonical" href="https://grupoempatic.com/novedades.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -61,17 +61,19 @@
       <h2>Sostenibilidad sin Floro</h2>
       <p>Conversaciones con líderes de sostenibilidad, ejecutivos B2B, organizaciones y emprendedores sobre cómo crear modelos rentables que impulsen el desarrollo territorial.</p>
     </div>
-    <div class="podcast-banner">
-      <div class="podcast-play" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+
+    <div class="novedades-carousel-wrap">
+      <button type="button" class="team-nav-btn team-nav-prev" id="podcastPrevBtn" aria-label="Episodio anterior" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <div class="novedades-carousel">
+        <div class="novedades-track" id="podcastTrack">
+          <!-- Episodios generados dinamicamente desde EMPATIC - Blog y Podcast (tab PODCAST) via script.js -->
+        </div>
       </div>
-      <div>
-        <h3>Próximo episodio en camino</h3>
-        <p>Entrevistas sobre criterios ASG, fondos no reembolsables y gestión de conflictos en campo. Muy pronto disponible aquí y en Spotify.</p>
-      </div>
-    </div>
-    <div class="podcast-cta">
-      <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Escuchar en Spotify</a>
+      <button type="button" class="team-nav-btn team-nav-next" id="podcastNextBtn" aria-label="Siguiente episodio" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -84,23 +86,18 @@
       <p>Artículos de opinión, guías prácticas y reportes de impacto creados por nuestro equipo de consultores para fortalecer tu gestión.</p>
     </div>
 
-    <div class="grid-3">
-      <div class="card">
-        <span class="article-card-tag article-card-tag--ready">Reporte PDF</span>
-        <h4>Reporte de Impacto Territorial 2025</h4>
-        <p>Descubre los resultados, indicadores y alcance de nuestras intervenciones en territorio durante el último año.</p>
-        <a href="docs/reporte-impacto-territorial-2025.pdf" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Descargar Reporte (PDF)</a>
+    <div class="novedades-carousel-wrap">
+      <button type="button" class="team-nav-btn team-nav-prev" id="articulosPrevBtn" aria-label="Grupo anterior de artículos" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <div class="novedades-carousel">
+        <div class="novedades-track" id="articulosTrack">
+          <!-- Articulos generados dinamicamente desde EMPATIC - Blog y Podcast (tab ARTICULOS) via script.js -->
+        </div>
       </div>
-      <div class="card">
-        <span class="article-card-tag">Próximamente</span>
-        <h4>Claves de cumplimiento socioambiental para empresas</h4>
-        <p>Guía práctica para anticiparte a fiscalizaciones y fortalecer tus estándares socioambientales en campo.</p>
-      </div>
-      <div class="card">
-        <span class="article-card-tag">Próximamente</span>
-        <h4>Oportunidades en financiamiento e inversión verde</h4>
-        <p>Aspectos clave para estructurar proyectos atractivos para fondos de impacto y cooperación internacional.</p>
-      </div>
+      <button type="button" class="team-nav-btn team-nav-next" id="articulosNextBtn" aria-label="Siguiente grupo de artículos" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -113,10 +110,8 @@
       <p>Registros de nuestra participación en foros, congresos, talleres regionales e intervenciones comunitarias.</p>
     </div>
 
-    <div class="event-gallery">
-      <div class="event-item" style="background-image: url('images/campo-mineria-reforestacion.jpg');"><span>Taller de reforestación en territorio minero</span></div>
-      <div class="event-item" style="background-image: url('images/campo-agua-monitoreo.jpg');"><span>Monitoreo participativo de calidad de agua</span></div>
-      <div class="event-item" style="background-image: url('images/comunidad-ods.jpg');"><span>Jornada comunitaria de Objetivos de Desarrollo Sostenible</span></div>
+    <div class="event-gallery" id="actividadesGallery">
+      <!-- Actividades generadas dinamicamente desde EMPATIC - Blog y Podcast (tab ACTIVIDADES) via script.js -->
     </div>
   </div>
 </section>
@@ -183,6 +178,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>

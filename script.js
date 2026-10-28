@@ -488,3 +488,163 @@ function initTeamBioBubbles(cards) {
     });
 })();
 
+/* ---------- Novedades: Podcast, Articulos y Actividades desde Google Sheets ---------- */
+var PODCAST_PAGE_SIZE = 1;
+var ARTICULOS_PAGE_SIZE = 3;
+
+function empaticFetchTipo(tipo) {
+  return fetch(EMPATIC_API + '?tipo=' + tipo)
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      return data.sort(function (a, b) { return (Number(a.orden) || 0) - (Number(b.orden) || 0); });
+    });
+}
+
+function initNovedadesCarousel(track, nextBtn, prevBtn) {
+  var pages = track.querySelectorAll('.novedades-page').length;
+  var current = 0;
+  if (pages < 2) {
+    nextBtn.hidden = true;
+    prevBtn.hidden = true;
+    return;
+  }
+
+  function update() {
+    track.style.transform = 'translateX(-' + (current * (100 / pages)) + '%)';
+    prevBtn.hidden = current === 0;
+    nextBtn.hidden = current === pages - 1;
+  }
+
+  nextBtn.addEventListener('click', function () {
+    if (current < pages - 1) {
+      current++;
+      update();
+    }
+  });
+
+  prevBtn.addEventListener('click', function () {
+    if (current > 0) {
+      current--;
+      update();
+    }
+  });
+
+  update();
+}
+
+function empaticPodcastCardHtml(r) {
+  var portada = empaticImageUrl(r.imagen_portada);
+  var mediaStyle = portada ? ' style="background-image: url(\'' + portada + '\');"' : '';
+  var spotify = r.link_spotify
+    ? '<a href="' + empaticEscapeHtml(r.link_spotify) + '" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Escuchar en Spotify</a>'
+    : '';
+  var youtube = r.link_youtube
+    ? '<a href="' + empaticEscapeHtml(r.link_youtube) + '" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ver en YouTube</a>'
+    : '';
+  return (
+    '<div class="podcast-card">' +
+      '<div class="podcast-card-media"' + mediaStyle + ' aria-hidden="true"></div>' +
+      '<div class="podcast-card-body">' +
+        '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.episodio) + '</span>' +
+        '<h3>' + empaticEscapeHtml(r.titulo) + '</h3>' +
+        '<p class="podcast-card-guest">' + empaticEscapeHtml(r.invitado) + '</p>' +
+        '<p class="podcast-card-desc">' + empaticEscapeHtml(r.descripcion) + '</p>' +
+        '<div class="podcast-card-actions">' + spotify + youtube + '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+function empaticArticuloCardHtml(r) {
+  var boton = r.texto_o_link
+    ? '<a href="' + empaticEscapeHtml(r.texto_o_link) + '" class="btn btn-primary btn-sm" target="_blank" rel="noopener">' + empaticEscapeHtml(r.texto_boton || 'Leer más') + '</a>'
+    : '';
+  return (
+    '<div class="card">' +
+      '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.categoria) + '</span>' +
+      '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
+      '<p class="article-card-author">' + empaticEscapeHtml(r.autor) + '</p>' +
+      '<p>' + empaticEscapeHtml(r.descripcion) + '</p>' +
+      boton +
+    '</div>'
+  );
+}
+
+var ACTIVIDAD_BOTON_DEFAULT = {
+  webinar: 'Ver Grabación en YouTube',
+  taller: 'Ver Galería',
+  congreso: 'Ver Detalles',
+  foro: 'Ver Detalles'
+};
+
+function empaticActividadCardHtml(r) {
+  var portada = empaticImageUrl(r.imagen_portada);
+  var style = portada ? ' style="background-image: url(\'' + portada + '\');"' : '';
+  var boton = r.texto_boton || ACTIVIDAD_BOTON_DEFAULT[String(r.tipo_actividad || '').toLowerCase()] || 'Ver Detalles';
+  return (
+    '<a class="event-item" href="' + empaticEscapeHtml(r.link_destino || '#') + '" target="_blank" rel="noopener"' + style + '>' +
+      '<span class="event-item-tag">' + empaticEscapeHtml(r.tipo_actividad) + '</span>' +
+      '<span class="event-item-title">' + empaticEscapeHtml(r.titulo) + '</span>' +
+      '<span class="event-item-cta">' + empaticEscapeHtml(boton) + ' →</span>' +
+    '</a>'
+  );
+}
+
+(function () {
+  var track = document.getElementById('podcastTrack');
+  var nextBtn = document.getElementById('podcastNextBtn');
+  var prevBtn = document.getElementById('podcastPrevBtn');
+  if (!track || !nextBtn || !prevBtn) return;
+
+  empaticFetchTipo('podcast').then(function (rows) {
+    if (!rows.length) {
+      track.closest('.novedades-carousel-wrap').style.display = 'none';
+      return;
+    }
+    var pagesHtml = '';
+    for (var i = 0; i < rows.length; i += PODCAST_PAGE_SIZE) {
+      var pageItems = rows.slice(i, i + PODCAST_PAGE_SIZE);
+      pagesHtml += '<div class="novedades-page podcast-grid">' + pageItems.map(empaticPodcastCardHtml).join('') + '</div>';
+    }
+    track.innerHTML = pagesHtml;
+    initNovedadesCarousel(track, nextBtn, prevBtn);
+  }).catch(function (err) {
+    console.error('No se pudo cargar el podcast:', err);
+  });
+})();
+
+(function () {
+  var track = document.getElementById('articulosTrack');
+  var nextBtn = document.getElementById('articulosNextBtn');
+  var prevBtn = document.getElementById('articulosPrevBtn');
+  if (!track || !nextBtn || !prevBtn) return;
+
+  empaticFetchTipo('articulos').then(function (rows) {
+    if (!rows.length) {
+      track.closest('.novedades-carousel-wrap').style.display = 'none';
+      return;
+    }
+    var pagesHtml = '';
+    for (var i = 0; i < rows.length; i += ARTICULOS_PAGE_SIZE) {
+      var pageItems = rows.slice(i, i + ARTICULOS_PAGE_SIZE);
+      pagesHtml += '<div class="novedades-page grid-3">' + pageItems.map(empaticArticuloCardHtml).join('') + '</div>';
+    }
+    track.innerHTML = pagesHtml;
+    initNovedadesCarousel(track, nextBtn, prevBtn);
+  }).catch(function (err) {
+    console.error('No se pudieron cargar los artículos:', err);
+  });
+})();
+
+(function () {
+  var gallery = document.getElementById('actividadesGallery');
+  if (!gallery) return;
+
+  empaticFetchTipo('actividades').then(function (rows) {
+    if (!rows.length) return;
+    gallery.innerHTML = rows.map(empaticActividadCardHtml).join('');
+  }).catch(function (err) {
+    console.error('No se pudieron cargar las actividades:', err);
+  });
+})();
+
