@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=24">
 <link rel="canonical" href="https://grupoempatic.com/novedades.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -24,6 +24,10 @@
 <meta name="twitter:image" content="https://grupoempatic.com/images/logo-empatic.png">
 </head>
 <body>
+
+<div class="empatic-loading-overlay" id="empaticLoadingOverlay" aria-hidden="true">
+  <div class="empatic-loading-spinner"></div>
+</div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -55,7 +59,7 @@
 </section>
 
 <section class="section section-light">
-  <div class="container">
+  <div class="container container-wide">
     <div class="section-head center">
       <span class="eyebrow">Podcast</span>
       <h2>Sostenibilidad sin Floro</h2>
@@ -110,13 +114,23 @@
       <p>Registros de nuestra participación en foros, congresos, talleres regionales e intervenciones comunitarias.</p>
     </div>
 
-    <div class="event-gallery" id="actividadesGallery">
-      <!-- Actividades generadas dinamicamente desde EMPATIC - Blog y Podcast (tab ACTIVIDADES) via script.js -->
+    <div class="novedades-carousel-wrap">
+      <button type="button" class="team-nav-btn team-nav-prev" id="actividadesPrevBtn" aria-label="Actividad anterior" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <div class="novedades-carousel">
+        <div class="novedades-track" id="actividadesTrack">
+          <!-- Actividades generadas dinamicamente desde EMPATIC - Blog y Podcast (tab ACTIVIDADES) via script.js -->
+        </div>
+      </div>
+      <button type="button" class="team-nav-btn team-nav-next" id="actividadesNextBtn" aria-label="Siguiente actividad" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </div>
 </section>
 
-<section class="section section-light">
+<section class="section section-dark">
   <div class="container">
     <div class="cta-banner">
       <div class="cta-copy">
@@ -178,6 +192,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=24">
 <link rel="canonical" href="https://grupoempatic.com/negocios-sostenibles.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -25,6 +25,10 @@
 <meta name="twitter:image" content="https://grupoempatic.com/images/logo-empatic.png">
 </head>
 <body>
+
+<div class="empatic-loading-overlay" id="empaticLoadingOverlay" aria-hidden="true">
+  <div class="empatic-loading-spinner"></div>
+</div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -59,164 +63,18 @@
   <div class="container">
     <div class="biz-carousel">
       <div class="biz-row">
-        <div class="biz-track">
-          <!-- Fila superior: 4 fichas, duplicadas para el loop continuo -->
-          <!-- NEGOCIOS_DYNAMIC_START -->
-          <a href="caso-agrovalle.html" class="biz-card-mini biz-card-mini--photo" style="background-image: url('https://lh3.googleusercontent.com/d/12qdvHDWyoRfijOJ33etCYdPsIMtLU8tk=w1200');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Caso destacado</span>
-            </div>
-            <span class="biz-card-sector">Agroindustria</span>
-            <h4>AgroValle Perú</h4>
-            <p>Certificó su cadena de café bajo estándares de comercio justo y trazabilidad territorial.</p>
-          </a>
-          <!-- NEGOCIOS_DYNAMIC_END -->
-          <div class="biz-card-mini biz-card-mini--photo" style="background-image: url('images/negocio-textil.jpg');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Textil y moda</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini biz-card-mini--photo" style="background-image: url('images/negocio-mineria.jpg');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Minería</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Energía</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <!-- duplicado -->
-          <!-- NEGOCIOS_DYNAMIC_HIDDEN_START -->
-          <a aria-hidden="true" tabindex="-1" href="caso-agrovalle.html" class="biz-card-mini biz-card-mini--photo" style="background-image: url('https://lh3.googleusercontent.com/d/12qdvHDWyoRfijOJ33etCYdPsIMtLU8tk=w1200');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Caso destacado</span>
-            </div>
-            <span class="biz-card-sector">Agroindustria</span>
-            <h4>AgroValle Perú</h4>
-            <p>Certificó su cadena de café bajo estándares de comercio justo y trazabilidad territorial.</p>
-          </a>
-          <!-- NEGOCIOS_DYNAMIC_HIDDEN_END -->
-          <div class="biz-card-mini biz-card-mini--photo" aria-hidden="true" style="background-image: url('images/negocio-textil.jpg');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Textil y moda</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini biz-card-mini--photo" aria-hidden="true" style="background-image: url('images/negocio-mineria.jpg');">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Minería</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini" aria-hidden="true">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Energía</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
+        <div class="biz-track" id="bizTrack1">
+          <!-- Negocios generados dinamicamente desde EMPATIC - Negocios Sostenibles via script.js -->
         </div>
       </div>
-
       <div class="biz-row">
-        <div class="biz-track biz-track--reverse">
-          <!-- Fila inferior: 4 fichas, duplicadas para el loop continuo -->
-          <div class="biz-card-mini">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Turismo</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Manufactura</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Servicios</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini">
-            <div class="biz-card-top">
-              <div class="biz-card-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Construcción</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <!-- duplicado -->
-          <div class="biz-card-mini" aria-hidden="true">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Turismo</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini" aria-hidden="true">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Manufactura</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini" aria-hidden="true">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Servicios</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
-          <div class="biz-card-mini" aria-hidden="true">
-            <div class="biz-card-top">
-              <div class="biz-card-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-              <span class="biz-card-tag">Próximamente</span>
-            </div>
-            <span class="biz-card-sector">Construcción</span>
-            <h4>Nombre de la empresa</h4>
-            <p>Acción sostenible que la distingue.</p>
-          </div>
+        <div class="biz-track biz-track--reverse" id="bizTrack2">
+          <!-- Negocios generados dinamicamente desde EMPATIC - Negocios Sostenibles via script.js -->
+        </div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-track" id="bizTrack3">
+          <!-- Negocios generados dinamicamente desde EMPATIC - Negocios Sostenibles via script.js -->
         </div>
       </div>
     </div>
@@ -230,7 +88,7 @@
         <h2>¿Tu organización o negocio aplica prácticas sostenibles?</h2>
         <p>Postula a la Red de Negocios Sostenibles y cuéntanos cómo la sostenibilidad impulsa tu competitividad.</p>
       </div>
-      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20postular%20a%20la%20Red%20de%20Negocios%20Sostenibles%20de%20EMPATIC." class="btn btn-primary cta-btn" target="_blank" rel="noopener">Postula a la Red de Negocios Sostenibles</a>
+      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20postular%20a%20la%20Red%20de%20Negocios%20Sostenibles%20de%20EMPATIC." class="btn btn-primary cta-btn" target="_blank" rel="noopener" data-wa-key="negocios_postular">Postula a la Red de Negocios Sostenibles</a>
     </div>
   </div>
 </section>
@@ -322,6 +180,6 @@
   </div>
 </div>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>

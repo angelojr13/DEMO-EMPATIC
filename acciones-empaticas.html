@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=24">
 <link rel="canonical" href="https://grupoempatic.com/acciones-empaticas.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -58,21 +58,9 @@
         <button type="button" class="ae-slide-arrow ae-slide-arrow-next" id="aeSlideNext" aria-label="Diapositiva siguiente">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
         </button>
-        <div class="ae-slide is-active" data-bg="images/ae-navidad-voluntariado.jpg">
-          <span class="eyebrow">Navidad Empática</span>
-          <h1>Llévale magia y esperanza a quienes más lo necesitan</h1>
-          <p>Tu apoyo transforma realidades. Súmate a la Navidad Empática donando económicamente o en especie (víveres, juguetes, u otros) para llevar sonrisas a las comunidades que más lo requieren en nuestro país.</p>
-          <a href="https://wa.me/51974131951?text=%C2%A1Hola%2C%20equipo%20de%20Acciones%20Emp%C3%A1ticas!%20Quisiera%20apoyar%20la%20campa%C3%B1a%20Navidad%20Emp%C3%A1tica%20con%20una%20donaci%C3%B3n%20y%20me%20brinden%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener" class="btn btn-primary ae-slide-cta">Quiero Donar</a>
-        </div>
-
-        <div class="ae-slide" data-bg="images/ae-navidad-donacion.jpg">
-          <span class="eyebrow">Voluntariado 2026</span>
-          <h1>Súmate a la Navidad Empática y conviértete en un Líder Que Impacta</h1>
-          <p>Vive la experiencia de impactar directamente en territorio. Únete a nuestra red de voluntarios, comparte tu talento y sé parte activa de las actividades de nuestra campaña navideña.</p>
-          <a href="https://wa.me/51974131951?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20inscribirme%20como%20voluntario%2Fa%20para%20la%20campa%C3%B1a%20Navidad%20Emp%C3%A1tica!" target="_blank" rel="noopener" class="btn btn-primary ae-slide-cta">Súmate como Voluntario</a>
-        </div>
-
-        <div class="ae-slide">
+        <!-- Las diapositivas de campaña se insertan dinamicamente aqui, antes de esta,
+             desde EMPATIC - Soluciones y Mensajes (tab AE_HERO) via script.js -->
+        <div class="ae-slide is-active">
           <div class="ae-lockup">
             <img src="images/logo-acciones-empaticas-gris.png" alt="" class="ae-lockup-mark" width="44" height="36">
             <span class="ae-lockup-word">Acciones Empáticas</span>
@@ -84,9 +72,7 @@
       </div>
 
       <div class="ae-slide-dots" id="aeSlideDots">
-        <button type="button" class="ae-slide-dot is-active" aria-label="Diapositiva 1"></button>
-        <button type="button" class="ae-slide-dot" aria-label="Diapositiva 2"></button>
-        <button type="button" class="ae-slide-dot" aria-label="Diapositiva 3"></button>
+        <!-- Los puntos se generan dinamicamente en script.js segun el numero total de diapositivas -->
       </div>
     </div>
   </div>
@@ -194,8 +180,8 @@
         <h2 style="font-size: var(--fs-h2); margin-bottom: 14px;">Nuestra comunidad de impacto en territorio</h2>
         <p>Las iniciativas de Acciones Empáticas cobran vida gracias a jóvenes, profesionales y líderes locales que se movilizan en campo. Formamos una red territorial comprometida con el desarrollo sostenible, articulando esfuerzos directamente con las comunidades intervenidas.</p>
         <div class="community-actions">
-          <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20sumarme%20como%20voluntario%20en%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-primary">Súmate como voluntario</a>
-          <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20sumarme%20como%20aliado%20de%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-outline">Súmate como aliado</a>
+          <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20sumarme%20como%20voluntario%20en%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-primary" data-wa-key="ae_voluntario">Súmate como voluntario</a>
+          <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20sumarme%20como%20aliado%20de%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-outline" data-wa-key="ae_aliado">Súmate como aliado</a>
         </div>
       </div>
     </div>
@@ -261,7 +247,7 @@
         <h2>¿Quieres financiar o implementar una de nuestras iniciativas en tu zona de influencia?</h2>
         <p>Co-diseñamos y adaptamos nuestros proyectos bandera como parte de la estrategia ASG, RSE o Voluntariado Corporativo de tu empresa.</p>
       </div>
-      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20solicitar%20informaci%C3%B3n%20sobre%20los%20proyectos%20de%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-primary cta-btn">Solicitar información de proyectos</a>
+      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20solicitar%20informaci%C3%B3n%20sobre%20los%20proyectos%20de%20Acciones%20Emp%C3%A1ticas." target="_blank" rel="noopener" class="btn btn-primary cta-btn" data-wa-key="ae_cta_info">Solicitar información de proyectos</a>
     </div>
   </div>
 </section>
@@ -313,6 +299,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>

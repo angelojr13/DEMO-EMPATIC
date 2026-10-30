@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=24">
 <link rel="canonical" href="https://grupoempatic.com/caso-agrovalle.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -25,6 +25,16 @@
 <meta name="twitter:image" content="https://grupoempatic.com/images/logo-empatic.png">
 </head>
 <body>
+
+<div class="empatic-loading-overlay" id="empaticLoadingOverlay" aria-hidden="true">
+  <div class="empatic-loading-spinner"></div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('empaticLoadingOverlay');
+    if (el) el.classList.add('is-hidden');
+  });
+</script>
 
 <header class="nav">
   <div class="nav-inner">
@@ -194,6 +204,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>

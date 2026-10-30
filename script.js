@@ -228,14 +228,20 @@ if (!reduceMotion) {
 })();
 
 /* ---------- Acciones Empáticas: slider automático del hero ---------- */
-(function () {
+function initAeHeroSlider() {
   var slides = document.querySelectorAll('#aeSlides .ae-slide');
-  var dots = document.querySelectorAll('#aeSlideDots .ae-slide-dot');
+  var dotsWrap = document.getElementById('aeSlideDots');
   var prevBtn = document.getElementById('aeSlidePrev');
   var nextBtn = document.getElementById('aeSlideNext');
   var heroBottom = document.getElementById('aeHeroBottom');
   var heroBand = document.querySelector('.ae-hero-band');
-  if (!slides.length) return;
+  if (!slides.length || !dotsWrap) return;
+
+  dotsWrap.innerHTML = Array.prototype.map.call(slides, function (_, i) {
+    return '<button type="button" class="ae-slide-dot' + (i === 0 ? ' is-active' : '') + '" aria-label="Diapositiva ' + (i + 1) + '"></button>';
+  }).join('');
+  slides.forEach(function (s, i) { s.classList.toggle('is-active', i === 0); });
+  var dots = dotsWrap.querySelectorAll('.ae-slide-dot');
 
   var current = 0;
   var timer = null;
@@ -243,7 +249,7 @@ if (!reduceMotion) {
   function applySlideBg(slide) {
     if (!heroBand) return;
     var bg = slide.getAttribute('data-bg');
-    if (bg) heroBand.style.setProperty('--ae-hero-bg', 'url("' + bg + '")');
+    if (bg) empaticSetBackgroundImage(heroBand, bg, '--ae-hero-bg');
     else heroBand.style.removeProperty('--ae-hero-bg');
   }
 
@@ -303,7 +309,7 @@ if (!reduceMotion) {
   }
 
   startAutoplay();
-})();
+}
 
 /* ---------- Negocios Sostenibles: banner flotante + modal de postulación ---------- */
 (function () {
@@ -360,6 +366,26 @@ function empaticImageUrl(link) {
     return 'https://lh3.googleusercontent.com/d/' + driveMatch[1] + '=w600';
   }
   return link;
+}
+
+function empaticSetBackgroundImage(el, url, cssVarName) {
+  if (!el || !url) return;
+  var img = new Image();
+  img.referrerPolicy = 'no-referrer';
+  img.onload = function () {
+    var value = 'url("' + url + '")';
+    if (cssVarName) el.style.setProperty(cssVarName, value);
+    else el.style.backgroundImage = value;
+  };
+  img.src = url;
+}
+
+function empaticApplyBgUrls(container) {
+  if (!container) return;
+  container.querySelectorAll('[data-bg-url]').forEach(function (el) {
+    empaticSetBackgroundImage(el, el.getAttribute('data-bg-url'));
+    el.removeAttribute('data-bg-url');
+  });
 }
 
 function empaticEscapeHtml(str) {
@@ -485,12 +511,35 @@ function initTeamBioBubbles(cards) {
     })
     .catch(function (err) {
       console.error('No se pudo cargar el equipo consultor:', err);
+    })
+    .finally(function () {
+      empaticHideLoadingOverlay();
     });
 })();
 
 /* ---------- Novedades: Podcast, Articulos y Actividades desde Google Sheets ---------- */
-var PODCAST_PAGE_SIZE = 1;
+var PODCAST_PAGE_SIZE = 2;
+var PODCAST_AUTOPLAY_MS = 8000;
 var ARTICULOS_PAGE_SIZE = 3;
+var ACTIVIDADES_PAGE_SIZE = 3;
+var ACTIVIDADES_AUTOPLAY_MS = 8000;
+
+function empaticSlugify(str) {
+  return String(str || '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function empaticItemSlug(parts) {
+  return empaticSlugify(parts.filter(Boolean).join('-'));
+}
+
+function empaticGetSlugParam() {
+  return new URLSearchParams(window.location.search).get('slug') || '';
+}
 
 function empaticFetchTipo(tipo) {
   return fetch(EMPATIC_API + '?tipo=' + tipo)
@@ -500,7 +549,9 @@ function empaticFetchTipo(tipo) {
     });
 }
 
-function initNovedadesCarousel(track, nextBtn, prevBtn) {
+function initNovedadesCarousel(track, nextBtn, prevBtn, options) {
+  options = options || {};
+  var circular = !!options.circular;
   var pages = track.querySelectorAll('.novedades-page').length;
   var current = 0;
   if (pages < 2) {
@@ -509,80 +560,136 @@ function initNovedadesCarousel(track, nextBtn, prevBtn) {
     return;
   }
 
-  function update() {
-    track.style.transform = 'translateX(-' + (current * (100 / pages)) + '%)';
-    prevBtn.hidden = current === 0;
-    nextBtn.hidden = current === pages - 1;
+  if (circular) {
+    nextBtn.hidden = false;
+    prevBtn.hidden = false;
   }
 
-  nextBtn.addEventListener('click', function () {
-    if (current < pages - 1) {
-      current++;
-      update();
+  function update() {
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    if (!circular) {
+      prevBtn.hidden = current === 0;
+      nextBtn.hidden = current === pages - 1;
     }
-  });
+  }
 
-  prevBtn.addEventListener('click', function () {
-    if (current > 0) {
-      current--;
-      update();
+  function goNext() {
+    if (circular) {
+      current = (current + 1) % pages;
+    } else if (current < pages - 1) {
+      current++;
     }
-  });
+    update();
+  }
+
+  function goPrev() {
+    if (circular) {
+      current = (current - 1 + pages) % pages;
+    } else if (current > 0) {
+      current--;
+    }
+    update();
+  }
+
+  var autoplayTimer = null;
+  function resetAutoplay() {
+    if (!options.autoplayMs) return;
+    if (autoplayTimer) clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(goNext, options.autoplayMs);
+  }
+
+  nextBtn.addEventListener('click', function () { goNext(); resetAutoplay(); });
+  prevBtn.addEventListener('click', function () { goPrev(); resetAutoplay(); });
 
   update();
+  resetAutoplay();
+}
+
+function empaticBuildCircularPages(rows, pageSize) {
+  if (rows.length <= pageSize) return [rows];
+  var pages = [];
+  var start = 0;
+  do {
+    var page = [];
+    for (var k = 0; k < pageSize; k++) {
+      page.push(rows[(start + k) % rows.length]);
+    }
+    pages.push(page);
+    start = (start + pageSize) % rows.length;
+  } while (start !== 0);
+  return pages;
 }
 
 function empaticPodcastCardHtml(r) {
   var portada = empaticImageUrl(r.imagen_portada);
-  var mediaStyle = portada ? ' style="background-image: url(\'' + portada + '\');"' : '';
-  var spotify = r.link_spotify
-    ? '<a href="' + empaticEscapeHtml(r.link_spotify) + '" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Escuchar en Spotify</a>'
-    : '';
-  var youtube = r.link_youtube
-    ? '<a href="' + empaticEscapeHtml(r.link_youtube) + '" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ver en YouTube</a>'
-    : '';
+  var mediaAttr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
+  var href = 'podcast-episodio.html?slug=' + encodeURIComponent(empaticItemSlug([r.episodio, r.titulo]));
   return (
-    '<div class="podcast-card">' +
-      '<div class="podcast-card-media"' + mediaStyle + ' aria-hidden="true"></div>' +
+    '<a class="podcast-card" href="' + href + '">' +
+      '<div class="podcast-card-media"' + mediaAttr + ' aria-hidden="true"></div>' +
       '<div class="podcast-card-body">' +
         '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.episodio) + '</span>' +
         '<h3>' + empaticEscapeHtml(r.titulo) + '</h3>' +
         '<p class="podcast-card-guest">' + empaticEscapeHtml(r.invitado) + '</p>' +
         '<p class="podcast-card-desc">' + empaticEscapeHtml(r.descripcion) + '</p>' +
-        '<div class="podcast-card-actions">' + spotify + youtube + '</div>' +
+        '<span class="podcast-card-cta">Ver episodio completo →</span>' +
       '</div>' +
-    '</div>'
+    '</a>'
   );
 }
 
 function empaticArticuloCardHtml(r) {
-  var boton = r.texto_o_link
-    ? '<a href="' + empaticEscapeHtml(r.texto_o_link) + '" class="btn btn-primary btn-sm" target="_blank" rel="noopener">' + empaticEscapeHtml(r.texto_boton || 'Leer más') + '</a>'
-    : '';
+  var miniatura = empaticImageUrl(r.imagen_miniatura);
+  var mediaAttr = miniatura ? ' data-bg-url="' + empaticEscapeHtml(miniatura) + '"' : '';
+  var href = 'articulo.html?slug=' + encodeURIComponent(empaticItemSlug([r.categoria, r.titulo]));
   return (
-    '<div class="card">' +
-      '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.categoria) + '</span>' +
-      '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
-      '<p class="article-card-author">' + empaticEscapeHtml(r.autor) + '</p>' +
-      '<p>' + empaticEscapeHtml(r.descripcion) + '</p>' +
-      boton +
-    '</div>'
+    '<a class="article-card" href="' + href + '">' +
+      '<div class="article-card-media"' + mediaAttr + ' aria-hidden="true"></div>' +
+      '<div class="article-card-body">' +
+        '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.categoria) + '</span>' +
+        '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
+        '<p class="article-card-author">' + empaticEscapeHtml(r.autor) + '</p>' +
+        '<p class="article-card-desc">' + empaticEscapeHtml(r.descripcion) + '</p>' +
+        '<span class="article-card-cta">Leer artículo completo →</span>' +
+      '</div>' +
+    '</a>'
   );
 }
 
 var ACTIVIDAD_BOTON_DEFAULT = {
   webinar: 'Ver Grabación en YouTube',
+  'taller en campo': 'Ver Galería',
   taller: 'Ver Galería',
-  congreso: 'Ver Detalles',
-  foro: 'Ver Detalles'
+  congreso: 'Ver Galería',
+  foro: 'Ver Galería'
 };
+
+function empaticEsWebinar(tipoActividad) {
+  return String(tipoActividad || '').toLowerCase().indexOf('webinar') !== -1;
+}
+
+function empaticYoutubeEmbedUrl(url) {
+  var match = String(url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{6,})/);
+  return match ? 'https://www.youtube.com/embed/' + match[1] : '';
+}
+
+function empaticParseGaleria(str) {
+  return String(str || '').split('||').map(function (s) { return s.trim(); }).filter(Boolean);
+}
+
+function empaticParagraphsHtml(str) {
+  var parts = String(str || '').split(/\n\s*\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+  if (!parts.length) return '';
+  return parts.map(function (p) { return '<p>' + empaticEscapeHtml(p) + '</p>'; }).join('');
+}
 
 function empaticActividadCardHtml(r) {
   var portada = empaticImageUrl(r.imagen_portada);
-  var style = portada ? ' style="background-image: url(\'' + portada + '\');"' : '';
+  var attr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
   var boton = r.texto_boton || ACTIVIDAD_BOTON_DEFAULT[String(r.tipo_actividad || '').toLowerCase()] || 'Ver Detalles';
+  var href = 'actividad.html?slug=' + encodeURIComponent(empaticItemSlug([r.tipo_actividad, r.titulo]));
   return (
-    '<a class="event-item" href="' + empaticEscapeHtml(r.link_destino || '#') + '" target="_blank" rel="noopener"' + style + '>' +
+    '<a class="event-item" href="' + href + '"' + attr + '>' +
       '<span class="event-item-tag">' + empaticEscapeHtml(r.tipo_actividad) + '</span>' +
       '<span class="event-item-title">' + empaticEscapeHtml(r.titulo) + '</span>' +
       '<span class="event-item-cta">' + empaticEscapeHtml(boton) + ' →</span>' +
@@ -601,15 +708,17 @@ function empaticActividadCardHtml(r) {
       track.closest('.novedades-carousel-wrap').style.display = 'none';
       return;
     }
-    var pagesHtml = '';
-    for (var i = 0; i < rows.length; i += PODCAST_PAGE_SIZE) {
-      var pageItems = rows.slice(i, i + PODCAST_PAGE_SIZE);
-      pagesHtml += '<div class="novedades-page podcast-grid">' + pageItems.map(empaticPodcastCardHtml).join('') + '</div>';
-    }
+    var pages = empaticBuildCircularPages(rows, PODCAST_PAGE_SIZE);
+    var pagesHtml = pages.map(function (pageItems) {
+      return '<div class="novedades-page podcast-grid">' + pageItems.map(empaticPodcastCardHtml).join('') + '</div>';
+    }).join('');
     track.innerHTML = pagesHtml;
-    initNovedadesCarousel(track, nextBtn, prevBtn);
+    empaticApplyBgUrls(track);
+    initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true, autoplayMs: PODCAST_AUTOPLAY_MS });
   }).catch(function (err) {
     console.error('No se pudo cargar el podcast:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
   });
 })();
 
@@ -624,27 +733,364 @@ function empaticActividadCardHtml(r) {
       track.closest('.novedades-carousel-wrap').style.display = 'none';
       return;
     }
-    var pagesHtml = '';
-    for (var i = 0; i < rows.length; i += ARTICULOS_PAGE_SIZE) {
-      var pageItems = rows.slice(i, i + ARTICULOS_PAGE_SIZE);
-      pagesHtml += '<div class="novedades-page grid-3">' + pageItems.map(empaticArticuloCardHtml).join('') + '</div>';
-    }
+    var pages = empaticBuildCircularPages(rows, ARTICULOS_PAGE_SIZE);
+    var pagesHtml = pages.map(function (pageItems) {
+      return '<div class="novedades-page grid-3">' + pageItems.map(empaticArticuloCardHtml).join('') + '</div>';
+    }).join('');
     track.innerHTML = pagesHtml;
-    initNovedadesCarousel(track, nextBtn, prevBtn);
+    empaticApplyBgUrls(track);
+    initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true });
   }).catch(function (err) {
     console.error('No se pudieron cargar los artículos:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
   });
 })();
 
 (function () {
-  var gallery = document.getElementById('actividadesGallery');
-  if (!gallery) return;
+  var track = document.getElementById('actividadesTrack');
+  var nextBtn = document.getElementById('actividadesNextBtn');
+  var prevBtn = document.getElementById('actividadesPrevBtn');
+  if (!track || !nextBtn || !prevBtn) return;
 
   empaticFetchTipo('actividades').then(function (rows) {
-    if (!rows.length) return;
-    gallery.innerHTML = rows.map(empaticActividadCardHtml).join('');
+    if (!rows.length) {
+      track.closest('.novedades-carousel-wrap').style.display = 'none';
+      return;
+    }
+    var pages = empaticBuildCircularPages(rows, ACTIVIDADES_PAGE_SIZE);
+    var pagesHtml = pages.map(function (pageItems) {
+      return '<div class="novedades-page event-gallery">' + pageItems.map(empaticActividadCardHtml).join('') + '</div>';
+    }).join('');
+    track.innerHTML = pagesHtml;
+    empaticApplyBgUrls(track);
+    initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true, autoplayMs: ACTIVIDADES_AUTOPLAY_MS });
   }).catch(function (err) {
     console.error('No se pudieron cargar las actividades:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Soluciones: tarjetas de servicio desde Google Sheets ---------- */
+function empaticSolucionCaracteristicasHtml(str) {
+  return String(str || '').split('||').map(function (bullet) {
+    bullet = bullet.trim();
+    if (!bullet) return '';
+    var idx = bullet.indexOf(':');
+    if (idx === -1) return '<li>' + empaticEscapeHtml(bullet) + '</li>';
+    var label = bullet.slice(0, idx).trim();
+    var text = bullet.slice(idx + 1).trim();
+    return '<li><strong>' + empaticEscapeHtml(label) + ':</strong> ' + empaticEscapeHtml(text) + '</li>';
+  }).join('');
+}
+
+function empaticSolucionCardHtml(r) {
+  var numero = ('0' + (r.numero || '')).slice(-2);
+  var portada = empaticImageUrl(r.imagen_fondo);
+  var mediaAttr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
+  var waHref = 'https://wa.me/51974131951?text=' + encodeURIComponent(r.whatsapp_mensaje || '');
+  return (
+    '<div class="sol-card">' +
+      '<div class="sol-card-media"' + mediaAttr + ' aria-hidden="true"></div>' +
+      '<div class="sol-card-body">' +
+        '<div class="sol-title-row">' +
+          '<span class="sol-num">' + empaticEscapeHtml(numero) + '</span>' +
+          '<span class="sol-kicker">' + empaticEscapeHtml(r.kicker) + '</span>' +
+        '</div>' +
+        '<p>' + empaticEscapeHtml(r.descripcion) + '</p>' +
+        '<ul class="sol-feature-list">' + empaticSolucionCaracteristicasHtml(r.caracteristicas) + '</ul>' +
+        '<div class="sol-card-actions">' +
+          '<a href="' + waHref + '" target="_blank" rel="noopener" class="btn sol-btn-accent">' + empaticEscapeHtml(r.boton_texto || 'Conocer más') + '</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+(function () {
+  var grid = document.getElementById('solucionesGrid');
+  if (!grid) return;
+
+  empaticFetchTipo('soluciones').then(function (rows) {
+    if (!rows.length) return;
+    grid.innerHTML = rows.map(empaticSolucionCardHtml).join('');
+    empaticApplyBgUrls(grid);
+  }).catch(function (err) {
+    console.error('No se pudieron cargar las soluciones:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Acciones Empáticas: campañas dinamicas del hero desde Google Sheets ---------- */
+function empaticAeSlideHtml(r) {
+  var bg = empaticImageUrl(r.imagen_fondo);
+  var dataBg = bg ? ' data-bg="' + empaticEscapeHtml(bg) + '"' : '';
+  var href = 'https://wa.me/51974131951?text=' + encodeURIComponent(r.whatsapp_mensaje || '');
+  return (
+    '<div class="ae-slide"' + dataBg + '>' +
+      '<span class="eyebrow">' + empaticEscapeHtml(r.eyebrow) + '</span>' +
+      '<h1>' + empaticEscapeHtml(r.titulo) + '</h1>' +
+      '<p>' + empaticEscapeHtml(r.descripcion) + '</p>' +
+      '<a href="' + href + '" target="_blank" rel="noopener" class="btn btn-primary ae-slide-cta">' + empaticEscapeHtml(r.boton_texto || 'Quiero participar') + '</a>' +
+    '</div>'
+  );
+}
+
+(function () {
+  var slidesContainer = document.getElementById('aeSlides');
+  if (!slidesContainer) return;
+  var staticSlide = slidesContainer.querySelector('.ae-slide');
+
+  empaticFetchTipo('ae_hero').then(function (rows) {
+    if (rows.length && staticSlide) {
+      staticSlide.insertAdjacentHTML('beforebegin', rows.map(empaticAeSlideHtml).join(''));
+    }
+  }).catch(function (err) {
+    console.error('No se pudieron cargar las campañas del hero:', err);
+  }).then(function () {
+    initAeHeroSlider();
+  });
+})();
+
+/* ---------- Mensajes de WhatsApp mantenibles desde Google Sheets (sitewide) ---------- */
+(function () {
+  var elements = document.querySelectorAll('[data-wa-key]');
+  if (!elements.length) return;
+
+  empaticFetchTipo('whatsapp').then(function (rows) {
+    var map = {};
+    rows.forEach(function (r) { map[r.clave] = r.mensaje; });
+    elements.forEach(function (el) {
+      var mensaje = map[el.getAttribute('data-wa-key')];
+      if (mensaje) {
+        el.href = 'https://wa.me/51974131951?text=' + encodeURIComponent(mensaje);
+      }
+    });
+  }).catch(function (err) {
+    console.error('No se pudieron cargar los mensajes de WhatsApp:', err);
+  });
+})();
+
+/* ---------- Paginas propias de detalle: Podcast, Articulo, Actividad ---------- */
+function empaticHideLoadingOverlay() {
+  var el = document.getElementById('empaticLoadingOverlay');
+  if (el) el.classList.add('is-hidden');
+}
+
+function empaticDetalleNotFound(titulo, mensaje) {
+  var elTitulo = document.getElementById('detTitulo');
+  var elDesc = document.getElementById('detDescripcion');
+  var elMedia = document.getElementById('detMedia');
+  var elSidebar = document.getElementById('detSidebar');
+  if (elTitulo) elTitulo.textContent = titulo;
+  if (elDesc) elDesc.textContent = mensaje;
+  if (elMedia) elMedia.style.display = 'none';
+  if (elSidebar) elSidebar.style.display = 'none';
+}
+
+(function () {
+  var container = document.getElementById('podcastDetalle');
+  if (!container) return;
+  var slug = empaticGetSlugParam();
+
+  empaticFetchTipo('podcast').then(function (rows) {
+    var r = rows.filter(function (row) { return empaticItemSlug([row.episodio, row.titulo]) === slug; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Episodio no encontrado', 'Es posible que este episodio ya no esté disponible. Vuelve a Novedades para ver los episodios activos.');
+      return;
+    }
+    document.title = r.titulo + ' | Podcast | EMPATIC';
+    document.getElementById('detEyebrow').textContent = 'Podcast · ' + (r.episodio || '');
+    document.getElementById('detTitulo').textContent = r.titulo;
+    document.getElementById('detInvitado').textContent = r.invitado;
+    document.getElementById('detDescripcion').textContent = r.descripcion_completa || r.descripcion;
+    var bioBlock = document.getElementById('detInvitadoBioBlock');
+    if (bioBlock) {
+      if (r.invitado_bio) {
+        document.getElementById('detInvitadoBio').textContent = r.invitado_bio;
+        bioBlock.style.display = '';
+      } else {
+        bioBlock.style.display = 'none';
+      }
+    }
+    var portada = empaticImageUrl(r.imagen_portada);
+    if (portada) empaticSetBackgroundImage(document.getElementById('detMedia'), portada);
+    var spotify = r.link_spotify
+      ? '<a href="' + empaticEscapeHtml(r.link_spotify) + '" target="_blank" rel="noopener" class="btn btn-primary">Escuchar en Spotify</a>'
+      : '';
+    var youtube = r.link_youtube
+      ? '<a href="' + empaticEscapeHtml(r.link_youtube) + '" target="_blank" rel="noopener" class="btn btn-outline">Ver en YouTube</a>'
+      : '';
+    document.getElementById('detSidebar').innerHTML =
+      '<h4>Escucha o mira el episodio</h4><div class="case-sidebar-actions">' + spotify + youtube + '</div>';
+  }).catch(function (err) {
+    console.error('No se pudo cargar el episodio:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+(function () {
+  var container = document.getElementById('articuloDetalle');
+  if (!container) return;
+  var slug = empaticGetSlugParam();
+
+  empaticFetchTipo('articulos').then(function (rows) {
+    var r = rows.filter(function (row) { return empaticItemSlug([row.categoria, row.titulo]) === slug; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Artículo no encontrado', 'Es posible que este artículo ya no esté disponible. Vuelve a Novedades para ver los artículos activos.');
+      return;
+    }
+    document.title = r.titulo + ' | Artículos | EMPATIC';
+    document.getElementById('detEyebrow').textContent = 'Artículo · ' + (r.categoria || '');
+    document.getElementById('detTitulo').textContent = r.titulo;
+    document.getElementById('detInvitado').textContent = r.autor;
+    document.getElementById('detDescripcion').innerHTML = empaticParagraphsHtml(r.descripcion_completa || r.descripcion);
+    var media = document.getElementById('detMedia');
+    var miniatura = empaticImageUrl(r.imagen_miniatura);
+    if (media && miniatura) {
+      media.style.display = '';
+      empaticSetBackgroundImage(media, miniatura);
+    }
+    var fuente = r.texto_o_link
+      ? '<a href="' + empaticEscapeHtml(r.texto_o_link) + '" target="_blank" rel="noopener" class="btn btn-primary">' + empaticEscapeHtml(r.texto_boton || 'Ver fuente original') + '</a>'
+      : '';
+    document.getElementById('detSidebar').innerHTML =
+      '<h4>Fuente</h4><div class="case-sidebar-actions">' + fuente + '</div>';
+  }).catch(function (err) {
+    console.error('No se pudo cargar el artículo:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+(function () {
+  var container = document.getElementById('actividadDetalle');
+  if (!container) return;
+  var slug = empaticGetSlugParam();
+
+  empaticFetchTipo('actividades').then(function (rows) {
+    var r = rows.filter(function (row) { return empaticItemSlug([row.tipo_actividad, row.titulo]) === slug; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Actividad no encontrada', 'Es posible que esta actividad ya no esté disponible. Vuelve a Novedades para ver las actividades activas.');
+      return;
+    }
+    document.title = r.titulo + ' | Actividades | EMPATIC';
+    document.getElementById('detEyebrow').textContent = 'Actividad · ' + (r.tipo_actividad || '');
+    document.getElementById('detTitulo').textContent = r.titulo;
+    var elInvitado = document.getElementById('detInvitado');
+    if (elInvitado) {
+      if (r.lugar_o_organizador) {
+        elInvitado.textContent = r.lugar_o_organizador;
+        elInvitado.style.display = '';
+      } else {
+        elInvitado.style.display = 'none';
+      }
+    }
+    document.getElementById('detDescripcion').textContent = r.descripcion || '';
+
+    var media = document.getElementById('detMedia');
+    var embedWrap = document.getElementById('detVideoEmbed');
+    var galeria = document.getElementById('detGaleria');
+    var esWebinar = empaticEsWebinar(r.tipo_actividad);
+    var embedUrl = esWebinar ? empaticYoutubeEmbedUrl(r.link_destino) : '';
+    var fotos = esWebinar ? [] : empaticParseGaleria(r.imagenes_galeria);
+
+    if (embedUrl) {
+      embedWrap.innerHTML = '<iframe src="' + embedUrl + '" title="' + empaticEscapeHtml(r.titulo) + '" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+      embedWrap.style.display = '';
+      media.style.display = 'none';
+      galeria.style.display = 'none';
+    } else if (fotos.length) {
+      galeria.innerHTML = fotos.map(function (link) {
+        var url = empaticImageUrl(link);
+        return '<a class="gallery-photo" href="' + empaticEscapeHtml(url) + '" target="_blank" rel="noopener" data-bg-url="' + empaticEscapeHtml(url) + '" aria-label="Ver foto completa de ' + empaticEscapeHtml(r.titulo) + '"></a>';
+      }).join('');
+      empaticApplyBgUrls(galeria);
+      galeria.style.display = '';
+      embedWrap.style.display = 'none';
+      media.style.display = 'none';
+    } else {
+      var portada = empaticImageUrl(r.imagen_portada);
+      embedWrap.style.display = 'none';
+      galeria.style.display = 'none';
+      if (portada) {
+        media.style.display = '';
+        empaticSetBackgroundImage(media, portada);
+      } else {
+        media.style.display = 'none';
+      }
+    }
+
+    var boton = r.texto_boton || ACTIVIDAD_BOTON_DEFAULT[String(r.tipo_actividad || '').toLowerCase()] || 'Ver Detalles';
+    var botonLink = embedUrl ? 'Ver en YouTube' : boton;
+    var link = r.link_destino
+      ? '<a href="' + empaticEscapeHtml(r.link_destino) + '" target="_blank" rel="noopener" class="btn ' + (embedUrl ? 'btn-outline' : 'btn-primary') + '">' + empaticEscapeHtml(botonLink) + '</a>'
+      : '';
+    document.getElementById('detSidebar').innerHTML =
+      '<h4>Más información</h4><div class="case-sidebar-actions">' + link + '</div>';
+  }).catch(function (err) {
+    console.error('No se pudo cargar la actividad:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Negocios Sostenibles: carrusel de empresas desde Google Sheets ---------- */
+var BIZ_LOGO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+
+function empaticBizCardHtml(r, hidden) {
+  var tag = r.slug ? 'Caso destacado' : 'Próximamente';
+  var portada = empaticImageUrl(r.imagen_portada);
+  var cls = 'biz-card-mini' + (portada ? ' biz-card-mini--photo' : '');
+  var bgAttr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
+  var hiddenAttrs = hidden ? ' aria-hidden="true" tabindex="-1"' : '';
+  var inner =
+    '<div class="biz-card-top">' +
+      '<div class="biz-card-logo" aria-hidden="true">' + BIZ_LOGO_SVG + '</div>' +
+      '<span class="biz-card-tag">' + empaticEscapeHtml(tag) + '</span>' +
+    '</div>' +
+    '<span class="biz-card-sector">' + empaticEscapeHtml(r.sector) + '</span>' +
+    '<h4>' + empaticEscapeHtml(r.nombre) + '</h4>' +
+    '<p>' + empaticEscapeHtml(r.resumen) + '</p>';
+  if (r.slug) {
+    return '<a href="caso-' + encodeURIComponent(r.slug) + '.html" class="' + cls + '"' + bgAttr + hiddenAttrs + '>' + inner + '</a>';
+  }
+  return '<div class="' + cls + '"' + bgAttr + hiddenAttrs + '>' + inner + '</div>';
+}
+
+(function () {
+  var tracks = [
+    document.getElementById('bizTrack1'),
+    document.getElementById('bizTrack2'),
+    document.getElementById('bizTrack3')
+  ];
+  if (!tracks[0] || !tracks[1] || !tracks[2]) return;
+
+  empaticFetchTipo('negocios').then(function (rows) {
+    if (!rows.length) {
+      tracks.forEach(function (t) { t.closest('.biz-row').style.display = 'none'; });
+      return;
+    }
+    var groups = [[], [], []];
+    rows.forEach(function (r, i) { groups[i % 3].push(r); });
+    groups.forEach(function (group, idx) {
+      var track = tracks[idx];
+      if (!group.length) {
+        track.closest('.biz-row').style.display = 'none';
+        return;
+      }
+      var visible = group.map(function (r) { return empaticBizCardHtml(r, false); }).join('');
+      var duplicate = group.map(function (r) { return empaticBizCardHtml(r, true); }).join('');
+      track.innerHTML = visible + duplicate;
+      empaticApplyBgUrls(track);
+    });
+  }).catch(function (err) {
+    console.error('No se pudieron cargar los negocios:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
   });
 })();
 
