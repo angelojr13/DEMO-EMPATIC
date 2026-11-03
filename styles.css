@@ -3385,18 +3385,17 @@ section {
 /* ---------- Floating social icons ---------- */
 .social-float {
   position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 94px;
+  right: 20px;
   z-index: 190;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .social-float a {
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: var(--dark-teal);
   border: 1px solid rgba(246, 236, 215, 0.2);
@@ -3410,7 +3409,7 @@ section {
 .social-float a:hover {
   background: var(--yellow);
   border-color: var(--yellow);
-  transform: translateX(4px);
+  transform: translateY(4px);
 }
 
 .social-float a:hover svg {
@@ -3418,25 +3417,26 @@ section {
 }
 
 .social-float svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   stroke: var(--white);
 }
 
 @media (max-width: 640px) {
   .social-float {
-    left: 10px;
+    top: 82px;
+    right: 10px;
     gap: 8px;
   }
 
   .social-float a {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 
   .social-float svg {
-    width: 17px;
-    height: 17px;
+    width: 19px;
+    height: 19px;
   }
 }
 
@@ -3961,6 +3961,7 @@ section {
 .podcast-card {
   display: flex;
   flex-direction: column;
+  aspect-ratio: 1 / 1;
   background: linear-gradient(160deg, var(--dark-teal-2) 0%, var(--dark-teal) 100%);
   border: 1px solid rgba(246, 236, 215, 0.12);
   border-radius: var(--radius-lg);
@@ -3971,16 +3972,20 @@ section {
 .podcast-card-link {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
   text-decoration: none;
   color: inherit;
 }
 
 .podcast-card-media {
-  aspect-ratio: 1 / 1;
+  flex: 1;
+  min-height: 0;
   background: linear-gradient(160deg, var(--dark-teal-2) 0%, var(--dark-teal) 100%) center / cover no-repeat;
 }
 
 .podcast-card-top {
+  flex-shrink: 0;
   padding: 14px 18px 0;
 }
 
