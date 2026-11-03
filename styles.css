@@ -4156,15 +4156,6 @@ section {
 .podcast-card {
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  transform: translateZ(0);
-  will-change: transform;
-  contain: paint;
-}
-
-.podcast-card:hover {
-  box-shadow: var(--shadow-md, 0 10px 28px rgba(0,0,0,.1));
-  transform: translateZ(0) scale(1.035);
 }
 
 .podcast-card-cta {
@@ -4184,15 +4175,6 @@ section {
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  transform: translateZ(0);
-  will-change: transform;
-  contain: paint;
-}
-
-.article-card:hover {
-  box-shadow: var(--shadow-md, 0 10px 28px rgba(0,0,0,.1));
-  transform: translateZ(0) scale(1.035);
 }
 
 .article-card-media {
