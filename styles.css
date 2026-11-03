@@ -1374,6 +1374,9 @@ section {
   background-size: cover;
   background-position: center;
   transition: transform 0.4s ease;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
 }
 
 .photo-grid .ph:nth-child(1) { background-image: url("images/campo-agua-monitoreo.jpg"); }
@@ -1383,7 +1386,7 @@ section {
 .photo-grid .ph:nth-child(5) { background-image: url("images/handshake.jpg"); }
 
 .photo-grid .ph:hover {
-  transform: scale(1.03);
+  transform: translateZ(0) scale(1.03);
 }
 
 .photo-grid .ph.wide {
@@ -3410,7 +3413,8 @@ section {
   width: 24px;
   height: 24px;
   stroke: var(--white);
-  transition: stroke 0.2s ease;
+  color: var(--white);
+  transition: stroke 0.2s ease, color 0.2s ease;
 }
 
 .social-float.is-on-dark a {
@@ -3420,6 +3424,7 @@ section {
 
 .social-float.is-on-dark svg {
   stroke: var(--dark-teal);
+  color: var(--dark-teal);
 }
 
 .social-float a:hover {
@@ -3430,6 +3435,7 @@ section {
 
 .social-float a:hover svg {
   stroke: var(--dark-teal) !important;
+  color: var(--dark-teal) !important;
 }
 
 @media (max-width: 640px) {
@@ -3956,6 +3962,11 @@ section {
   gap: 46px;
 }
 
+.novedades-page.grid-3,
+.novedades-page.event-gallery {
+  gap: 46px;
+}
+
 @media (max-width: 980px) {
   .podcast-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -4303,10 +4314,13 @@ section {
   background: var(--bg-tint) center / cover no-repeat;
   box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
 }
 
 .gallery-photo:hover {
-  transform: scale(1.03);
+  transform: translateZ(0) scale(1.03);
   box-shadow: var(--shadow-md, 0 10px 28px rgba(0,0,0,.14));
 }
 
