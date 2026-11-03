@@ -209,6 +209,30 @@ if (!reduceMotion) {
     '<a href="#" aria-label="Spotify (Podcast)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M7 10.5c3-1 7-.6 9.5.9M7.3 13.6c2.4-.8 5.6-.5 7.7.7M7.6 16.4c2-.6 4.4-.4 6 .5"/></svg></a>' +
     '<a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" stroke="none"/></svg></a>';
   document.body.appendChild(wrap);
+
+  var DARK_BG_SELECTOR = '.section-dark, .page-header, .hero, .case-hero, .ae-hero-band, .academy-access-bar, .course-hero-form, .site-footer';
+  var ticking = false;
+
+  function updateSocialFloatTheme() {
+    ticking = false;
+    var rect = wrap.getBoundingClientRect();
+    var x = Math.max(0, rect.left - 16);
+    var y = rect.top + rect.height / 2;
+    var el = document.elementFromPoint(x, y);
+    var isDark = !!(el && el.closest(DARK_BG_SELECTOR));
+    wrap.classList.toggle('is-on-dark', isDark);
+  }
+
+  function requestSocialFloatUpdate() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateSocialFloatTheme);
+    }
+  }
+
+  window.addEventListener('scroll', requestSocialFloatUpdate, { passive: true });
+  window.addEventListener('resize', requestSocialFloatUpdate);
+  updateSocialFloatTheme();
 })();
 
 /* ---------- Cookie consent banner ---------- */

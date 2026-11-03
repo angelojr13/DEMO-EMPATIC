@@ -895,13 +895,13 @@ section {
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 34px;
 }
 
 .grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 30px;
 }
 
 .card {
@@ -1185,7 +1185,7 @@ section {
 .solutions-teaser {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 30px;
   margin-bottom: 44px;
 }
 
@@ -1598,7 +1598,7 @@ section {
 .event-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 28px;
 }
 
 .event-item {
@@ -1876,7 +1876,7 @@ section {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  gap: 26px;
 }
 
 .team-card {
@@ -2317,7 +2317,7 @@ section {
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 30px;
 }
 
 .program-card {
@@ -3406,20 +3406,30 @@ section {
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.social-float a:hover {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  transform: translateY(4px);
-}
-
-.social-float a:hover svg {
-  stroke: var(--dark-teal);
-}
-
 .social-float svg {
   width: 24px;
   height: 24px;
   stroke: var(--white);
+  transition: stroke 0.2s ease;
+}
+
+.social-float.is-on-dark a {
+  background: var(--white);
+  border-color: rgba(13, 59, 64, 0.14);
+}
+
+.social-float.is-on-dark svg {
+  stroke: var(--dark-teal);
+}
+
+.social-float a:hover {
+  background: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  transform: translateY(4px);
+}
+
+.social-float a:hover svg {
+  stroke: var(--dark-teal) !important;
 }
 
 @media (max-width: 640px) {
@@ -3943,7 +3953,7 @@ section {
 .podcast-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 46px;
 }
 
 @media (max-width: 980px) {
