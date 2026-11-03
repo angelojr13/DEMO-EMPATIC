@@ -3388,11 +3388,11 @@ section {
 /* ---------- Floating social icons ---------- */
 .social-float {
   position: fixed;
-  top: 94px;
-  right: 20px;
+  bottom: 22px;
+  left: 20px;
   z-index: 190;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 12px;
 }
 
@@ -3430,7 +3430,7 @@ section {
 .social-float a:hover {
   background: var(--yellow) !important;
   border-color: var(--yellow) !important;
-  transform: translateY(4px);
+  transform: translateY(-4px);
 }
 
 .social-float a:hover svg {
@@ -3440,8 +3440,8 @@ section {
 
 @media (max-width: 640px) {
   .social-float {
-    top: 82px;
-    right: 10px;
+    bottom: 14px;
+    left: 10px;
     gap: 8px;
   }
 
