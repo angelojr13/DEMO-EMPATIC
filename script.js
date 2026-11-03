@@ -397,6 +397,8 @@ function empaticEscapeHtml(str) {
 }
 
 var LINKEDIN_ICON_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002ZM7 8.48H3V21h4V8.48Zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-3.96 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.68-2.91V8.48Z"/></svg>';
+var SPOTIFY_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 10c4-1.5 8-1.5 12 0M6.5 13.3c3.5-1.1 7-1.1 11 0M7 16.5c2.8-.8 5.5-.8 8 0"/></svg>';
+var YOUTUBE_ICON_SVG = '<svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor"/></svg>';
 
 function empaticTeamCardHtml(c) {
   var bio = empaticEscapeHtml(c.bio);
@@ -518,7 +520,7 @@ function initTeamBioBubbles(cards) {
 })();
 
 /* ---------- Novedades: Podcast, Articulos y Actividades desde Google Sheets ---------- */
-var PODCAST_PAGE_SIZE = 2;
+var PODCAST_PAGE_SIZE = 3;
 var PODCAST_AUTOPLAY_MS = 8000;
 var ARTICULOS_PAGE_SIZE = 3;
 var ACTIVIDADES_PAGE_SIZE = 3;
@@ -557,7 +559,7 @@ function initNovedadesCarousel(track, nextBtn, prevBtn, options) {
   if (pages < 2) {
     nextBtn.hidden = true;
     prevBtn.hidden = true;
-    return;
+    return { stop: function () {} };
   }
 
   if (circular) {
@@ -597,12 +599,17 @@ function initNovedadesCarousel(track, nextBtn, prevBtn, options) {
     if (autoplayTimer) clearInterval(autoplayTimer);
     autoplayTimer = setInterval(goNext, options.autoplayMs);
   }
+  function stop() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
 
   nextBtn.addEventListener('click', function () { goNext(); resetAutoplay(); });
   prevBtn.addEventListener('click', function () { goPrev(); resetAutoplay(); });
 
   update();
   resetAutoplay();
+  return { stop: stop };
 }
 
 function empaticBuildCircularPages(rows, pageSize) {
@@ -624,17 +631,55 @@ function empaticPodcastCardHtml(r) {
   var portada = empaticImageUrl(r.imagen_portada);
   var mediaAttr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
   var href = 'podcast-episodio.html?slug=' + encodeURIComponent(empaticItemSlug([r.episodio, r.titulo]));
+  var spotify = r.link_spotify
+    ? '<a href="' + empaticEscapeHtml(r.link_spotify) + '" target="_blank" rel="noopener" class="podcast-icon-btn podcast-icon-btn--spotify" aria-label="Escuchar en Spotify">' + SPOTIFY_ICON_SVG + '</a>'
+    : '';
+  var youtube = r.link_youtube
+    ? '<a href="' + empaticEscapeHtml(r.link_youtube) + '" target="_blank" rel="noopener" class="podcast-icon-btn podcast-icon-btn--youtube" aria-label="Ver en YouTube">' + YOUTUBE_ICON_SVG + '</a>'
+    : '';
   return (
-    '<a class="podcast-card" href="' + href + '">' +
-      '<div class="podcast-card-media"' + mediaAttr + ' aria-hidden="true"></div>' +
-      '<div class="podcast-card-body">' +
-        '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.episodio) + '</span>' +
-        '<h3>' + empaticEscapeHtml(r.titulo) + '</h3>' +
-        '<p class="podcast-card-guest">' + empaticEscapeHtml(r.invitado) + '</p>' +
-        '<p class="podcast-card-desc">' + empaticEscapeHtml(r.descripcion) + '</p>' +
-        '<span class="podcast-card-cta">Ver episodio completo →</span>' +
+    '<div class="podcast-card">' +
+      '<a class="podcast-card-link" href="' + href + '">' +
+        '<div class="podcast-card-media"' + mediaAttr + ' aria-hidden="true"></div>' +
+        '<div class="podcast-card-top">' +
+          '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.episodio) + '</span>' +
+          '<h3>' + empaticEscapeHtml(r.titulo) + '</h3>' +
+          '<p class="podcast-card-guest">' + empaticEscapeHtml(r.invitado) + '</p>' +
+        '</div>' +
+      '</a>' +
+      '<div class="podcast-card-actions">' +
+        '<a class="podcast-card-ver" href="' + href + '">Ver Episodio</a>' +
+        '<div class="podcast-card-icons">' + spotify + youtube + '</div>' +
       '</div>' +
-    '</a>'
+    '</div>'
+  );
+}
+
+function empaticPodcastListItemHtml(r) {
+  var portada = empaticImageUrl(r.imagen_portada);
+  var mediaAttr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
+  var href = 'podcast-episodio.html?slug=' + encodeURIComponent(empaticItemSlug([r.episodio, r.titulo]));
+  var spotify = r.link_spotify
+    ? '<a href="' + empaticEscapeHtml(r.link_spotify) + '" target="_blank" rel="noopener" class="podcast-icon-btn podcast-icon-btn--spotify" aria-label="Escuchar en Spotify">' + SPOTIFY_ICON_SVG + '</a>'
+    : '';
+  var youtube = r.link_youtube
+    ? '<a href="' + empaticEscapeHtml(r.link_youtube) + '" target="_blank" rel="noopener" class="podcast-icon-btn podcast-icon-btn--youtube" aria-label="Ver en YouTube">' + YOUTUBE_ICON_SVG + '</a>'
+    : '';
+  return (
+    '<div class="podcast-list-item">' +
+      '<a class="podcast-list-link" href="' + href + '">' +
+        '<div class="podcast-list-thumb"' + mediaAttr + ' aria-hidden="true"></div>' +
+        '<div class="podcast-list-info">' +
+          '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.episodio) + '</span>' +
+          '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
+          '<p>' + empaticEscapeHtml(r.invitado) + '</p>' +
+        '</div>' +
+      '</a>' +
+      '<div class="podcast-list-actions">' +
+        '<a class="podcast-list-ver" href="' + href + '">Ver Episodio</a>' +
+        '<div class="podcast-card-icons">' + spotify + youtube + '</div>' +
+      '</div>' +
+    '</div>'
   );
 }
 
@@ -649,7 +694,6 @@ function empaticArticuloCardHtml(r) {
         '<span class="article-card-tag article-card-tag--ready">' + empaticEscapeHtml(r.categoria) + '</span>' +
         '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
         '<p class="article-card-author">' + empaticEscapeHtml(r.autor) + '</p>' +
-        '<p class="article-card-desc">' + empaticEscapeHtml(r.descripcion) + '</p>' +
         '<span class="article-card-cta">Leer artículo completo →</span>' +
       '</div>' +
     '</a>'
@@ -686,13 +730,12 @@ function empaticParagraphsHtml(str) {
 function empaticActividadCardHtml(r) {
   var portada = empaticImageUrl(r.imagen_portada);
   var attr = portada ? ' data-bg-url="' + empaticEscapeHtml(portada) + '"' : '';
-  var boton = r.texto_boton || ACTIVIDAD_BOTON_DEFAULT[String(r.tipo_actividad || '').toLowerCase()] || 'Ver Detalles';
   var href = 'actividad.html?slug=' + encodeURIComponent(empaticItemSlug([r.tipo_actividad, r.titulo]));
   return (
     '<a class="event-item" href="' + href + '"' + attr + '>' +
       '<span class="event-item-tag">' + empaticEscapeHtml(r.tipo_actividad) + '</span>' +
       '<span class="event-item-title">' + empaticEscapeHtml(r.titulo) + '</span>' +
-      '<span class="event-item-cta">' + empaticEscapeHtml(boton) + ' →</span>' +
+      '<span class="event-item-cta">Ver más →</span>' +
     '</a>'
   );
 }
@@ -701,11 +744,16 @@ function empaticActividadCardHtml(r) {
   var track = document.getElementById('podcastTrack');
   var nextBtn = document.getElementById('podcastNextBtn');
   var prevBtn = document.getElementById('podcastPrevBtn');
+  var verTodosBtn = document.getElementById('podcastVerTodosBtn');
+  var modalOverlay = document.getElementById('podcastModalOverlay');
+  var modalClose = document.getElementById('podcastModalClose');
+  var modalGrid = document.getElementById('podcastModalGrid');
   if (!track || !nextBtn || !prevBtn) return;
 
   empaticFetchTipo('podcast').then(function (rows) {
     if (!rows.length) {
       track.closest('.novedades-carousel-wrap').style.display = 'none';
+      if (verTodosBtn) verTodosBtn.closest('.novedades-ver-todos').style.display = 'none';
       return;
     }
     var pages = empaticBuildCircularPages(rows, PODCAST_PAGE_SIZE);
@@ -715,6 +763,29 @@ function empaticActividadCardHtml(r) {
     track.innerHTML = pagesHtml;
     empaticApplyBgUrls(track);
     initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true, autoplayMs: PODCAST_AUTOPLAY_MS });
+
+    if (verTodosBtn) {
+      if (!modalOverlay || !modalGrid) {
+        verTodosBtn.closest('.novedades-ver-todos').style.display = 'none';
+      } else {
+        function openModal() {
+          modalGrid.innerHTML = rows.map(empaticPodcastListItemHtml).join('');
+          empaticApplyBgUrls(modalGrid);
+          modalOverlay.classList.add('is-open');
+        }
+        function closeModal() {
+          modalOverlay.classList.remove('is-open');
+        }
+        verTodosBtn.addEventListener('click', openModal);
+        if (modalClose) modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function (e) {
+          if (e.target === modalOverlay) closeModal();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && modalOverlay.classList.contains('is-open')) closeModal();
+        });
+      }
+    }
   }).catch(function (err) {
     console.error('No se pudo cargar el podcast:', err);
   }).finally(function () {
@@ -851,6 +922,8 @@ function empaticAeSlideHtml(r) {
     console.error('No se pudieron cargar las campañas del hero:', err);
   }).then(function () {
     initAeHeroSlider();
+  }).finally(function () {
+    empaticHideLoadingOverlay();
   });
 })();
 
@@ -1089,6 +1162,49 @@ function empaticBizCardHtml(r, hidden) {
     });
   }).catch(function (err) {
     console.error('No se pudieron cargar los negocios:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Acciones Empaticas: carrusel de actividades realizadas (tab AE_ACTIVIDADES) ---------- */
+var AE_ACTIVIDADES_PAGE_SIZE = 3;
+var AE_ACTIVIDADES_AUTOPLAY_MS = 8000;
+
+function empaticAeActividadCardHtml(r) {
+  var foto = empaticImageUrl(r.foto);
+  var attr = foto ? ' data-bg-url="' + empaticEscapeHtml(foto) + '"' : '';
+  var tag = r.fecha || r.lugar || '';
+  return (
+    '<div class="event-item"' + attr + '>' +
+      (tag ? '<span class="event-item-tag">' + empaticEscapeHtml(tag) + '</span>' : '') +
+      '<span class="event-item-title">' + empaticEscapeHtml(r.titulo) + '</span>' +
+    '</div>'
+  );
+}
+
+(function () {
+  var section = document.getElementById('ae-actividades-section');
+  var track = document.getElementById('aeActividadesTrack');
+  var nextBtn = document.getElementById('aeActividadesNextBtn');
+  var prevBtn = document.getElementById('aeActividadesPrevBtn');
+  if (!section || !track || !nextBtn || !prevBtn) return;
+
+  empaticFetchTipo('ae_actividades').then(function (rows) {
+    if (!rows.length) {
+      section.style.display = 'none';
+      return;
+    }
+    var pages = empaticBuildCircularPages(rows, AE_ACTIVIDADES_PAGE_SIZE);
+    var pagesHtml = pages.map(function (pageItems) {
+      return '<div class="novedades-page event-gallery">' + pageItems.map(empaticAeActividadCardHtml).join('') + '</div>';
+    }).join('');
+    track.innerHTML = pagesHtml;
+    empaticApplyBgUrls(track);
+    initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true, autoplayMs: AE_ACTIVIDADES_AUTOPLAY_MS });
+  }).catch(function (err) {
+    console.error('No se pudieron cargar las actividades de Acciones Empáticas:', err);
+    section.style.display = 'none';
   }).finally(function () {
     empaticHideLoadingOverlay();
   });
