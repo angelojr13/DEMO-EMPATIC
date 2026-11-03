@@ -730,7 +730,7 @@ section {
   margin: 24px auto 0;
   padding: 10px 20px;
   border-radius: var(--radius-pill);
-  background: #000000;
+  background: var(--teal);
   color: var(--white);
   font-weight: 700;
   font-size: 0.9rem;
@@ -739,6 +739,7 @@ section {
 }
 
 .ae-tiktok-badge:hover {
+  background: var(--teal-deep);
   transform: translateY(-2px);
 }
 
@@ -1360,6 +1361,10 @@ section {
 .about-copy p {
   color: var(--ink-soft);
   margin-bottom: 18px;
+}
+
+.section-dark .about-copy p {
+  color: var(--text-on-dark);
 }
 
 .mv-grid {
