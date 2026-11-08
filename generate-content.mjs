@@ -433,6 +433,7 @@ async function main() {
     console.log('Generado: podcast-' + row.slug + '.html');
   }
   for (const row of cursos) {
+    if (!row.slug) continue; // fichas "Próximamente" sin página de detalle
     writeFileSync(`curso-${row.slug}.html`, cursoPage(row));
     console.log('Generado: curso-' + row.slug + '.html');
   }
