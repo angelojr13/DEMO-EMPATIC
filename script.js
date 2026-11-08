@@ -1078,6 +1078,53 @@ function empaticDetalleNotFound(titulo, mensaje) {
   var container = document.getElementById('actividadDetalle');
   if (!container) return;
   var slug = empaticGetSlugParam();
+  var tipo = new URLSearchParams(window.location.search).get('tipo') === 'ae_actividades' ? 'ae_actividades' : 'actividades';
+
+  if (tipo === 'ae_actividades') {
+    var backLink = document.getElementById('detBackLink');
+    if (backLink) {
+      backLink.href = 'acciones-empaticas.html';
+      backLink.textContent = '← Volver a Acciones Empáticas';
+    }
+
+    empaticFetchTipo('ae_actividades').then(function (rows) {
+      var r = rows.filter(function (row) { return empaticItemSlug([row.fecha, row.titulo]) === slug; })[0];
+      if (!r) {
+        empaticDetalleNotFound('Actividad no encontrada', 'Es posible que esta actividad ya no esté disponible. Vuelve a Acciones Empáticas para ver las actividades activas.');
+        return;
+      }
+      document.title = r.titulo + ' | Acciones Empáticas | EMPATIC';
+      document.getElementById('detEyebrow').textContent = 'Acción Empática' + (r.lugar ? ' · ' + r.lugar : '');
+      document.getElementById('detTitulo').textContent = r.titulo;
+      var elInvitado = document.getElementById('detInvitado');
+      if (elInvitado) {
+        if (r.fecha) {
+          elInvitado.textContent = r.fecha;
+          elInvitado.style.display = '';
+        } else {
+          elInvitado.style.display = 'none';
+        }
+      }
+      document.getElementById('detDescripcion').textContent = r.descripcion || '';
+
+      var media = document.getElementById('detMedia');
+      document.getElementById('detVideoEmbed').style.display = 'none';
+      document.getElementById('detGaleria').style.display = 'none';
+      var portada = empaticImageUrl(r.foto);
+      if (portada) {
+        media.style.display = '';
+        empaticSetBackgroundImage(media, portada);
+      } else {
+        media.style.display = 'none';
+      }
+      document.getElementById('detSidebar').style.display = 'none';
+    }).catch(function (err) {
+      console.error('No se pudo cargar la acción empática:', err);
+    }).finally(function () {
+      empaticHideLoadingOverlay();
+    });
+    return;
+  }
 
   empaticFetchTipo('actividades').then(function (rows) {
     var r = rows.filter(function (row) { return empaticItemSlug([row.tipo_actividad, row.titulo]) === slug; })[0];
@@ -1210,11 +1257,14 @@ function empaticAeActividadCardHtml(r) {
   var foto = empaticImageUrl(r.foto);
   var attr = foto ? ' data-bg-url="' + empaticEscapeHtml(foto) + '"' : '';
   var tag = r.fecha || r.lugar || '';
+  var slug = empaticItemSlug([r.fecha, r.titulo]);
+  var href = 'actividad.html?tipo=ae_actividades&slug=' + encodeURIComponent(slug);
   return (
-    '<div class="event-item"' + attr + '>' +
+    '<a href="' + href + '" class="event-item"' + attr + '>' +
       (tag ? '<span class="event-item-tag">' + empaticEscapeHtml(tag) + '</span>' : '') +
       '<span class="event-item-title">' + empaticEscapeHtml(r.titulo) + '</span>' +
-    '</div>'
+      '<span class="event-item-cta">Ver más →</span>' +
+    '</a>'
   );
 }
 
@@ -1324,6 +1374,8 @@ function empaticCursoCardHtml(r) {
     initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true });
   }).catch(function (err) {
     console.error('No se pudieron cargar los cursos de Empatic Academy:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
   });
 })();
 
