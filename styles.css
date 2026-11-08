@@ -3880,17 +3880,6 @@ section {
   transform: translateY(-4px);
 }
 
-.course-hero-form::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: var(--yellow);
-}
-
 .course-discount-banner {
   margin: -32px -30px 18px;
   padding: 12px 20px;
@@ -4028,6 +4017,8 @@ section {
 @media (max-width: 1080px) {
   .course-hero-photo-inner {
     grid-template-columns: 1fr;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .course-hero-form {
