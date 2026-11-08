@@ -560,6 +560,7 @@ var PODCAST_AUTOPLAY_MS = 8000;
 var ARTICULOS_PAGE_SIZE = 3;
 var ACTIVIDADES_PAGE_SIZE = 3;
 var ACTIVIDADES_AUTOPLAY_MS = 8000;
+var CURSOS_PAGE_SIZE = 3;
 
 function empaticSlugify(str) {
   return String(str || '')
@@ -1284,6 +1285,45 @@ function empaticAeActividadCardHtml(r) {
         }
         alert('Hubo un problema al enviar tu inscripción. Inténtalo nuevamente.');
       });
+  });
+})();
+
+/* ---------- Empatic Academy: carrusel de cursos (EMPATIC - Cursos) ---------- */
+function empaticCursoCardHtml(r) {
+  var foto = empaticImageUrl(r.imagen_fondo);
+  var photoClass = foto ? ' curso-card--photo' : '';
+  var attr = foto ? ' data-bg-url="' + empaticEscapeHtml(foto) + '"' : '';
+  var inner =
+    '<span class="biz-card-tag">' + empaticEscapeHtml(r.card_tag || 'Ver curso') + '</span>' +
+    '<h4>' + empaticEscapeHtml(r.titulo) + '</h4>' +
+    '<p>' + empaticEscapeHtml(r.card_resumen) + '</p>';
+
+  if (r.slug) {
+    return '<a href="curso-' + encodeURIComponent(r.slug) + '.html" class="curso-card' + photoClass + '"' + attr + '>'
+      + inner + '<span class="btn btn-primary btn-sm">Ver curso</span></a>';
+  }
+  return '<div class="curso-card' + photoClass + '"' + attr + '>' + inner + '</div>';
+}
+
+(function () {
+  var track = document.getElementById('cursosTrack');
+  var nextBtn = document.getElementById('cursosNextBtn');
+  var prevBtn = document.getElementById('cursosPrevBtn');
+  if (!track || !nextBtn || !prevBtn) return;
+
+  empaticFetchTipo('cursos').then(function (rows) {
+    var activos = rows.filter(function (r) { return String(r.activo || '').toUpperCase() === 'SI'; });
+    if (!activos.length) return;
+
+    var pages = empaticBuildCircularPages(activos, CURSOS_PAGE_SIZE);
+    var pagesHtml = pages.map(function (pageItems) {
+      return '<div class="novedades-page cursos-grid">' + pageItems.map(empaticCursoCardHtml).join('') + '</div>';
+    }).join('');
+    track.innerHTML = pagesHtml;
+    empaticApplyBgUrls(track);
+    initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true });
+  }).catch(function (err) {
+    console.error('No se pudieron cargar los cursos de Empatic Academy:', err);
   });
 })();
 

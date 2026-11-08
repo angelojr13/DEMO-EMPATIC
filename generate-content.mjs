@@ -381,16 +381,6 @@ function cursoPage(row) {
 ` + pageFoot();
 }
 
-function cursoCardHtml(row) {
-  const portada = driveImageUrl(row.imagen_fondo) || row.imagen_fondo;
-  const style = portada ? ` style="background-image: url('${esc(portada)}');"` : '';
-  return `<a href="curso-${esc(row.slug)}.html" class="card biz-card-mini--photo"${style}>
-        <span class="biz-card-tag">${esc(row.card_tag || 'Ver curso')}</span>
-        <h4>${esc(row.titulo)}</h4>
-        <p>${esc(row.card_resumen)}</p>
-      </a>`;
-}
-
 function cardHtml(row, tipo) {
   const portada = driveImageUrl(row.imagen_portada);
   const style = portada ? ` style="background-image: url('${esc(portada)}');"` : '';
@@ -447,34 +437,9 @@ async function main() {
     console.log('Generado: curso-' + row.slug + '.html');
   }
 
-  // --- Actualiza la(s) ficha(s) de curso real(es) en Empatic Academy ---
-  if (cursos.length) {
-    const acFile = 'empatic-academy.html';
-    let acHtml = readFileSync(acFile, 'utf-8');
-    const cards = cursos.map(cursoCardHtml).join('\n      ');
-
-    const C_START = '<!-- CURSOS_DYNAMIC_START -->';
-    const C_END = '<!-- CURSOS_DYNAMIC_END -->';
-
-    const staticCard = `<div class="card">
-        <span class="biz-card-tag">Gratuito</span>
-        <h4>Introducción al Cumplimiento Socioambiental y Fondos No Reembolsables</h4>
-        <p>Curso introductorio de acceso libre.</p>
-        <a href="curso-cumplimiento-socioambiental.html" class="btn btn-primary btn-sm">Ver curso</a>
-      </div>`;
-
-    if (acHtml.includes(C_START)) {
-      acHtml = replaceBetween(acHtml, C_START, C_END, `\n      ${cards}\n      `);
-      writeFileSync(acFile, acHtml);
-      console.log('Actualizado: ' + acFile);
-    } else if (acHtml.includes(staticCard)) {
-      acHtml = acHtml.replace(staticCard, `${C_START}\n      ${cards}\n      ${C_END}`);
-      writeFileSync(acFile, acHtml);
-      console.log('Actualizado: ' + acFile);
-    } else {
-      console.log('Aviso: no se encontraron marcadores en ' + acFile + '; revisa el archivo manualmente.');
-    }
-  }
+  // Nota: la grilla de cursos en empatic-academy.html ya NO se genera aqui.
+  // Se arma 100% en el cliente (script.js, tipo=cursos) para soportar el
+  // carrusel de 3 tarjetas con centrado automatico cuando hay menos de 3.
 
   // --- Actualiza las fichas reales (no las de "Proximamente") del carrusel ---
   if (negocios.length) {
