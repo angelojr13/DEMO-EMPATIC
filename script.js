@@ -1267,6 +1267,7 @@ function empaticAeActividadCardHtml(r) {
       apellidos: form.querySelector('[name="last_name"]').value,
       email: form.querySelector('[name="email"]').value,
       telefono: form.querySelector('[name="phone"]').value,
+      institucion: form.querySelector('[name="institucion"]').value,
       carrera: form.querySelector('[name="carrera"]').value,
       situacion: form.querySelector('[name="situacion"]').value,
     });
