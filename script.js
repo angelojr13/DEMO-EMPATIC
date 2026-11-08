@@ -1245,3 +1245,45 @@ function empaticAeActividadCardHtml(r) {
   });
 })();
 
+/* ---------- Formulario de inscripción a cursos (Empatic Academy) ---------- */
+(function () {
+  var form = document.querySelector('[data-curso-form]');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var originalLabel = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+    }
+
+    var body = new URLSearchParams({
+      curso_slug: form.getAttribute('data-curso-slug') || '',
+      curso_nombre: form.getAttribute('data-curso-nombre') || '',
+      nombres: form.querySelector('[name="first_name"]').value,
+      apellidos: form.querySelector('[name="last_name"]').value,
+      email: form.querySelector('[name="email"]').value,
+      telefono: form.querySelector('[name="phone"]').value,
+      carrera: form.querySelector('[name="carrera"]').value,
+      situacion: form.querySelector('[name="situacion"]').value,
+    });
+
+    fetch(EMPATIC_API, { method: 'POST', mode: 'no-cors', body: body })
+      .then(function () {
+        form.innerHTML = '<span class="course-hero-form-tag">✅&nbsp; Inscripción recibida</span>'
+          + '<h4>¡Gracias por inscribirte!</h4>'
+          + '<p class="contact-form-note">Te contactaremos pronto con los siguientes pasos.</p>';
+      })
+      .catch(function (err) {
+        console.error('No se pudo enviar la inscripción:', err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+        alert('Hubo un problema al enviar tu inscripción. Inténtalo nuevamente.');
+      });
+  });
+})();
+

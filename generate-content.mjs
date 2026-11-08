@@ -302,6 +302,95 @@ function articlePage(row, tipo) {
 ` + pageFoot();
 }
 
+function cursoPage(row) {
+  const title = `${row.titulo} | Empatic Academy`;
+  const description = row.descripcion;
+  const bgImage = driveImageUrl(row.imagen_fondo) || row.imagen_fondo;
+  const bgStyle = bgImage ? ` style="--course-bg-image: url('${esc(bgImage)}');"` : '';
+
+  const discountBanner = String(row.tiene_descuento || '').toUpperCase() === 'SI' && row.descuento_texto
+    ? `<div class="course-discount-banner">🔥 ${esc(row.descuento_texto)}</div>`
+    : '';
+
+  const metaItems = [
+    ['Inicio', row.inicio],
+    ['Duración', row.duracion],
+    ['Modalidad', row.modalidad],
+    ['Inversión', row.inversion],
+  ].filter(([, v]) => v);
+
+  return pageHead({ title, description, canonicalPath: `curso-${row.slug}.html` }) + `
+<section class="course-hero-photo course-hero-photo--solo"${bgStyle}>
+  <div class="container course-hero-photo-inner">
+    <div class="course-hero-photo-copy">
+      <a href="empatic-academy.html" class="case-back-link">← Volver a Empatic Academy</a>
+      <span class="eyebrow">${esc(row.eyebrow)}</span>
+      <h1>${esc(row.titulo)}</h1>
+      <p>${esc(row.descripcion)}</p>
+
+      <ul class="course-meta-row">
+        ${metaItems.map(([label, value]) => `<li><span>${esc(label)}</span>${esc(value)}</li>`).join('\n        ')}
+      </ul>
+    </div>
+
+    <form class="course-hero-form" data-curso-form data-curso-slug="${esc(row.slug)}" data-curso-nombre="${esc(row.titulo)}">
+      ${discountBanner}
+      <span class="course-hero-form-tag">🎓&nbsp; Cupos limitados · Inscripción gratuita</span>
+      <h4>Completa tu inscripción aquí</h4>
+      <div class="form-row">
+        <div>
+          <label for="ch-name">Nombre</label>
+          <input id="ch-name" type="text" name="first_name" placeholder="Nombre" required>
+        </div>
+        <div>
+          <label for="ch-lastname">Apellido</label>
+          <input id="ch-lastname" type="text" name="last_name" placeholder="Apellido" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="ch-email">Email</label>
+          <input id="ch-email" type="email" name="email" placeholder="tucorreo@empresa.com" required>
+        </div>
+        <div>
+          <label for="ch-phone">Teléfono</label>
+          <input id="ch-phone" type="tel" name="phone" placeholder="+51 9XX XXX XXX">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="ch-carrera">Carrera</label>
+          <input id="ch-carrera" type="text" name="carrera" placeholder="Ej. Ingeniería Ambiental">
+        </div>
+        <div>
+          <label for="ch-situacion">Situación académica</label>
+          <select id="ch-situacion" name="situacion" required>
+            <option value="" disabled selected>Selecciona una opción</option>
+            <option value="Estudiante">Estudiante</option>
+            <option value="Egresado">Egresado</option>
+            <option value="Bachiller">Bachiller</option>
+            <option value="Independiente">Independiente</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Enviar Solicitud</button>
+      <p class="contact-form-note">Protegido por reCAPTCHA. Al enviar aceptas nuestra <a href="privacidad.html">Política de Privacidad</a>.</p>
+    </form>
+  </div>
+</section>
+` + pageFoot();
+}
+
+function cursoCardHtml(row) {
+  const portada = driveImageUrl(row.imagen_fondo) || row.imagen_fondo;
+  const style = portada ? ` style="background-image: url('${esc(portada)}');"` : '';
+  return `<a href="curso-${esc(row.slug)}.html" class="card biz-card-mini--photo"${style}>
+        <span class="biz-card-tag">${esc(row.card_tag || 'Ver curso')}</span>
+        <h4>${esc(row.titulo)}</h4>
+        <p>${esc(row.card_resumen)}</p>
+      </a>`;
+}
+
 function cardHtml(row, tipo) {
   const portada = driveImageUrl(row.imagen_portada);
   const style = portada ? ` style="background-image: url('${esc(portada)}');"` : '';
@@ -334,10 +423,11 @@ function replaceBetween(text, startMarker, endMarker, replacement) {
 }
 
 async function main() {
-  const [negocios, blog, podcast] = await Promise.all([
+  const [negocios, blog, podcast, cursos] = await Promise.all([
     fetchTipo('negocios'),
     fetchTipo('blog'),
     fetchTipo('podcast'),
+    fetchTipo('cursos'),
   ]);
 
   for (const row of negocios) {
@@ -351,6 +441,39 @@ async function main() {
   for (const row of podcast) {
     writeFileSync(`podcast-${row.slug}.html`, articlePage(row, 'podcast'));
     console.log('Generado: podcast-' + row.slug + '.html');
+  }
+  for (const row of cursos) {
+    writeFileSync(`curso-${row.slug}.html`, cursoPage(row));
+    console.log('Generado: curso-' + row.slug + '.html');
+  }
+
+  // --- Actualiza la(s) ficha(s) de curso real(es) en Empatic Academy ---
+  if (cursos.length) {
+    const acFile = 'empatic-academy.html';
+    let acHtml = readFileSync(acFile, 'utf-8');
+    const cards = cursos.map(cursoCardHtml).join('\n      ');
+
+    const C_START = '<!-- CURSOS_DYNAMIC_START -->';
+    const C_END = '<!-- CURSOS_DYNAMIC_END -->';
+
+    const staticCard = `<div class="card">
+        <span class="biz-card-tag">Gratuito</span>
+        <h4>Introducción al Cumplimiento Socioambiental y Fondos No Reembolsables</h4>
+        <p>Curso introductorio de acceso libre.</p>
+        <a href="curso-cumplimiento-socioambiental.html" class="btn btn-primary btn-sm">Ver curso</a>
+      </div>`;
+
+    if (acHtml.includes(C_START)) {
+      acHtml = replaceBetween(acHtml, C_START, C_END, `\n      ${cards}\n      `);
+      writeFileSync(acFile, acHtml);
+      console.log('Actualizado: ' + acFile);
+    } else if (acHtml.includes(staticCard)) {
+      acHtml = acHtml.replace(staticCard, `${C_START}\n      ${cards}\n      ${C_END}`);
+      writeFileSync(acFile, acHtml);
+      console.log('Actualizado: ' + acFile);
+    } else {
+      console.log('Aviso: no se encontraron marcadores en ' + acFile + '; revisa el archivo manualmente.');
+    }
   }
 
   // --- Actualiza las fichas reales (no las de "Proximamente") del carrusel ---
