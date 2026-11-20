@@ -1474,8 +1474,12 @@ function empaticBarSplitHtml(str) {
 
     var discountBanner = document.getElementById('detDiscountBanner');
     if (discountBanner) {
-      if (String(r.tiene_descuento || '').toUpperCase() === 'SI' && r.descuento_texto) {
-        discountBanner.textContent = '🔥 ' + r.descuento_texto;
+      if (String(r.tiene_descuento || '').toUpperCase() === 'SI' && r.descuento_texto !== '' && r.descuento_texto != null) {
+        var descuentoTexto = r.descuento_texto;
+        if (typeof descuentoTexto === 'number') {
+          descuentoTexto = Math.round(descuentoTexto * 100) + '% de descuento';
+        }
+        discountBanner.textContent = descuentoTexto;
         discountBanner.style.display = '';
       } else {
         discountBanner.style.display = 'none';
