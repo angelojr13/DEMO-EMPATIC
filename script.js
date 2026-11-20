@@ -390,7 +390,7 @@ function initAeHeroSlider() {
 })();
 
 /* ---------- Equipo consultor: datos dinamicos desde Google Sheets ---------- */
-var EMPATIC_API = 'https://script.google.com/macros/s/AKfycbzxBe8Z95x9_TJdUbGPFbxUXeimudgfjBas5UyoOqhc5T4u_2z6VlUgPAtA6C5PixQd/exec';
+var EMPATIC_API = 'https://script.google.com/macros/s/AKfycbwadP6bNL6QE1vpOETkxhTkNLGaVY5DZ8CzfUrgIIYPOZRfFLVRfxUovrU1HM_svD0/exec';
 var TEAM_PAGE_SIZE = 5;
 
 function empaticImageUrl(link) {

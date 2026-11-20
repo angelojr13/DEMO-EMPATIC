@@ -3,7 +3,7 @@
 // Uso: node generate-content.mjs
 // Vuelve a correrlo cada vez que agreguen/editen una fila en los Sheets.
 
-const API = 'https://script.google.com/macros/s/AKfycbzxBe8Z95x9_TJdUbGPFbxUXeimudgfjBas5UyoOqhc5T4u_2z6VlUgPAtA6C5PixQd/exec';
+const API = 'https://script.google.com/macros/s/AKfycbwadP6bNL6QE1vpOETkxhTkNLGaVY5DZ8CzfUrgIIYPOZRfFLVRfxUovrU1HM_svD0/exec';
 
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 
