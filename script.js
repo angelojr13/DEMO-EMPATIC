@@ -1211,7 +1211,7 @@ function empaticBizCardHtml(r, hidden) {
     '<h4>' + empaticEscapeHtml(r.nombre) + '</h4>' +
     '<p>' + empaticEscapeHtml(r.resumen) + '</p>';
   if (r.slug) {
-    return '<a href="caso-' + encodeURIComponent(r.slug) + '.html" class="' + cls + '"' + bgAttr + hiddenAttrs + '>' + inner + '</a>';
+    return '<a href="caso.html?slug=' + encodeURIComponent(r.slug) + '" class="' + cls + '"' + bgAttr + hiddenAttrs + '>' + inner + '</a>';
   }
   return '<div class="' + cls + '"' + bgAttr + hiddenAttrs + '>' + inner + '</div>';
 }
@@ -1349,7 +1349,7 @@ function empaticCursoCardHtml(r) {
     '<p>' + empaticEscapeHtml(r.card_resumen) + '</p>';
 
   if (r.slug) {
-    return '<a href="curso-' + encodeURIComponent(r.slug) + '.html" class="curso-card' + photoClass + '"' + attr + '>'
+    return '<a href="curso.html?slug=' + encodeURIComponent(r.slug) + '" class="curso-card' + photoClass + '"' + attr + '>'
       + inner + '<span class="btn btn-primary btn-sm">Ver curso</span></a>';
   }
   return '<div class="curso-card' + photoClass + '"' + attr + '>' + inner + '</div>';
@@ -1374,6 +1374,131 @@ function empaticCursoCardHtml(r) {
     initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true });
   }).catch(function (err) {
     console.error('No se pudieron cargar los cursos de Empatic Academy:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Pagina de detalle: Caso de exito (negocios) ---------- */
+function empaticBarSplitHtml(str) {
+  var parts = String(str || '').split('||').map(function (s) { return s.trim(); }).filter(Boolean);
+  return parts.map(function (p) { return '<p>' + empaticEscapeHtml(p) + '</p>'; }).join('');
+}
+
+(function () {
+  var container = document.getElementById('casoDetalle');
+  if (!container) return;
+  var slug = empaticGetSlugParam();
+
+  empaticFetchTipo('negocios').then(function (rows) {
+    var r = rows.filter(function (row) { return row.slug === slug; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Caso no encontrado', 'Es posible que este caso ya no esté disponible. Vuelve a la Red de Negocios para ver los casos activos.');
+      return;
+    }
+    document.title = r.nombre + ' | Casos de Éxito | EMPATIC';
+    document.getElementById('detEyebrow').textContent = r.eyebrow || 'Caso de éxito';
+    document.getElementById('detTitulo').textContent = r.titular;
+    var elCita = document.getElementById('detInvitado');
+    if (elCita) elCita.textContent = r.cita ? '"' + r.cita + '"' : '';
+    var elAtrib = document.getElementById('detAtribucion');
+    if (elAtrib) elAtrib.textContent = r.atribucion || '';
+    document.getElementById('detDescripcion').innerHTML = empaticBarSplitHtml(r.historia);
+
+    var podcastBlock = document.getElementById('detPodcastBlock');
+    if (podcastBlock) {
+      if (r.podcast_titulo) {
+        document.getElementById('detPodcastTitulo').textContent = r.podcast_titulo;
+        document.getElementById('detPodcastDescripcion').textContent = r.podcast_descripcion || '';
+        podcastBlock.style.display = '';
+      } else {
+        podcastBlock.style.display = 'none';
+      }
+    }
+
+    var metrics = [
+      [r.metrica1_valor, r.metrica1_label],
+      [r.metrica2_valor, r.metrica2_label],
+      [r.metrica3_valor, r.metrica3_label]
+    ].filter(function (m) { return m[0]; });
+    var metricsBlock = document.getElementById('detMetricsBlock');
+    if (metricsBlock) {
+      if (metrics.length) {
+        document.getElementById('detMetrics').innerHTML = metrics.map(function (m) {
+          return '<div class="case-metric"><div class="num">' + empaticEscapeHtml(m[0]) + '</div><p>' + empaticEscapeHtml(m[1]) + '</p></div>';
+        }).join('');
+        metricsBlock.style.display = '';
+      } else {
+        metricsBlock.style.display = 'none';
+      }
+    }
+
+    document.getElementById('detSidebar').innerHTML =
+      '<div class="case-sidebar-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>' +
+      '<h4>' + empaticEscapeHtml(r.nombre) + '</h4>' +
+      '<dl class="case-sidebar-facts">' +
+        '<div><dt>Sector</dt><dd>' + empaticEscapeHtml(r.sector) + '</dd></div>' +
+        '<div><dt>Región de impacto</dt><dd>' + empaticEscapeHtml(r.ubicacion) + '</dd></div>' +
+      '</dl>' +
+      '<div class="case-sidebar-links">' +
+        (r.sitio_web ? '<a href="' + empaticEscapeHtml(r.sitio_web) + '" target="_blank" rel="noopener" aria-label="Sitio web de ' + empaticEscapeHtml(r.nombre) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3Z"/></svg></a>' : '') +
+        (r.linkedin ? '<a href="' + empaticEscapeHtml(r.linkedin) + '" target="_blank" rel="noopener" aria-label="LinkedIn de ' + empaticEscapeHtml(r.nombre) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>' : '') +
+        (r.instagram ? '<a href="' + empaticEscapeHtml(r.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram de ' + empaticEscapeHtml(r.nombre) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>' : '') +
+      '</div>';
+  }).catch(function (err) {
+    console.error('No se pudo cargar el caso:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Pagina de detalle: Curso (Empatic Academy) ---------- */
+(function () {
+  var container = document.getElementById('cursoDetalle');
+  if (!container) return;
+  var slug = empaticGetSlugParam();
+
+  empaticFetchTipo('cursos').then(function (rows) {
+    var r = rows.filter(function (row) { return row.slug === slug; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Curso no encontrado', 'Es posible que este curso ya no esté disponible. Vuelve a Empatic Academy para ver los cursos activos.');
+      return;
+    }
+    document.title = r.titulo + ' | Empatic Academy';
+    document.getElementById('detEyebrow').textContent = r.eyebrow || '';
+    document.getElementById('detTitulo').textContent = r.titulo;
+    document.getElementById('detDescripcion').textContent = r.descripcion;
+
+    var bgImage = empaticImageUrl(r.imagen_fondo);
+    if (bgImage) container.style.setProperty('--course-bg-image', 'url(\'' + bgImage + '\')');
+
+    var discountBanner = document.getElementById('detDiscountBanner');
+    if (discountBanner) {
+      if (String(r.tiene_descuento || '').toUpperCase() === 'SI' && r.descuento_texto) {
+        discountBanner.textContent = '🔥 ' + r.descuento_texto;
+        discountBanner.style.display = '';
+      } else {
+        discountBanner.style.display = 'none';
+      }
+    }
+
+    var metaItems = [
+      ['Inicio', r.inicio],
+      ['Duración', r.duracion],
+      ['Modalidad', r.modalidad],
+      ['Inversión', r.inversion]
+    ].filter(function (m) { return m[1]; });
+    document.getElementById('detMetaRow').innerHTML = metaItems.map(function (m) {
+      return '<li><span>' + empaticEscapeHtml(m[0]) + '</span>' + empaticEscapeHtml(m[1]) + '</li>';
+    }).join('');
+
+    var form = document.getElementById('cursoForm');
+    if (form) {
+      form.setAttribute('data-curso-slug', r.slug);
+      form.setAttribute('data-curso-nombre', r.titulo);
+    }
+  }).catch(function (err) {
+    console.error('No se pudo cargar el curso:', err);
   }).finally(function () {
     empaticHideLoadingOverlay();
   });

@@ -4,37 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer">
-<title>AgroValle Perú | Casos de Éxito | EMPATIC</title>
-<meta name="description" content="La certificación no fue solo un sello: fue la forma de asegurar que cada agricultor de nuestra red reciba un precio justo y que su historia se pueda rastrear hasta la taza final.">
+<title>Caso de Éxito | EMPATIC</title>
+<meta name="description" content="Casos de éxito de la Red de Negocios Sostenibles de EMPATIC.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
 <link rel="stylesheet" href="styles.css?v=42">
-<link rel="canonical" href="https://grupoempatic.com/caso-agrovalle.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
-<meta property="og:title" content="AgroValle Perú | Casos de Éxito | EMPATIC">
-<meta property="og:description" content="La certificación no fue solo un sello: fue la forma de asegurar que cada agricultor de nuestra red reciba un precio justo y que su historia se pueda rastrear hasta la taza final.">
-<meta property="og:url" content="https://grupoempatic.com/caso-agrovalle.html">
+<meta property="og:title" content="Caso de Éxito | EMPATIC">
 <meta property="og:image" content="https://grupoempatic.com/images/logo-empatic.png">
 <meta property="og:locale" content="es_PE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AgroValle Perú | Casos de Éxito | EMPATIC">
-<meta name="twitter:description" content="La certificación no fue solo un sello: fue la forma de asegurar que cada agricultor de nuestra red reciba un precio justo y que su historia se pueda rastrear hasta la taza final.">
-<meta name="twitter:image" content="https://grupoempatic.com/images/logo-empatic.png">
 </head>
 <body>
 
 <div class="empatic-loading-overlay" id="empaticLoadingOverlay" aria-hidden="true">
   <div class="empatic-loading-spinner"></div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var el = document.getElementById('empaticLoadingOverlay');
-    if (el) el.classList.add('is-hidden');
-  });
-</script>
 
 <header class="nav">
   <div class="nav-inner">
@@ -57,77 +45,42 @@
   </div>
 </header>
 
-<section class="case-hero">
+<section class="case-hero" id="casoDetalle">
   <div class="container case-hero-inner">
     <div class="case-hero-copy">
       <a href="negocios-sostenibles.html" class="case-back-link">← Volver a la Red de Negocios</a>
-      <span class="eyebrow">Caso de éxito · Agroindustria</span>
-      <h1>AgroValle Perú: trazabilidad territorial en la cadena del café</h1>
-      <p class="case-hero-quote">"La certificación no fue solo un sello: fue la forma de asegurar que cada agricultor de nuestra red reciba un precio justo y que su historia se pueda rastrear hasta la taza final."</p>
-      <p class="case-hero-attribution">Gerencia General, AgroValle Perú</p>
+      <span class="eyebrow" id="detEyebrow">Caso de éxito</span>
+      <h1 id="detTitulo">Cargando caso…</h1>
+      <p class="case-hero-quote" id="detInvitado"></p>
+      <p class="case-hero-attribution" id="detAtribucion"></p>
     </div>
-    <aside class="case-sidebar">
-      <div class="case-sidebar-logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </div>
-      <h4>AgroValle Perú</h4>
-      <dl class="case-sidebar-facts">
-        <div>
-          <dt>Sector</dt>
-          <dd>Agroindustria</dd>
-        </div>
-        <div>
-          <dt>Región de impacto</dt>
-          <dd>San Martín, Perú</dd>
-        </div>
-      </dl>
-      <div class="case-sidebar-links">
-        <a href="#" aria-label="Sitio web de AgroValle Perú"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3Z"/></svg></a>
-        <a href="#" aria-label="LinkedIn de AgroValle Perú"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>
-        <a href="#" aria-label="Instagram de AgroValle Perú"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
-      </div>
-    </aside>
+    <aside class="case-sidebar" id="detSidebar"></aside>
   </div>
 </section>
 
 <section class="section section-light">
   <div class="container container-narrow">
-    <div class="case-block">
+    <div class="case-block" id="detPodcastBlock" style="display:none;">
       <span class="eyebrow">🎙️ Conversación con el líder</span>
       <div class="podcast-banner">
         <div class="podcast-play" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <div>
-          <h3>Entrevista con la gerencia de AgroValle Perú</h3>
-          <p>Conversamos sobre el proceso de certificación, los retos en campo y lo que viene para la red de productores. Próximamente disponible aquí y en Spotify.</p>
+          <h3 id="detPodcastTitulo"></h3>
+          <p id="detPodcastDescripcion"></p>
         </div>
       </div>
     </div>
 
     <div class="case-block">
       <span class="eyebrow">📖 La historia de impacto</span>
-      <p>AgroValle Perú nació como una asociación de pequeños productores cafetaleros en San Martín, con un reto territorial claro: sin trazabilidad ni estándares reconocidos, sus lotes de café se vendían como materia prima genérica, muy por debajo de su valor real.</p>
-      <p>Junto con EMPATIC, mapearon la cadena de valor completa —desde la parcela hasta el acopio— e implementaron un sistema de trazabilidad territorial que documenta el origen de cada lote, las prácticas agrícolas empleadas y las condiciones de comercio con cada familia productora.</p>
-      <p>Ese trabajo de campo permitió a AgroValle certificar su cadena bajo estándares de comercio justo, abriendo acceso a compradores internacionales que exigen evidencia verificable de origen e impacto social, y consolidando un modelo replicable para otras cooperativas de la región.</p>
+      <div id="detDescripcion"></div>
     </div>
 
-    <div class="case-block">
+    <div class="case-block" id="detMetricsBlock" style="display:none;">
       <span class="eyebrow">📊 Indicadores clave de resultado</span>
-      <div class="case-metrics">
-        <div class="case-metric">
-          <div class="num">+320</div>
-          <p>familias productoras certificadas</p>
-        </div>
-        <div class="case-metric">
-          <div class="num">100%</div>
-          <p>de los lotes con trazabilidad territorial</p>
-        </div>
-        <div class="case-metric">
-          <div class="num">3</div>
-          <p>estándares de comercio justo integrados</p>
-        </div>
-      </div>
+      <div class="case-metrics" id="detMetrics"></div>
     </div>
   </div>
 </section>
@@ -171,7 +124,6 @@
         <a href="https://www.instagram.com/grupoempatic/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
         <a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>
         <a href="#" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#" aria-label="Spotify (Podcast)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M7 10.5c3-1 7-.6 9.5.9M7.3 13.6c2.4-.8 5.6-.5 7.7.7M7.6 16.4c2-.6 4.4-.4 6 .5"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
@@ -206,6 +158,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=35"></script>
+<script src="script.js?v=36"></script>
 </body>
 </html>
