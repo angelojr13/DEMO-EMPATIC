@@ -57,12 +57,13 @@ const revealSelectors = [
   '.event-item', '.podcast-banner', '.biz-card',
   '.report-facts', '.community-actions', '.contact-form', '.contact-points',
   '.legal-content h2', '.legal-content h3', '.legal-content p',
+  '.vm-card', '.director-grid', '.team-carousel-wrap',
 ];
 const revealEls = document.querySelectorAll(revealSelectors.join(','));
 
 revealEls.forEach((el) => el.classList.add('reveal'));
 
-document.querySelectorAll('.grid-3, .grid-4, .sol-grid, .solutions-teaser, .values-grid, .approach-grid, .pillars, .stat-grid, .photo-grid, .mv-mini, .team-grid, .event-gallery, .biz-grid, .contact-grid, .contact-points').forEach((grid) => {
+document.querySelectorAll('.grid-2, .grid-3, .grid-4, .sol-grid, .solutions-teaser, .values-grid, .approach-grid, .pillars, .stat-grid, .photo-grid, .mv-mini, .vm-grid, .team-grid, .event-gallery, .biz-grid, .contact-grid, .contact-points').forEach((grid) => {
   [...grid.children].forEach((child, idx) => {
     if (child.classList.contains('reveal')) {
       child.style.transitionDelay = `${Math.min(idx * 70, 280)}ms`;
@@ -205,8 +206,8 @@ if (!reduceMotion) {
   var wrap = document.createElement('div');
   wrap.className = 'social-float';
   wrap.innerHTML =
-    '<a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>' +
-    '<a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" stroke="none"/></svg></a>';
+    '<a href="https://www.instagram.com/grupoempatic/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>' +
+    '<a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>';
   document.body.appendChild(wrap);
 
   var DARK_BG_SELECTOR = '.section-dark, .page-header, .hero, .case-hero, .ae-hero-band, .academy-access-bar, .course-hero-form, .site-footer';
@@ -916,7 +917,10 @@ function empaticSolucionCardHtml(r) {
 
 (function () {
   var grid = document.getElementById('solucionesGrid');
-  if (!grid) return;
+  if (!grid) {
+    if (document.querySelector('.page-header--soluciones')) empaticHideLoadingOverlay();
+    return;
+  }
 
   empaticFetchTipo('soluciones').then(function (rows) {
     if (!rows.length) return;
@@ -1295,7 +1299,7 @@ function empaticAeActividadCardHtml(r) {
   });
 })();
 
-/* ---------- Formulario de inscripción a cursos (Empatic Academy) ---------- */
+/* ---------- Formulario de inscripción a cursos (EMPATIC Academy) ---------- */
 (function () {
   var form = document.querySelector('[data-curso-form]');
   if (!form) return;
@@ -1338,7 +1342,7 @@ function empaticAeActividadCardHtml(r) {
   });
 })();
 
-/* ---------- Empatic Academy: carrusel de cursos (EMPATIC - Cursos) ---------- */
+/* ---------- EMPATIC Academy: carrusel de cursos (EMPATIC - Cursos) ---------- */
 function empaticCursoCardHtml(r) {
   var foto = empaticImageUrl(r.imagen_fondo);
   var photoClass = foto ? ' curso-card--photo' : '';
@@ -1373,7 +1377,7 @@ function empaticCursoCardHtml(r) {
     empaticApplyBgUrls(track);
     initNovedadesCarousel(track, nextBtn, prevBtn, { circular: true });
   }).catch(function (err) {
-    console.error('No se pudieron cargar los cursos de Empatic Academy:', err);
+    console.error('No se pudieron cargar los cursos de EMPATIC Academy:', err);
   }).finally(function () {
     empaticHideLoadingOverlay();
   });
@@ -1452,24 +1456,34 @@ function empaticBarSplitHtml(str) {
   });
 })();
 
-/* ---------- Pagina de detalle: Curso (Empatic Academy) ---------- */
+/* ---------- Pagina de detalle: Curso (EMPATIC Academy) ---------- */
 (function () {
   var container = document.getElementById('cursoDetalle');
   if (!container) return;
   var slug = empaticGetSlugParam();
 
-  empaticFetchTipo('cursos').then(function (rows) {
-    var r = rows.filter(function (row) { return row.slug === slug; })[0];
+  Promise.all([
+    empaticFetchTipo('cursos'),
+    empaticFetchTipo('programas')
+  ]).then(function (results) {
+    var cursos = results[0], programas = results[1];
+    var r = cursos.filter(function (row) { return row.slug === slug; })[0];
     if (!r) {
-      empaticDetalleNotFound('Curso no encontrado', 'Es posible que este curso ya no esté disponible. Vuelve a Empatic Academy para ver los cursos activos.');
+      empaticDetalleNotFound('Curso no encontrado', 'Es posible que este curso ya no esté disponible. Vuelve a EMPATIC Academy para ver los cursos activos.');
       return;
     }
-    document.title = r.titulo + ' | Empatic Academy';
-    document.getElementById('detEyebrow').textContent = r.eyebrow || '';
-    document.getElementById('detTitulo').textContent = r.titulo;
-    document.getElementById('detDescripcion').textContent = r.descripcion;
+    var programaId = String(r.programa || '').toLowerCase();
+    var programaRow = programas.filter(function (p) { return String(p.id || '').toLowerCase() === programaId; })[0] || {};
+    var detalle = EMPATIC_CURSO_DETAIL[r.slug] || {};
+    var programaDetalle = EMPATIC_PROGRAMA_DETAIL[programaId] || {};
 
-    var bgImage = empaticImageUrl(r.imagen_fondo);
+    document.title = r.titulo + ' | EMPATIC Academy';
+    document.getElementById('detEyebrow').textContent = programaId.toUpperCase() + (programaRow.nombre ? ' · ' + programaRow.nombre : ' · EMPATIC Academy');
+    document.getElementById('detTitulo').textContent = r.titulo;
+    document.getElementById('detDescripcion').textContent = detalle.objetivo || r.descripcion || '';
+
+    var bannerSrc = EMPATIC_PROGRAMA_BANNERS[programaId];
+    var bgImage = bannerSrc || empaticImageUrl(r.imagen_fondo);
     if (bgImage) container.style.setProperty('--course-bg-image', 'url(\'' + bgImage + '\')');
 
     var discountBanner = document.getElementById('detDiscountBanner');
@@ -1487,22 +1501,617 @@ function empaticBarSplitHtml(str) {
     }
 
     var metaItems = [
-      ['Inicio', r.inicio],
+      ['Fechas', detalle.fechasTexto || r.inicio],
       ['Duración', r.duracion],
-      ['Modalidad', r.modalidad],
-      ['Inversión', r.inversion]
+      ['Modalidad', r.modalidad]
     ].filter(function (m) { return m[1]; });
     document.getElementById('detMetaRow').innerHTML = metaItems.map(function (m) {
       return '<li><span>' + empaticEscapeHtml(m[0]) + '</span>' + empaticEscapeHtml(m[1]) + '</li>';
     }).join('');
 
-    var form = document.getElementById('cursoForm');
-    if (form) {
-      form.setAttribute('data-curso-slug', r.slug);
-      form.setAttribute('data-curso-nombre', r.titulo);
+    var precioEl = document.getElementById('detPrecio');
+    if (precioEl) {
+      precioEl.innerHTML = empaticEscapeHtml(r.inversion || '') + (r.precio_aliado ? '<small>Miembros de instituciones aliadas: ' + empaticEscapeHtml(r.precio_aliado) + '</small>' : '');
     }
+
+    var btnMatricula = document.getElementById('detBtnMatricula');
+    if (btnMatricula) btnMatricula.href = programaRow.form_link || r.form_link || '#';
+    var btnBrochure = document.getElementById('detBtnBrochure');
+    if (btnBrochure) btnBrochure.href = programaDetalle.brochureLink || '#';
+
+    var volverPrograma = document.getElementById('detVolverPrograma');
+    if (volverPrograma) {
+      volverPrograma.href = 'programa.html?id=' + encodeURIComponent(programaId);
+      volverPrograma.textContent = '← Volver al programa' + (programaRow.nombre ? ' ' + programaRow.nombre : '');
+    }
+
+    var aprenderasList = document.getElementById('detAprenderas');
+    if (aprenderasList) {
+      var aprenderas = detalle.aprenderas || [];
+      aprenderasList.innerHTML = aprenderas.map(function (item) {
+        return '<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>' + empaticEscapeHtml(item) + '</span></li>';
+      }).join('');
+    }
+    var paraQueSirveEl = document.getElementById('detParaQueSirve');
+    if (paraQueSirveEl) paraQueSirveEl.textContent = detalle.paraQueSirve || '';
+    var dirigidoAEl = document.getElementById('detDirigidoA');
+    if (dirigidoAEl) dirigidoAEl.textContent = programaDetalle.dirigidoA || '';
   }).catch(function (err) {
     console.error('No se pudo cargar el curso:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- Pagina de detalle: Programa (EMPATIC Academy) ---------- */
+(function () {
+  var container = document.getElementById('programaDetalle');
+  if (!container) return;
+  var id = (new URLSearchParams(window.location.search).get('id') || '').toLowerCase();
+
+  Promise.all([
+    empaticFetchTipo('programas'),
+    empaticFetchTipo('cursos')
+  ]).then(function (results) {
+    var programas = results[0], cursos = results[1];
+    var r = programas.filter(function (row) { return String(row.id || '').toLowerCase() === id; })[0];
+    if (!r) {
+      empaticDetalleNotFound('Programa no encontrado', 'Es posible que este programa ya no esté disponible. Vuelve a EMPATIC Academy para ver los programas activos.');
+      return;
+    }
+    var idUpper = String(r.id || '').toUpperCase();
+    var detalle = EMPATIC_PROGRAMA_DETAIL[id] || {};
+
+    document.title = idUpper + ' · ' + r.nombre + ' | EMPATIC Academy';
+    document.getElementById('detEyebrow').textContent = 'Programa de Especialización · ' + idUpper;
+    document.getElementById('detTitulo').textContent = idUpper + ' · ' + r.nombre;
+    document.getElementById('detDescripcion').textContent = detalle.objetivoGeneral || '';
+
+    var bannerSrc = EMPATIC_PROGRAMA_BANNERS[id];
+    if (bannerSrc) container.style.setProperty('--course-bg-image', 'url(\'' + bannerSrc + '\')');
+
+    var aliado = r.aliado ? ' · Aliado: ' + r.aliado : '';
+    var metaItems = [
+      ['Día y horario', r.dia + ' · ' + r.horario + aliado],
+      ['Fechas', detalle.fechasTexto],
+      ['Duración', detalle.duracionTexto],
+      ['Certificación', detalle.certificacion]
+    ].filter(function (m) { return m[1]; });
+    document.getElementById('detMetaRow').innerHTML = metaItems.map(function (m) {
+      return '<li><span>' + empaticEscapeHtml(m[0]) + '</span>' + empaticEscapeHtml(m[1]) + '</li>';
+    }).join('');
+
+    var precioEl = document.getElementById('detPrecio');
+    if (precioEl) {
+      precioEl.innerHTML = empaticEscapeHtml(r.precio_contado || '') + ' al contado'
+        + (r.precio_cuotas ? '<small>o ' + empaticEscapeHtml(r.precio_cuotas) + '</small>' : '');
+    }
+
+    var btnMatricula = document.getElementById('detBtnMatricula');
+    if (btnMatricula) btnMatricula.href = r.form_link || '#';
+    var btnBrochure = document.getElementById('detBtnBrochure');
+    if (btnBrochure) btnBrochure.href = detalle.brochureLink || '#';
+
+    var presentacionEl = document.getElementById('detPresentacion');
+    if (presentacionEl) {
+      var presentacion = detalle.presentacion || [];
+      presentacionEl.innerHTML = '<h2>Presentación</h2>' + presentacion.map(function (p) {
+        return '<p>' + empaticEscapeHtml(p) + '</p>';
+      }).join('');
+    }
+
+    var competenciasList = document.getElementById('detCompetencias');
+    if (competenciasList) {
+      var competencias = detalle.competencias || [];
+      competenciasList.innerHTML = competencias.map(function (item) {
+        return '<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>' + empaticEscapeHtml(item) + '</span></li>';
+      }).join('');
+    }
+
+    var dirigidoAEl = document.getElementById('detDirigidoA');
+    if (dirigidoAEl) dirigidoAEl.textContent = detalle.dirigidoA || '';
+
+    var perfilesList = document.getElementById('detPerfiles');
+    if (perfilesList) {
+      var perfiles = detalle.perfiles || [];
+      perfilesList.innerHTML = perfiles.map(function (item) {
+        return '<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>' + empaticEscapeHtml(item) + '</span></li>';
+      }).join('');
+    }
+
+    var cursosDelPrograma = cursos.filter(function (c) { return String(c.programa || '').toLowerCase() === id; })
+      .sort(function (a, b) { return (Number(a.p) || 0) - (Number(b.p) || 0); });
+    var cursosListEl = document.getElementById('detCursosList');
+    if (cursosListEl) {
+      cursosListEl.innerHTML = cursosDelPrograma.map(function (c) {
+        return '<li><a href="curso.html?slug=' + encodeURIComponent(c.slug) + '">' +
+          '<span class="detail-cursos-mes">' + empaticEscapeHtml(c.mes || '') + '</span>' +
+          '<span>' + empaticEscapeHtml(c.titulo) + '</span>' +
+        '</a></li>';
+      }).join('');
+    }
+  }).catch(function (err) {
+    console.error('No se pudo cargar el programa:', err);
+  }).finally(function () {
+    empaticHideLoadingOverlay();
+  });
+})();
+
+/* ---------- EMPATIC Academy: Programas/Cursos/Workshops desde Google Sheets ---------- */
+/* Calco de spda.org.pe/formacion: cada fila (.academy-feature) tiene su propio
+   fundido de entrada al hacer scroll (ScrollReveal-like, una sola vez), y aparte
+   su propio hover (puro CSS, ver styles.css) que revela la imagen y el texto.
+   No hay logica de "cual esta activa": cada fila es independiente. */
+var empaticRevealObserver = (typeof IntersectionObserver !== 'undefined')
+  ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          empaticRevealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' })
+  : null;
+
+function empaticActivateScrollEffects(root) {
+  var scope = root || document;
+  Array.prototype.forEach.call(scope.querySelectorAll('.reveal-up:not(.is-visible)'), function (el) {
+    if (empaticRevealObserver) empaticRevealObserver.observe(el);
+    else el.classList.add('is-visible');
+  });
+}
+
+empaticActivateScrollEffects(document);
+
+/* Contenido extendido de cada programa y curso (Contenido_Web_EMPATIC_Academy_Programas_2027.pdf),
+   para las paginas de detalle programa.html / curso.html ("leer mas"). No viene del Sheet porque
+   es texto fijo, largo, que no cambia con la campana o las fechas. */
+var EMPATIC_PROGRAMA_DETAIL = {
+  p1: {
+    presentacion: [
+      'La viabilidad de un proyecto minero, energético o de infraestructura ya no depende solo de su ingeniería: depende de la confianza que construye con las comunidades y el territorio donde opera.',
+      'Este programa forma profesionales capaces de diseñar y gestionar el relacionamiento comunitario de principio a fin: licencia social, mapeo de actores y riesgos, planes de relaciones comunitarias, prevención de conflictos socioambientales, cumplimiento de compromisos y desarrollo económico local.',
+      'Al terminar, tendrás un portafolio de 6 productos aplicados que puedes usar en tu trabajo.'
+    ],
+    objetivoGeneral: 'Diseñar y gestionar estrategias de relacionamiento comunitario que fortalezcan la licencia social de los proyectos, prevengan conflictos y aseguren el cumplimiento de compromisos en el territorio.',
+    competencias: [
+      'Analizar la licencia social y los riesgos sociales de un proyecto.',
+      'Diseñar estrategias de relacionamiento comunitario.',
+      'Prevenir y gestionar conflictos socioambientales con enfoque de diálogo.',
+      'Gestionar compromisos sociales y el desarrollo económico local.'
+    ],
+    dirigidoA: 'Profesionales de ciencias sociales, ingeniería, derecho y carreras afines que trabajan o quieren trabajar en la gestión social de proyectos mineros, energéticos y de infraestructura, en empresas, consultoras, Estado u ONG.',
+    perfiles: [
+      'Profesionales de relaciones comunitarias y gestión social',
+      'Sociólogos, antropólogos y trabajadores sociales',
+      'Supervisores y consultores de proyectos de inversión',
+      'Funcionarios de oficinas de diálogo y gestión social del Estado'
+    ],
+    fechasTexto: 'Del 5 de enero al 22 de junio de 2027',
+    duracionTexto: '6 cursos · 6 meses · 144 horas académicas',
+    formaTrabajo: '4 sesiones en vivo por curso + proyecto aplicativo final en Moodle. Al terminar el programa tendrás un portafolio de 6 productos aplicados a tu trabajo.',
+    certificacion: 'EMPATIC Academy y Colegio de Sociólogos del Perú (144 horas académicas)',
+    brochureLink: '[PEGAR ENLACE BROCHURE P1]'
+  },
+  p2: {
+    presentacion: [
+      'Una obra de infraestructura puede tener financiamiento y expediente técnico, y aun así detenerse por un solo predio sin liberar o por no cumplir lo que exigen el cliente y los financiadores.',
+      'Este programa forma profesionales capaces de conducir la liberación de áreas de principio a fin: marco legal del D. Leg. 1192, saneamiento físico-legal, requerimientos socioambientales del Banco Mundial, BID e IFC, empadronamiento con herramientas digitales, reasentamiento y PACRI, y negociación con la población afectada.',
+      'Al terminar, tendrás un portafolio de 6 productos aplicados que puedes usar en tu trabajo.'
+    ],
+    objetivoGeneral: 'Gestionar la liberación de áreas para proyectos de infraestructura integrando el marco legal predial con los requerimientos socioambientales de clientes y financiadores.',
+    competencias: [
+      'Aplicar el marco legal de adquisición y liberación de predios.',
+      'Diagnosticar y orientar el saneamiento de predios.',
+      'Cumplir los estándares socioambientales de financiadores en reasentamiento y compensación.',
+      'Caracterizar y negociar con la población afectada.'
+    ],
+    dirigidoA: 'Profesionales de derecho, ingeniería, ciencias sociales y carreras afines que trabajan o quieren trabajar en la liberación de áreas de proyectos de infraestructura, en empresas, concesionarias, consultoras o el Estado.',
+    perfiles: [
+      'Abogados y gestores prediales',
+      'Ingenieros civiles, topógrafos y arquitectos',
+      'Sociólogos, antropólogos y trabajadores sociales',
+      'Funcionarios de entidades a cargo de obras'
+    ],
+    fechasTexto: 'Del 6 de enero al 23 de junio de 2027',
+    duracionTexto: '6 cursos · 6 meses · 144 horas académicas',
+    formaTrabajo: '4 sesiones en vivo por curso + proyecto aplicativo final en Moodle. Al terminar el programa tendrás un portafolio de 6 productos aplicados a tu trabajo.',
+    certificacion: 'EMPATIC Academy (144 horas académicas)',
+    brochureLink: '[PEGAR ENLACE BROCHURE P2]'
+  },
+  p3: {
+    presentacion: [
+      'El Fenómeno El Niño y las lluvias intensas golpean cada cierto tiempo a miles de familias en el Perú: viviendas, salud, educación, agua y medios de vida se ven afectados, y el cambio climático aumenta ese riesgo.',
+      'Este programa forma profesionales capaces de gestionar el riesgo de desastres antes, durante y después de una emergencia: escenarios de riesgo, planes de contingencia y alerta temprana, EDAN y empadronamiento, gestión del agua y soluciones basadas en la naturaleza, asistencia humanitaria y reconstrucción resiliente.',
+      'Al terminar, tendrás un portafolio de 6 productos aplicados que puedes usar en tu trabajo.'
+    ],
+    objetivoGeneral: 'Gestionar el riesgo de desastres asociados al cambio climático y al Fenómeno El Niño con planes y herramientas que protejan a las poblaciones vulnerables y aceleren la recuperación.',
+    competencias: [
+      'Analizar escenarios de riesgo ante El Niño y el cambio climático.',
+      'Organizar la preparación y la alerta temprana comunitaria.',
+      'Gestionar la respuesta, la asistencia humanitaria y la focalización.',
+      'Planificar la reconstrucción resiliente.'
+    ],
+    dirigidoA: 'Profesionales de ciencias sociales, ingeniería, salud y carreras afines que trabajan o quieren trabajar en gestión del riesgo, cambio climático, respuesta a emergencias y reconstrucción.',
+    perfiles: [
+      'Profesionales de gestión del riesgo de desastres y defensa civil',
+      'Sociólogos, antropólogos y trabajadores sociales',
+      'Ingenieros ambientales, civiles y geógrafos',
+      'Funcionarios de gobiernos locales, programas sociales y ONG'
+    ],
+    fechasTexto: 'Del 7 de enero al 24 de junio de 2027',
+    duracionTexto: '6 cursos · 6 meses · 144 horas académicas',
+    formaTrabajo: '4 sesiones en vivo por curso + proyecto aplicativo final en Moodle. Al terminar el programa tendrás un portafolio de 6 productos aplicados a tu trabajo.',
+    certificacion: 'EMPATIC Academy y Colegio de Sociólogos del Perú (144 horas académicas)',
+    brochureLink: '[PEGAR ENLACE BROCHURE P3]'
+  },
+  p4: {
+    presentacion: [
+      'Las mineras, energéticas, constructoras y agroexportadoras ya exigen a sus proveedores criterios ASG: huella de carbono, cumplimiento legal, políticas y evidencias. Quien no cumple, no se homologa y pierde contratos.',
+      'Este programa forma profesionales capaces de llevar a una empresa proveedora al cumplimiento ASG: diagnóstico de brechas, huella de carbono e hídrica con estándares ISO, ecoeficiencia con ahorro en soles, matriz de cumplimiento legal y homologación con tableros digitales.',
+      'Al terminar, tendrás un portafolio de 6 productos aplicados que puedes usar en tu trabajo.'
+    ],
+    objetivoGeneral: 'Llevar a una empresa proveedora al cumplimiento de criterios ASG que exigen sus clientes, bancos e inversionistas, con herramientas medibles y rentables.',
+    competencias: [
+      'Evaluar el desempeño ASG de una empresa y priorizar brechas.',
+      'Medir y gestionar la huella de carbono e hídrica.',
+      'Gestionar el cumplimiento legal ambiental, social y de SST.',
+      'Preparar a la empresa para la homologación de proveedores.'
+    ],
+    dirigidoA: 'Profesionales que trabajan o quieren trabajar en sostenibilidad, medio ambiente, SST o gestión de empresas proveedoras y contratistas de minería, energía, construcción y agroexportación.',
+    perfiles: [
+      'Jefes de SSOMA, calidad y sostenibilidad',
+      'Ingenieros ambientales e industriales',
+      'Administradores, contadores y economistas',
+      'Gerentes y dueños de empresas proveedoras y contratistas'
+    ],
+    fechasTexto: 'Del 9 de enero al 26 de junio de 2027',
+    duracionTexto: '6 cursos · 6 meses · 144 horas académicas',
+    formaTrabajo: '4 sesiones en vivo por curso + proyecto aplicativo final en Moodle. Al terminar el programa tendrás un portafolio de 6 productos aplicados a tu trabajo.',
+    certificacion: 'EMPATIC Academy (144 horas académicas)',
+    brochureLink: '[PEGAR ENLACE BROCHURE P4]'
+  }
+};
+
+var EMPATIC_CURSO_DETAIL = {
+  'licencia-social-para-operar-estrategia-gobernanza-y-gestion': {
+    objetivo: 'Comprender qué sostiene la licencia social de un proyecto y cómo fortalecerla y medirla en el territorio.',
+    aprenderas: ['Qué es la licencia social y qué la fortalece o la debilita', 'Cómo leer la gobernanza de un territorio y sus actores clave', 'Cómo medir la licencia social con indicadores'],
+    paraQueSirve: 'Para anticipar riesgos sociales y sostener la relación de un proyecto con su entorno.',
+    fechasTexto: 'Martes 5 de enero, 12 de enero, 19 de enero, 26 de enero de 2027'
+  },
+  'mapeo-de-actores-y-gestion-de-riesgos-sociales-en-proyectos': {
+    objetivo: 'Desarrollar capacidades para identificar actores y anticipar riesgos sociales en proyectos de inversión.',
+    aprenderas: ['Cómo identificar y caracterizar a los actores de un proyecto', 'Cómo analizar su poder, interés e influencia', 'Cómo valorar y priorizar riesgos sociales'],
+    paraQueSirve: 'Para tomar decisiones informadas antes y durante la ejecución de un proyecto.',
+    fechasTexto: 'Martes 2 de febrero, 9 de febrero, 16 de febrero, 23 de febrero de 2027'
+  },
+  'diseno-y-gestion-de-planes-de-relaciones-comunitarias-en-pro': {
+    objetivo: 'Desarrollar capacidades para diseñar y gestionar el relacionamiento comunitario de proyectos extractivos y de infraestructura.',
+    aprenderas: ['Qué exige la normativa y los estándares en relaciones comunitarias', 'Cómo pasar del diagnóstico social a programas concretos', 'Cómo planificar, presupuestar y medir un plan de relaciones comunitarias'],
+    paraQueSirve: 'Para diseñar y gestionar el relacionamiento comunitario de proyectos extractivos y de infraestructura.',
+    fechasTexto: 'Martes 2 de marzo, 9 de marzo, 16 de marzo, 23 de marzo de 2027'
+  },
+  'gestion-y-prevencion-de-conflictos-socioambientales-dialogo': {
+    objetivo: 'Fortalecer capacidades para prevenir, analizar y gestionar conflictos socioambientales con enfoque de diálogo.',
+    aprenderas: ['Cómo se originan y escalan los conflictos socioambientales en el Perú', 'Cómo prevenirlos con alerta temprana', 'Técnicas de diálogo, negociación y mediación'],
+    paraQueSirve: 'Para prevenir y gestionar conflictos con enfoque de diálogo.',
+    fechasTexto: 'Martes 6 de abril, 13 de abril, 20 de abril, 27 de abril de 2027'
+  },
+  'gestion-de-compromisos-sociales-cumplimiento-y-evaluacion-de': {
+    objetivo: 'Fortalecer la gestión de los compromisos sociales y la evaluación de impactos socioambientales con evidencia.',
+    aprenderas: ['De dónde nacen los compromisos sociales y cómo registrarlos', 'Cómo evaluar impactos socioambientales', 'Cómo demostrar el cumplimiento con evidencias'],
+    paraQueSirve: 'Para responder ante clientes, autoridades y comunidades con evidencia de cumplimiento.',
+    fechasTexto: 'Martes 4 de mayo, 11 de mayo, 18 de mayo, 25 de mayo de 2027'
+  },
+  'desarrollo-economico-local-gestion-de-empleo-y-cadenas-de-pr': {
+    objetivo: 'Comprender cómo promover el empleo y los proveedores locales bajo los estándares que exigen las empresas.',
+    aprenderas: ['Cómo funcionan el empleo y las compras locales en proyectos', 'Qué estándares exigen las empresas a sus programas locales', 'Cómo diseñar y medir un programa de desarrollo económico local'],
+    paraQueSirve: 'Para generar valor en el territorio y cumplir lo que piden las empresas mandantes.',
+    fechasTexto: 'Martes 1 de junio, 8 de junio, 15 de junio, 22 de junio de 2027'
+  },
+  'adquisicion-y-liberacion-de-predios-para-obras-de-infraestru': {
+    objetivo: 'Conocer el marco legal y el procedimiento de adquisición y liberación de predios para obras de infraestructura.',
+    aprenderas: ['El marco legal de adquisición y liberación de predios', 'El procedimiento de trato directo y sus plazos', 'El rol de cada entidad en el proceso'],
+    paraQueSirve: 'Para conducir la liberación de áreas de un proyecto sin retrasos.',
+    fechasTexto: 'Miércoles 6 de enero, 13 de enero, 20 de enero, 27 de enero de 2027'
+  },
+  'saneamiento-fisico-legal-de-predios-diagnostico-tecnico-lega': {
+    objetivo: 'Desarrollar capacidades para diagnosticar la situación física y legal de predios y orientar su saneamiento.',
+    aprenderas: ['Cómo diagnosticar la situación física y legal de un predio', 'Cómo leer títulos y antecedentes registrales', 'Rutas de saneamiento según cada caso'],
+    paraQueSirve: 'Para resolver contingencias prediales antes de que detengan una obra.',
+    fechasTexto: 'Miércoles 3 de febrero, 10 de febrero, 17 de febrero, 24 de febrero de 2027'
+  },
+  'requerimientos-socioambientales-en-la-liberacion-de-areas-ex': {
+    objetivo: 'Comprender los requerimientos socioambientales que exigen clientes y financiadores en la liberación de áreas.',
+    aprenderas: ['Qué exigen el cliente y los contratos en la liberación de áreas', 'Los estándares socioambientales del Banco Mundial, BID e IFC', 'Cómo verificar el cumplimiento de esos requisitos'],
+    paraQueSirve: 'Para cumplir lo que exigen financiadores y clientes en proyectos de infraestructura.',
+    fechasTexto: 'Miércoles 3 de marzo, 10 de marzo, 17 de marzo, 24 de marzo de 2027'
+  },
+  'empadronamiento-y-diagnostico-socioeconomico-de-poblacion-af': {
+    objetivo: 'Desarrollar capacidades para caracterizar a la población afectada por un proyecto con herramientas digitales.',
+    aprenderas: ['Tipos de afectación y derechos de la población', 'Cómo diseñar y aplicar un empadronamiento con herramientas digitales', 'Cómo analizar y presentar el diagnóstico socioeconómico'],
+    paraQueSirve: 'Para contar con información confiable sobre la población afectada.',
+    fechasTexto: 'Miércoles 7 de abril, 14 de abril, 21 de abril, 28 de abril de 2027'
+  },
+  'reasentamiento-involuntario-y-pacri-planes-de-compensacion-b': {
+    objetivo: 'Comprender los principios y estándares internacionales del reasentamiento involuntario y la compensación.',
+    aprenderas: ['Principios y estándares del reasentamiento involuntario', 'Elegibilidad y compensaciones', 'Cómo restablecer los medios de vida de las familias'],
+    paraQueSirve: 'Para gestionar reasentamientos que cumplan estándares internacionales.',
+    fechasTexto: 'Miércoles 5 de mayo, 12 de mayo, 19 de mayo, 26 de mayo de 2027'
+  },
+  'negociacion-trato-directo-y-gestion-de-acuerdos-con-poblacio': {
+    objetivo: 'Fortalecer capacidades de negociación con población afectada con enfoque social.',
+    aprenderas: ['Cómo negociar con población afectada con enfoque social', 'Cómo conducir el trato directo y cerrar acuerdos', 'Cómo manejar casos complejos'],
+    paraQueSirve: 'Para lograr acuerdos sostenibles y evitar conflictos en la liberación de áreas.',
+    fechasTexto: 'Miércoles 2 de junio, 9 de junio, 16 de junio, 23 de junio de 2027'
+  },
+  'gestion-del-riesgo-de-desastres-ante-el-fenomeno-el-nino-pre': {
+    objetivo: 'Comprender el Fenómeno El Niño, sus escenarios de riesgo y sus impactos socioambientales en el territorio.',
+    aprenderas: ['Cómo funciona el Fenómeno El Niño y cómo leer los comunicados oficiales', 'Los procesos de la gestión del riesgo de desastres', 'Los impactos socioambientales en poblaciones vulnerables'],
+    paraQueSirve: 'Para anticipar escenarios de riesgo en un territorio.',
+    fechasTexto: 'Jueves 7 de enero, 14 de enero, 21 de enero, 28 de enero de 2027'
+  },
+  'planes-de-contingencia-y-sistemas-de-alerta-temprana-con-enf': {
+    objetivo: 'Fortalecer la preparación de organizaciones y comunidades frente a emergencias con enfoque comunitario.',
+    aprenderas: ['Qué debe tener un plan de contingencia', 'Cómo funcionan los sistemas de alerta temprana comunitarios', 'Cómo organizar roles, comunicaciones y simulacros'],
+    paraQueSirve: 'Para preparar a una organización o comunidad antes de una emergencia.',
+    fechasTexto: 'Jueves 4 de febrero, 11 de febrero, 18 de febrero, 25 de febrero de 2027'
+  },
+  'evaluacion-de-danos-y-analisis-de-necesidades-edan-y-empadro': {
+    objetivo: 'Desarrollar capacidades para evaluar daños y necesidades y registrar a la población afectada.',
+    aprenderas: ['La metodología de evaluación de daños y análisis de necesidades', 'Cómo registrar y empadronar a la población afectada', 'Herramientas digitales para el trabajo en campo'],
+    paraQueSirve: 'Para priorizar la ayuda con información rápida y confiable.',
+    fechasTexto: 'Jueves 4 de marzo, 11 de marzo, 18 de marzo, 1 de abril de 2027'
+  },
+  'gestion-integral-del-agua-y-soluciones-basadas-en-la-natural': {
+    objetivo: 'Comprender cómo la gestión del agua y las soluciones basadas en la naturaleza reducen el riesgo de desastres.',
+    aprenderas: ['La relación entre agua, cuencas y riesgo de desastres', 'La gestión integral de recursos hídricos', 'Las soluciones basadas en la naturaleza'],
+    paraQueSirve: 'Para proponer medidas de reducción del riesgo que cuiden el agua y el territorio.',
+    fechasTexto: 'Jueves 8 de abril, 15 de abril, 22 de abril, 29 de abril de 2027'
+  },
+  'gestion-de-la-asistencia-humanitaria-programas-sociales-y-fo': {
+    objetivo: 'Fortalecer la gestión de la asistencia humanitaria y la focalización de apoyos con enfoque de derechos.',
+    aprenderas: ['Principios y estándares de la asistencia humanitaria', 'Cómo operan los programas sociales en emergencias', 'Criterios de focalización'],
+    paraQueSirve: 'Para organizar la ayuda de forma ordenada y con enfoque de derechos.',
+    fechasTexto: 'Jueves 6 de mayo, 13 de mayo, 20 de mayo, 27 de mayo de 2027'
+  },
+  'reconstruccion-resiliente-post-desastre-y-recuperacion-de-me': {
+    objetivo: 'Comprender los enfoques de reconstrucción resiliente y recuperación de medios de vida.',
+    aprenderas: ['Enfoques de reconstrucción resiliente', 'Cómo recuperar los medios de vida', 'Financiamiento y articulación público-privada'],
+    paraQueSirve: 'Para planificar la recuperación después de un desastre.',
+    fechasTexto: 'Jueves 3 de junio, 10 de junio, 17 de junio, 24 de junio de 2027'
+  },
+  'diagnostico-asg-y-analisis-de-brechas-bajo-los-estandares-de': {
+    objetivo: 'Comprender los criterios ASG que exigen clientes, bancos e inversionistas y cómo evaluar el desempeño de una empresa.',
+    aprenderas: ['Qué criterios ASG piden clientes, bancos e inversionistas', 'Cómo diagnosticar el desempeño ASG de una empresa', 'Cómo identificar y priorizar brechas'],
+    paraQueSirve: 'Para saber qué le falta a una empresa para cumplir y cómo cerrarlo.',
+    fechasTexto: 'Sábados 9 de enero, 16 de enero, 23 de enero, 30 de enero de 2027'
+  },
+  'huella-de-carbono-organizacional-medicion-reduccion-y-recono': {
+    objetivo: 'Desarrollar capacidades para medir, reducir y reportar la huella de carbono de una organización.',
+    aprenderas: ['Conceptos y alcances de la huella de carbono', 'Cómo recolectar datos y calcular emisiones', 'Cómo reducirla y registrarla en Huella de Carbono Perú'],
+    paraQueSirve: 'Para medir y gestionar las emisiones de una organización.',
+    fechasTexto: 'Sábados 6 de febrero, 13 de febrero, 20 de febrero, 27 de febrero de 2027'
+  },
+  'huella-hidrica-y-gestion-eficiente-del-agua-en-la-empresa-is': {
+    objetivo: 'Desarrollar capacidades para medir la huella hídrica y gestionar el agua de forma eficiente en la empresa.',
+    aprenderas: ['Qué es la huella hídrica y cómo se mide', 'Cómo analizar el uso de agua en la empresa', 'Medidas de eficiencia y reúso'],
+    paraQueSirve: 'Para reducir el consumo y el riesgo hídrico de una empresa.',
+    fechasTexto: 'Sábados 6 de marzo, 13 de marzo, 20 de marzo, 27 de marzo de 2027'
+  },
+  'economia-circular-ecoeficiencia-y-gestion-de-residuos-ahorro': {
+    objetivo: 'Comprender cómo la economía circular y la ecoeficiencia reducen costos y mejoran el desempeño ambiental.',
+    aprenderas: ['Conceptos de economía circular y ecoeficiencia', 'Obligaciones en la gestión de residuos', 'Cómo calcular ahorros en energía, agua y materiales'],
+    paraQueSirve: 'Para reducir costos y mejorar el desempeño ambiental de la empresa.',
+    fechasTexto: 'Sábados 3 de abril, 10 de abril, 17 de abril, 24 de abril de 2027'
+  },
+  'cumplimiento-legal-ambiental-social-y-sst-matriz-de-requisit': {
+    objetivo: 'Fortalecer la gestión del cumplimiento legal ambiental, social y de SST en empresas proveedoras.',
+    aprenderas: ['Requisitos legales ambientales, sociales y de SST', 'Cómo organizar obligaciones y evidencias', 'Cómo mantener el cumplimiento al día'],
+    paraQueSirve: 'Para que la empresa esté preparada ante auditorías, clientes y autoridades.',
+    fechasTexto: 'Sábados 8 de mayo, 15 de mayo, 22 de mayo, 29 de mayo de 2027'
+  },
+  'homologacion-de-proveedores-y-auditorias-asg-politicas-evide': {
+    objetivo: 'Preparar a las empresas proveedoras para los procesos de homologación y auditorías ASG de sus clientes.',
+    aprenderas: ['Cómo funcionan los procesos de homologación de proveedores', 'Qué políticas y evidencias se revisan', 'Cómo prepararse para la auditoría'],
+    paraQueSirve: 'Para que una empresa proveedora apruebe la homologación de sus clientes.',
+    fechasTexto: 'Sábados 5 de junio, 12 de junio, 19 de junio, 26 de junio de 2027'
+  }
+};
+
+/* Comun a todos los cursos (ver pagina 1 del PDF): dirigido a = el mismo del programa al que pertenece. */
+
+var EMPATIC_PROGRAMA_BANNERS = {
+  p1: 'images/programa-p1-social.jpg',
+  p2: 'images/programa-p2-predial.jpg',
+  p3: 'images/programa-p3-riesgo.jpg',
+  p4: 'images/programa-p4-asg.jpg'
+};
+
+function empaticProgramaCardHtml(r) {
+  var aliado = r.aliado ? ' · Aliado: ' + empaticEscapeHtml(r.aliado) : '';
+  var idUpper = String(r.id || '').toUpperCase();
+  var banner = EMPATIC_PROGRAMA_BANNERS[String(r.id || '').toLowerCase()];
+  var imgTag = banner
+    ? '<img class="academy-feature-img" src="' + banner + '" alt="' + empaticEscapeHtml(idUpper) + ' · ' + empaticEscapeHtml(r.nombre) + '" loading="lazy">'
+    : '<div class="academy-feature-img academy-feature-img--fallback" aria-hidden="true"></div>';
+  var detalle = EMPATIC_PROGRAMA_DETAIL[String(r.id || '').toLowerCase()] || {};
+  var resumen = detalle.objetivoGeneral ? '<p class="academy-course-meta">' + empaticEscapeHtml(detalle.objetivoGeneral) + '</p>' : '';
+  return (
+    '<div class="academy-feature reveal-up" id="programa-' + empaticEscapeHtml(r.id) + '">' +
+      imgTag +
+      '<div class="academy-feature-content">' +
+        '<h3>' + empaticEscapeHtml(idUpper) + ' · ' + empaticEscapeHtml(r.nombre) + '</h3>' +
+        '<span class="academy-tag">' + empaticEscapeHtml(r.card_tag || idUpper) + '</span>' +
+        resumen +
+        '<p class="academy-course-meta">6 cursos · ' + empaticEscapeHtml(r.dia) + ' · ' + empaticEscapeHtml(r.horario) + aliado + '</p>' +
+        '<p class="academy-course-price">' + empaticEscapeHtml(r.precio_contado) + ' al contado <small>o ' + empaticEscapeHtml(r.precio_cuotas) + '</small></p>' +
+        '<div class="academy-feature-actions">' +
+          '<a href="programa.html?id=' + encodeURIComponent(r.id) + '" class="btn btn-outline btn-sm">Conocer el programa</a>' +
+          '<button type="button" class="btn btn-outline btn-sm academy-ver-cursos" data-programa="' + empaticEscapeHtml(r.id) + '">Ver sus 6 cursos</button>' +
+          '<a href="' + empaticEscapeHtml(r.form_link || '#') + '" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Matricúlate ya</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+function empaticFormatFechaSheet(v) {
+  var s = String(v || '');
+  if (!/^\d{4}-\d{2}-\d{2}T/.test(s)) return s;
+  var d = new Date(s);
+  var dd = ('0' + d.getUTCDate()).slice(-2);
+  var mm = ('0' + (d.getUTCMonth() + 1)).slice(-2);
+  return dd + '/' + mm + '/' + d.getUTCFullYear();
+}
+
+function empaticCursoAcademyCardHtml(r) {
+  var programaLabel = String(r.programa || '').toUpperCase();
+  var texto = String(r.titulo || '').toLowerCase();
+  return (
+    '<div class="card academy-course-card" data-programa="' + empaticEscapeHtml(r.programa) + '" data-mes="' + empaticEscapeHtml(r.mes) + '" data-dia="' + empaticEscapeHtml(r.dia) + '" data-texto="' + empaticEscapeHtml(texto) + '">' +
+      '<div class="academy-card-head">' +
+        '<div class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>' +
+        '<span class="academy-tag">' + empaticEscapeHtml(r.card_tag || '') + '</span>' +
+      '</div>' +
+      '<h3><a href="curso.html?slug=' + encodeURIComponent(r.slug || '') + '">' + empaticEscapeHtml(r.titulo) + '</a></h3>' +
+      '<p class="academy-course-meta"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>' + empaticEscapeHtml(programaLabel) + ' · Inicio ' + empaticEscapeHtml(empaticFormatFechaSheet(r.inicio)) + ' · ' + empaticEscapeHtml(r.horario) + '</span></p>' +
+      '<p class="academy-course-price">' + empaticEscapeHtml(r.inversion) + ' <small>· ' + empaticEscapeHtml(r.precio_aliado) + ' aliados</small></p>' +
+      '<div class="academy-feature-actions">' +
+        '<a href="curso.html?slug=' + encodeURIComponent(r.slug || '') + '" class="btn btn-outline btn-sm">Ver curso</a>' +
+        '<a href="' + empaticEscapeHtml(r.form_link || '#') + '" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Matricúlate ya</a>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+var EMPATIC_WORKSHOP_BANNERS = [
+  { match: /ni[nñ]o/i, src: 'images/workshop-1-riesgo-nino.jpg' },
+  { match: /asg|homologaci[oó]n|proveedor/i, src: 'images/workshop-2-asg-proveedores.jpg' },
+  { match: /derechos humanos|debida diligencia/i, src: 'images/workshop-3-derechos-humanos.jpg' }
+];
+
+function empaticWorkshopBannerFor(titulo) {
+  var t = String(titulo || '');
+  for (var i = 0; i < EMPATIC_WORKSHOP_BANNERS.length; i++) {
+    if (EMPATIC_WORKSHOP_BANNERS[i].match.test(t)) return EMPATIC_WORKSHOP_BANNERS[i].src;
+  }
+  return null;
+}
+
+function empaticWorkshopCardHtml(r) {
+  var waHref = 'https://wa.me/51974131951?text=' + encodeURIComponent(r.whatsapp_mensaje || '');
+  var banner = empaticWorkshopBannerFor(r.titulo);
+  var imgTag = banner
+    ? '<img class="academy-feature-img" src="' + banner + '" alt="' + empaticEscapeHtml(r.titulo) + '" loading="lazy">'
+    : '<div class="academy-feature-img academy-feature-img--fallback" aria-hidden="true"></div>';
+  return (
+    '<div class="academy-feature reveal-up">' +
+      imgTag +
+      '<div class="academy-feature-content">' +
+        '<h3>' + empaticEscapeHtml(r.titulo) + '</h3>' +
+        '<span class="academy-tag">Workshop</span>' +
+        '<p class="academy-course-meta">' + empaticEscapeHtml(r.descripcion) + '</p>' +
+        '<p class="academy-course-meta"><strong>Tu equipo se lleva:</strong> ' + empaticEscapeHtml(r.llevas) + '</p>' +
+        '<p class="academy-course-meta"><strong>Dirigido a:</strong> ' + empaticEscapeHtml(r.dirigido_a) + '</p>' +
+        '<div class="academy-feature-actions">' +
+          '<a href="' + waHref + '" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Quiero más información</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+(function () {
+  var tabsWrap = document.querySelector('.academy-tabs');
+  if (!tabsWrap) return;
+
+  var tabButtons = Array.prototype.slice.call(tabsWrap.querySelectorAll('.academy-tab-btn'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.academy-tab-panel'));
+
+  function activatePanel(panelId) {
+    tabButtons.forEach(function (btn) {
+      btn.classList.toggle('is-active', btn.getAttribute('data-panel') === panelId);
+    });
+    panels.forEach(function (panel) {
+      panel.classList.toggle('is-active', panel.id === panelId);
+    });
+  }
+
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activatePanel(btn.getAttribute('data-panel'));
+    });
+  });
+
+  if (window.location.hash === '#cursos') {
+    activatePanel('panel-cursos');
+  }
+
+  var programasGrid = document.getElementById('programasGrid');
+  var cursosGrid = document.getElementById('cursosGrid');
+  var workshopsGrid = document.getElementById('workshopsGrid');
+  var cursosEmpty = document.getElementById('cursosEmpty');
+
+  function wireVerCursosButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.academy-ver-cursos')).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        activatePanel('panel-cursos');
+        var filtroPrograma = document.getElementById('filtroPrograma');
+        if (filtroPrograma) {
+          filtroPrograma.value = btn.getAttribute('data-programa');
+          filtroPrograma.dispatchEvent(new Event('change'));
+        }
+      });
+    });
+  }
+
+  function wireFilters() {
+    var filtroPrograma = document.getElementById('filtroPrograma');
+    var filtroMes = document.getElementById('filtroMes');
+    var filtroDia = document.getElementById('filtroDia');
+    var filtroPalabra = document.getElementById('filtroPalabra');
+    var cursoCards = Array.prototype.slice.call(document.querySelectorAll('.academy-course-card'));
+
+    function applyFilters() {
+      var programa = filtroPrograma ? filtroPrograma.value : '';
+      var mes = filtroMes ? filtroMes.value : '';
+      var dia = filtroDia ? filtroDia.value : '';
+      var palabra = filtroPalabra ? filtroPalabra.value.trim().toLowerCase() : '';
+      var visibles = 0;
+
+      cursoCards.forEach(function (card) {
+        var matches = true;
+        if (programa && card.getAttribute('data-programa') !== programa) matches = false;
+        if (mes && card.getAttribute('data-mes') !== mes) matches = false;
+        if (dia && card.getAttribute('data-dia') !== dia) matches = false;
+        if (palabra && card.getAttribute('data-texto').indexOf(palabra) === -1) matches = false;
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibles++;
+      });
+
+      if (cursosEmpty) cursosEmpty.style.display = visibles === 0 ? '' : 'none';
+    }
+
+    [filtroPrograma, filtroMes, filtroDia].forEach(function (el) {
+      if (el) el.addEventListener('change', applyFilters);
+    });
+    if (filtroPalabra) filtroPalabra.addEventListener('input', applyFilters);
+  }
+
+  Promise.all([
+    empaticFetchTipo('programas').catch(function (err) { console.error('No se pudieron cargar los programas:', err); return []; }),
+    empaticFetchTipo('cursos').catch(function (err) { console.error('No se pudieron cargar los cursos:', err); return []; }),
+    empaticFetchTipo('workshops').catch(function (err) { console.error('No se pudieron cargar los workshops:', err); return []; })
+  ]).then(function (results) {
+    var programas = results[0], cursos = results[1], workshops = results[2];
+    if (programasGrid) programasGrid.innerHTML = programas.map(empaticProgramaCardHtml).join('');
+    if (cursosGrid) cursosGrid.innerHTML = cursos.map(empaticCursoAcademyCardHtml).join('');
+    if (workshopsGrid) workshopsGrid.innerHTML = workshops.map(empaticWorkshopCardHtml).join('');
+    wireVerCursosButtons();
+    wireFilters();
+    empaticActivateScrollEffects(document);
   }).finally(function () {
     empaticHideLoadingOverlay();
   });

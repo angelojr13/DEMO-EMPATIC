@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/logo-empatic.png">
-<link rel="stylesheet" href="styles.css?v=42">
+<link rel="stylesheet" href="styles.css?v=85">
 <link rel="canonical" href="https://grupoempatic.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="EMPATIC">
@@ -47,6 +47,20 @@
 </head>
 <body>
 
+<div class="campaign-strip">
+  <div class="campaign-strip-marquee">
+    <div class="campaign-strip-track">
+      <span>Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+      <span aria-hidden="true">Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+      <span aria-hidden="true">Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+      <span aria-hidden="true">Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+      <span aria-hidden="true">Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+      <span aria-hidden="true">Campaña 6x5: 6 cursos por el precio de 5 · hasta el 31 de diciembre</span>
+    </div>
+  </div>
+  <a href="empatic-academy.html">Matricúlate ya</a>
+</div>
+
 <header class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
@@ -54,15 +68,40 @@
       <span class="brand-word">EMPATIC</span>
     </a>
     <nav class="nav-links">
-      <a href="index.html" aria-current="page">Inicio</a>
-      <a href="soluciones.html">Soluciones</a>
-      <a href="negocios-sostenibles.html">Negocios Sostenibles</a>
-      <a href="acciones-empaticas.html">Acciones Empáticas</a>
-      <a href="novedades.html">Novedades</a>
-      <a href="empatic-academy.html" class="nav-links-academy">Empatic Academy</a>
+      <div class="nav-item has-dropdown">
+        <a href="nosotros.html">Nosotros</a>
+        <div class="nav-dropdown">
+          <a href="nosotros.html#quienes-somos">Quiénes somos</a>
+          <a href="nosotros.html#vision-mision">Visión y misión</a>
+          <a href="nosotros.html#equipo">Equipo</a>
+          <a href="nosotros.html#responsabilidad-social">Responsabilidad social</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <a href="soluciones.html">Servicios</a>
+        <div class="nav-dropdown">
+          <a href="soluciones.html#diagnostico">Diagnóstico ASG</a>
+          <a href="soluciones.html#cumplimiento">Cumplimiento socioambiental</a>
+          <a href="soluciones.html#politicas">Políticas ASG</a>
+          <a href="soluciones.html#huellas">Medición de huellas</a>
+          <a href="soluciones.html#homologacion">Homologación</a>
+          <a href="soluciones.html#tablero">Tablero ASG territorial</a>
+        </div>
+      </div>
+      <a href="negocios-sostenibles.html">Casos de éxito</a>
+      <div class="nav-item has-dropdown">
+        <a href="novedades.html">Novedades</a>
+        <div class="nav-dropdown">
+          <a href="novedades.html#blog">Blog</a>
+          <a href="novedades.html#publicaciones">Publicaciones</a>
+          <a href="novedades.html#eventos">Eventos</a>
+        </div>
+      </div>
+      <a href="contacto.html" class="nav-links-cta">Contáctanos</a>
+      <a href="empatic-academy.html" class="nav-links-academy">EMPATIC Academy</a>
     </nav>
     <div class="nav-cta">
-      <a href="empatic-academy.html" class="btn btn-sm">Empatic Academy</a>
+      <a href="empatic-academy.html" class="btn btn-sm">EMPATIC Academy</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -74,8 +113,8 @@
     <h1>Sostenibilidad aplicada para organizaciones más competitivas</h1>
     <p class="hero-sub">Diseñamos e implementamos soluciones integrales bajo criterios ASG (Ambiental, Social y Gobernanza) que mitigan riesgos, generan rentabilidad y aseguran la continuidad de tu organización.</p>
     <div class="hero-actions">
-      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20solicitar%20un%20Diagn%C3%B3stico%20ASG%20sin%20costo%20para%20mi%20empresa." class="btn btn-primary" target="_blank" rel="noopener" data-wa-key="home_diagnostico">Solicita un Diagnóstico ASG sin costo</a>
-      <a href="soluciones.html" class="btn btn-outline">Conoce nuestras soluciones</a>
+      <a href="https://wa.me/51974131951?text=Hola%2C%20quiero%20solicitar%20un%20Diagn%C3%B3stico%20ASG%20sin%20costo%20para%20mi%20empresa." class="btn btn-primary" target="_blank" rel="noopener" data-wa-key="home_diagnostico">Agenda una evaluación inicial gratuita</a>
+      <a href="soluciones.html" class="btn btn-outline">Conoce nuestros servicios</a>
     </div>
   </div>
 </section>
@@ -87,98 +126,15 @@
         <span class="eyebrow">Sobre EMPATIC</span>
         <h2 style="font-size: var(--fs-h2); margin-bottom: 16px;">Impulsamos organizaciones más responsables y competitivas</h2>
         <p>EMPATIC es una firma consultora especializada en el desarrollo de negocios sostenibles que integra criterios ASG e inteligencia territorial. Nos diferenciamos por llevar la sostenibilidad más allá del escritorio: conectamos la estrategia corporativa con la realidad y la ejecución en campo.</p>
-        <p>Acompañamos a organizaciones de toda escala a transformar sus desafíos en eficiencia operativa, ventaja competitiva, rentabilidad y valor de marca.</p>
+        <a href="nosotros.html" class="btn btn-primary">Conoce más sobre nosotros</a>
       </div>
 
-      <div class="visual-panel">
-              </div>
-    </div>
-
-    <div class="mv-mini">
-      <div class="item">
-        <div>
-          <h4>Misión</h4>
-          <p>Integrar la sostenibilidad en el core de las organizaciones mediante la aplicación práctica de criterios ASG e inteligencia territorial, promoviendo el desarrollo de negocios sostenibles competitivos y rentables.</p>
-        </div>
-      </div>
-      <div class="item">
-        <div>
-          <h4>Visión</h4>
-          <p>Ser la firma consultora referente en Latinoamérica en desarrollo de negocios sostenibles, reconocida por democratizar la sostenibilidad estratégica evidenciando que la competitividad e impacto se construyen directamente en territorio.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-grid">
-      <div class="ph"></div>
-      <div class="ph"></div>
-      <div class="ph"></div>
+      <div class="visual-panel"></div>
     </div>
   </div>
 </section>
 
 <section class="section section-dark">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Principios</span>
-      <h2>Los principios que sostienen nuestro trabajo</h2>
-    </div>
-
-    <div class="values-grid">
-      <div class="value-item">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <div>
-          <h4>Transparencia</h4>
-          <p>Claridad, coherencia profesional y honestidad en cada proceso y alianza.</p>
-        </div>
-      </div>
-
-      <div class="value-item">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="m8.5 12.5-1.5 8 5-3 5 3-1.5-8"/></svg>
-        </div>
-        <div>
-          <h4>Pensamiento estratégico</h4>
-          <p>Conexión directa entre el core del negocio, los riesgos y las oportunidades.</p>
-        </div>
-      </div>
-
-      <div class="value-item">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 5 14h6l-1 8 8-12h-6l1-8Z"/></svg>
-        </div>
-        <div>
-          <h4>Adaptabilidad</h4>
-          <p>Soluciones flexibles y ajustadas a la realidad de cada organización y territorio.</p>
-        </div>
-      </div>
-
-      <div class="value-item">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="m8.5 14.5-1.8 6.5L12 18l5.3 3-1.8-6.5"/></svg>
-        </div>
-        <div>
-          <h4>Excelencia</h4>
-          <p>Altos estándares de calidad orientados a resultados medibles y viables.</p>
-        </div>
-      </div>
-
-      <div class="value-item">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z"/></svg>
-        </div>
-        <div>
-          <h4>Innovación</h4>
-          <p>Nuevas formas de gestión mediante investigación, tecnología e inteligencia artificial.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-light">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Enfoques</span>
@@ -213,24 +169,147 @@
   </div>
 </section>
 
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">Servicios</span>
+      <h2>Diagnóstico y Cumplimiento ASG para Proveedores</h2>
+      <p>Evaluamos tu empresa, ordenamos tus obligaciones legales y te preparamos para la homologación de tus clientes, con los 6 entregables de nuestro servicio.</p>
+    </div>
+    <div class="grid-3">
+      <a href="soluciones.html#diagnostico" class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="m21 21-4.5-4.5"/></svg></div>
+        <h3>Diagnóstico ASG</h3>
+        <p>Tus brechas frente a lo que piden tus clientes, bancos e inversionistas, con un plan de cierre.</p>
+      </a>
+      <a href="soluciones.html#cumplimiento" class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6a1 1 0 0 1 1 1V5H8V3.5a1 1 0 0 1 1-1Z"/><path d="m9 13 2 2 4-4"/></svg></div>
+        <h3>Cumplimiento socioambiental</h3>
+        <p>Todas tus obligaciones legales ambientales, sociales y de SST en una sola matriz.</p>
+      </a>
+      <a href="soluciones.html#politicas" class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg></div>
+        <h3>Políticas ASG</h3>
+        <p>Las políticas que te piden en la homologación: ambiental, SST, derechos humanos y proveedores.</p>
+      </a>
+      <a href="soluciones.html#huellas" class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c7-1 11-5 12-12-7 1-11 5-12 12Z"/><path d="M5 21c0-7 3-11 7-13"/></svg></div>
+        <h3>Medición de huellas</h3>
+        <p>Tu huella de carbono, registrada en Huella de Carbono Perú. Huella hídrica opcional.</p>
+      </a>
+      <a href="soluciones.html#homologacion" class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="m8.5 12.5-1.5 8 5-3 5 3-1.5-8"/></svg></div>
+        <h3>Homologación</h3>
+        <p>Preparamos tu expediente y te acompañamos en la auditoría de tu cliente.</p>
+      </a>
+      <a href="soluciones.html#tablero" class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16v3M11 12v7M15 8v11M19 13v6"/></svg></div>
+        <h3>Tablero ASG territorial</h3>
+        <p>Tu desempeño ASG en un tablero con semáforo y mapa, listo para mostrar a tus clientes.</p>
+      </a>
+    </div>
+    <div style="text-align:center; margin-top: 28px;">
+      <a href="soluciones.html" class="btn btn-outline">Conoce todos nuestros servicios</a>
+    </div>
+  </div>
+</section>
+
 <section class="section section-dark">
   <div class="container">
-    <div class="director-grid">
-      <div class="director-photo">
-        <img src="images/equipo-angie-amail.jpg" alt="Angie Amail, Directora Ejecutiva de EMPATIC" width="675" height="900">
+    <div class="section-head center">
+      <span class="eyebrow">Nuestro método</span>
+      <h2>Inteligencia Territorial EMPATIC</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+        <h3>1. Investigar</h3>
+        <p>Conocemos lo que pide tu cliente, las normas y el territorio donde operas.</p>
       </div>
-      <div class="director-content">
-        <span class="eyebrow">Liderazgo y Dirección</span>
-        <h2>Angie Amail</h2>
-        <p class="director-role">Directora Ejecutiva &amp; Managing Partner</p>
-        <p class="director-quote">"Conectamos la rentabilidad y sostenibilidad de las organizaciones con el desarrollo territorial de las regiones donde operan."</p>
-        <p class="director-body">En EMPATIC entendemos el desarrollo territorial desde una mirada integral: integrando gestión ambiental, articulación de actores, gobernanza y estrategia de proyectos. Mi trayectoria combina la gestión técnica en campo con la dirección de iniciativas estratégicas y de negocios en sectores como infraestructura, agroindustria, educación y desarrollo agropecuario. Desde la dirección de EMPATIC, aplicamos analítica de datos, prevención de riesgos y presencia directa en territorio para que empresas, organizaciones y emprendimientos aseguren la continuidad de sus operaciones, protejan su valor reputacional y generen un impacto sostenible y medible.</p>
-        <p class="director-credentials">MBA (c) en CENTRUM PUCP<br>Licenciada en Sociología por la UNMSM (CSP 4952)<br>Especialista en Criterios y Estándares ASG por la PUCP</p>
-        <a class="director-linkedin" href="https://www.linkedin.com/in/angie-amail-660416200/" target="_blank" rel="noopener" aria-label="LinkedIn de Angie Amail">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002ZM7 8.48H3V21h4V8.48Zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-3.96 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.68-2.91V8.48Z"/></svg>
-          <span>LinkedIn</span>
-        </a>
+      <div class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 20V9M12 20V4M17 20v-7"/></svg></div>
+        <h3>2. Medir</h3>
+        <p>Evaluamos tu cumplimiento ASG y tus huellas con indicadores estándar.</p>
       </div>
+      <div class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <h3>3. Visualizar</h3>
+        <p>Convertimos los datos en un tablero con semáforo y mapa.</p>
+      </div>
+      <div class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11M12 7l4.5 5-4.5 5"/><path d="M5 5v14"/></svg></div>
+        <h3>4. Actuar</h3>
+        <p>Priorizamos acciones y entregamos los documentos que necesitas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">EMPATIC Academy</span>
+      <h2>Programas para tu desarrollo profesional</h2>
+      <p>Campaña 6x5: 6 cursos por el precio de 5, hasta el 31 de diciembre de 2026.</p>
+    </div>
+    <div class="grid-4">
+      <a href="programa.html?id=p1" class="card academy-program-card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></div>
+        <span class="academy-tag">P1</span>
+        <h3>Gestión Social Estratégica y Relacionamiento Comunitario</h3>
+        <p class="academy-course-meta">6 cursos · Martes · desde S/ 1,800</p>
+      </a>
+      <a href="programa.html?id=p2" class="card academy-program-card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-6 9 6"/><path d="M5 10v9M19 10v9M3 19h18"/></svg></div>
+        <span class="academy-tag">P2</span>
+        <h3>Gestión Predial y Requerimientos Socioambientales</h3>
+        <p class="academy-course-meta">6 cursos · Miércoles · desde S/ 1,800</p>
+      </a>
+      <a href="programa.html?id=p3" class="card academy-program-card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg></div>
+        <span class="academy-tag">P3</span>
+        <h3>Gestión del Riesgo de Desastres y Fenómeno El Niño</h3>
+        <p class="academy-course-meta">6 cursos · Jueves · desde S/ 1,800</p>
+      </a>
+      <a href="programa.html?id=p4" class="card academy-program-card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="m8.5 12.5-1.5 8 5-3 5 3-1.5-8"/></svg></div>
+        <span class="academy-tag">P4</span>
+        <h3>Gestión ASG y Cumplimiento Socioambiental para Proveedoras</h3>
+        <p class="academy-course-meta">6 cursos · Sábados · desde S/ 1,800</p>
+      </a>
+    </div>
+    <div style="text-align:center; margin-top: 28px;">
+      <a href="empatic-academy.html" class="btn btn-primary">Ver todos los programas y cursos</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">Novedades</span>
+      <h2>Últimas publicaciones y eventos</h2>
+      <p>Blog, publicaciones técnicas y eventos sobre sostenibilidad e inteligencia territorial.</p>
+    </div>
+    <div class="grid-3">
+      <a href="novedades.html#blog" class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div>
+        <h3>Blog</h3>
+        <p>Artículos y casos sobre sostenibilidad, ASG e inteligencia territorial.</p>
+      </a>
+      <a href="novedades.html#publicaciones" class="card">
+        <div class="icon-badge yellow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <h3>Publicaciones</h3>
+        <p>Guías, boletines y el Radar EMPATIC, próximamente.</p>
+      </a>
+      <a href="novedades.html#eventos" class="card">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+        <h3>Eventos</h3>
+        <p>Webinars, talleres y actividades de EMPATIC y Acciones Empáticas.</p>
+      </a>
+    </div>
+    <div style="text-align:center; margin-top: 28px;">
+      <a href="novedades.html" class="btn btn-outline">Ir a Novedades</a>
     </div>
   </div>
 </section>
@@ -239,7 +318,7 @@
   <div class="container">
     <div class="cta-banner">
       <div class="cta-copy">
-        <h2 style="font-size: clamp(1.7rem, 2.6vw, 2.3rem); text-align: center;">Solicita un Diagnóstico ASG sin costo</h2>
+        <h2 style="font-size: clamp(1.7rem, 2.6vw, 2.3rem); text-align: center;">Agenda una evaluación inicial gratuita</h2>
       </div>
       <a href="https://wa.me/51974131951?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20EMPATIC." class="btn btn-primary cta-btn" target="_blank" rel="noopener" data-wa-key="home_info">Contáctanos</a>
     </div>
@@ -255,28 +334,25 @@
       </a>
       <p>Sostenibilidad aplicada para organizaciones más competitivas. Consultora en ASG e inteligencia territorial.</p>
       <div class="footer-social">
-        <a href="#" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.3-1.5 1.6-1.5H16.5V4.3c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10.5H7.5v3H10V21Z"/></svg></a>
         <a href="https://www.instagram.com/grupoempatic/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
         <a href="https://www.linkedin.com/company/empatic-sostenibilidad/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-4c0-1.5 1-2.4 2.3-2.4 1.3 0 2.2.9 2.2 2.4v4"/></svg></a>
-        <a href="#" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#" aria-label="Spotify (Podcast)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M7 10.5c3-1 7-.6 9.5.9M7.3 13.6c2.4-.8 5.6-.5 7.7.7M7.6 16.4c2-.6 4.4-.4 6 .5"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
       <h4>Navegación</h4>
       <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="soluciones.html">Soluciones</a></li>
-        <li><a href="negocios-sostenibles.html">Negocios Sostenibles</a></li>
-        <li><a href="acciones-empaticas.html">Acciones Empáticas</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="soluciones.html">Servicios</a></li>
+        <li><a href="negocios-sostenibles.html">Casos de éxito</a></li>
         <li><a href="novedades.html">Novedades</a></li>
+        <li><a href="empatic-academy.html">EMPATIC Academy</a></li>
+        <li><a href="contacto.html">Contáctanos</a></li>
+        <li><a href="acciones-empaticas.html">Responsabilidad social</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Empresa</h4>
       <ul>
-        <li><a href="contacto.html">Contacto</a></li>
-        <li><a href="empatic-academy.html">Empatic Academy</a></li>
         <li><a href="privacidad.html">Privacidad</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
         <li><a href="libro-reclamaciones.html">Libro de Reclamaciones</a></li>
@@ -294,6 +370,6 @@
   <div class="footer-bottom">© 2026 EMPATIC. Todos los derechos reservados.</div>
 </footer>
 
-<script src="script.js?v=37"></script>
+<script src="script.js?v=70"></script>
 </body>
 </html>
